@@ -1,0 +1,42 @@
+// ===========================================================================
+// KONFIGURASI HOME JOOMAX: semua link dan isi diatur dari sini.
+// href "#" = link sementara. Ganti dengan link asli kalau halamannya sudah jadi.
+// icon: calendar | clipboard | file | table | frame | book | image | resize | grid
+// thumb / img: kosongkan = placeholder otomatis. Isi dengan path gambar, mis. "assets/img/tool-frame.jpg"
+// ===========================================================================
+window.JOOMAX_HOME = {
+  quick: [
+    { title: "Jadwal Kerja", desc: "Lihat jadwal kerja tim.", icon: "calendar", href: "#" },
+    { title: "Jadwal Piket", desc: "Cek giliran piket harian.", icon: "clipboard", href: "#" },
+    { title: "Pengajuan Izin", desc: "Ajukan izin dan cuti.", icon: "file", href: "#" },
+    { title: "Spreadsheet", desc: "Buka data kerja bersama.", icon: "table", href: "#" },
+    { title: "Image to Frame", desc: "Pasang frame ke foto.", icon: "frame", href: "https://github.com/designjoomax/imagetoframe" },
+    { title: "Resource Center", desc: "Panduan dan berkas penting.", icon: "book", href: "#" }
+  ],
+  announcements: [
+    { title: "Jadwal piket bulan November", date: "2026-10-28", category: "Operasional",
+      desc: "Jadwal piket terbaru sudah dibagikan untuk seluruh tim.",
+      body: ["Jadwal piket November 2026 sudah tersedia. Silakan cek giliran masing-masing.", "Tukar jadwal dapat diajukan paling lambat 3 hari sebelum hari piket."] },
+    { title: "Pembaruan sistem pengajuan izin", date: "2026-10-22", category: "Sistem",
+      desc: "Formulir pengajuan izin kini lebih singkat dan mudah diisi.",
+      body: ["Formulir pengajuan izin telah disederhanakan.", "Jika menemukan kendala, hubungi tim pengelola portal."] },
+    { title: "Dokumentasi kegiatan kantor", date: "2026-10-15", category: "Kegiatan",
+      desc: "Foto kegiatan terbaru sudah ditambahkan ke galeri.",
+      body: ["Dokumentasi kegiatan bulan ini sudah masuk ke galeri.", "Buka halaman Gallery untuk melihat semuanya."] }
+  ],
+  tools: [
+    { name: "Image to Frame", desc: "Pasang frame Joomax ke banyak foto sekaligus.", href: "https://github.com/designjoomax/imagetoframe", thumb: "" },
+    { name: "Marketplace Image Generator", desc: "Buat gambar produk untuk marketplace.", href: "https://github.com/designjoomax/generate", thumb: "" },
+    { name: "Image Resizer", desc: "Ubah ukuran gambar dengan cepat.", href: "https://github.com/designjoomax/tools", thumb: "" }
+  ],
+  gallery: {
+    href: "#", // halaman Gallery
+    items: [
+      { title: "Gathering akhir tahun", date: "2026-10-12", img: "" },
+      { title: "Pelatihan tim kreatif", date: "2026-10-05", img: "" },
+      { title: "Kunjungan klien", date: "2026-09-27", img: "" },
+      { title: "Hari kemerdekaan", date: "2026-08-17", img: "" },
+      { title: "Rapat tahunan", date: "2026-08-02", img: "" }
+    ]
+  }
+};

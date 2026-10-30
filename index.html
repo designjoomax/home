@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Joomax Portal</title>
+<meta name="description" content="Joomax Portal: satu tempat untuk jadwal, pengajuan, tools kreatif, dan informasi perusahaan.">
+<link rel="icon" href="assets/icon-red.png">
+<!-- ======================= LINK PREVIEW (WhatsApp, Instagram, Facebook, Telegram, dll) =======================
+  Ubah teks/gambar di sini. Gambar: ganti file assets/img/link-preview.jpg (ukuran terbaik 1200x630, di bawah 300 KB).
+  Link harus ABSOLUT (https://...). Kalau gambar diganti tapi preview lama masih muncul, naikkan angka ?v=1 jadi ?v=2.
+  Hasil di platform bisa tertahan cache beberapa jam; cek ulang lewat Facebook Sharing Debugger. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Joomax Teknologi Indonesia">
+<meta property="og:title" content="Welcome to Joomax Workspace!">
+<meta property="og:description" content="Everything You Need, In One Place.">
+<meta property="og:url" content="https://designjoomax.github.io/home/">
+<meta property="og:image" content="https://designjoomax.github.io/home/assets/img/link-preview.jpg?v=1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Joomax x fixs.arts: Welcome to Joomax Workspace!">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Welcome to Joomax Workspace!">
+<meta name="twitter:description" content="Everything You Need, In One Place.">
+<meta name="twitter:image" content="https://designjoomax.github.io/home/assets/img/link-preview.jpg?v=1">
+<meta name="theme-color" content="#f80023">
+<!-- ============================================================================================================ -->
+
+<!-- 1) Welcome screen (paling atas di head) -->
+<script src="https://designjoomax.github.io/welcomescreen/welcome.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/home.css">
+</head>
+<body>
+<!-- 2) Header (dari repo headerfooter) -->
+<joomax-header sticky theme="light"></joomax-header>
+
+<main>
+  <section class="hero">
+    <img class="mark" src="assets/icon-red.png" alt="" aria-hidden="true">
+    <div class="wrap">
+      <h1>Welcome to Joomax Portal</h1>
+      <p class="lead">Everything You Need, In One Place.</p>
+      <p class="desc">Pusat akses digital Joomax Teknologi Indonesia untuk jadwal, pengajuan, tools kreatif, dan informasi perusahaan.</p>
+      <div class="search" id="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <input id="q" type="search" placeholder="Cari halaman, tools, atau informasi" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="results" aria-label="Cari">
+        <ul id="results" role="listbox" hidden></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="quick-access"><div class="wrap">
+    <h2>Quick Access</h2>
+    <div class="grid g3" id="quick"></div>
+  </div></section>
+
+  <section class="sec alt" id="announcements"><div class="wrap">
+    <h2>Company Announcement</h2>
+    <div class="grid g3" id="news"></div>
+  </div></section>
+
+  <section class="sec" id="tools"><div class="wrap">
+    <h2>Featured Tools</h2>
+    <div class="grid g3" id="toolgrid"></div>
+  </div></section>
+
+  <section class="sec alt" id="memories"><div class="wrap">
+    <div class="head"><h2>Latest Memories</h2><a class="btn" id="viewall" href="#">View All Gallery</a></div>
+    <div class="gal" id="gal"></div>
+  </div></section>
+</main>
+
+<dialog id="dlg" aria-labelledby="dt"><div class="dbox">
+  <button class="x" id="dx" aria-label="Tutup">&times;</button>
+  <span class="pill" id="dc"></span><h3 id="dt"></h3><time id="dd"></time><div id="db"></div>
+</div></dialog>
+
+<!-- 3) Footer -->
+<joomax-footer></joomax-footer>
+
+<!-- 4) Script header & footer (urutan jangan dibalik), lalu isi Home -->
+<script src="https://designjoomax.github.io/headerfooter/joomax-layout.config.js"></script>
+<script src="https://designjoomax.github.io/headerfooter/joomax-layout.js"></script>
+<script src="assets/js/home.config.js"></script>
+<script src="assets/js/home.js"></script>
+</body>
+</html>
