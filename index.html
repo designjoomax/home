@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>JOOMAX x Fixs.Arts</title>
 <meta name="description" content="Joomax Site: satu tempat untuk jadwal, pengajuan, tools kreatif, dan informasi perusahaan.">
-<link rel="icon" href="assets/icon.png">
+<link rel="icon" href="assets/icon/icon.png">
 <!-- ======================= LINK PREVIEW (WhatsApp, Instagram, Facebook, Telegram, dll) =======================
   Ubah teks/gambar di sini. Gambar: ganti file assets/img/link-preview.jpg (ukuran terbaik 1200x630, di bawah 300 KB).
   Link harus ABSOLUT (https://...). Kalau gambar diganti tapi preview lama masih muncul, naikkan angka ?v=1 jadi ?v=2.
@@ -23,29 +23,38 @@
 <meta name="twitter:title" content="Welcome to Joomax Workspace!">
 <meta name="twitter:description" content="Everything You Need, In One Place.">
 <meta name="twitter:image" content="https://designjoomax.github.io/home/assets/img/link-preview.jpg?v=1">
-<meta name="theme-color" content="#f80023">
+<meta name="theme-color" content="#ffffff">
 <!-- ============================================================================================================ -->
 
-<!-- 1) Welcome screen (paling atas di head) -->
+<!-- 1) Welcome screen (harus paling atas di <head>) -->
 <script src="https://designjoomax.github.io/welcomescreen/welcome.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/home.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/home.css">
 </head>
 <body>
+
 <!-- 2) Header (dari repo headerfooter) -->
-<joomax-header sticky theme="light"></joomax-header>
+<joomax-header sticky theme="light" current="home"></joomax-header>
 
 <main>
+  <!-- Banner slide: gambar diatur di js/home.config.js -->
+  <section class="banner" id="banner" aria-roledescription="carousel" aria-label="Banner Joomax">
+    <div class="bn-view" id="bnView"><div class="bn-track" id="bnTrack"></div></div>
+    <button class="bn-arrow prev" id="bnPrev" type="button" aria-label="Banner sebelumnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+    <button class="bn-arrow next" id="bnNext" type="button" aria-label="Banner berikutnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+    <div class="bn-dots" id="bnDots"></div>
+  </section>
+
   <section class="hero">
-    <img class="mark" src="assets/icon-red.png" alt="" aria-hidden="true">
     <div class="wrap">
-      <h1>Welcome to Joomax</h1>
-      <p class="lead">Everything You Need, In One Place.</p>
-      <p class="desc">Pusat akses digital Joomax Teknologi Indonesia untuk jadwal, Pengajuan Izin dan Lainnya.</p>
+      <h1 id="heroTitle">Welcome to Joomax</h1>
+      <p class="lead" id="heroSub">Everything You Need, In One Place.</p>
       <div class="search" id="search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
-        <input id="q" type="search" placeholder="Cari halaman, tools, atau informasi" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="results" aria-label="Cari">
+        <input id="q" type="search" placeholder="Search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="results" aria-label="Cari halaman, tools, atau informasi">
         <ul id="results" role="listbox" hidden></ul>
       </div>
     </div>
@@ -53,12 +62,11 @@
 
   <section class="sec" id="quick-access"><div class="wrap">
     <h2>Quick Access</h2>
-    <div class="grid g3" id="quick"></div>
-  </div></section>
-
-  <section class="sec alt" id="announcements"><div class="wrap">
-    <h2>Company Announcement</h2>
-    <div class="grid g3" id="news"></div>
+    <div class="qa" id="qa">
+      <button class="qa-arrow prev" id="qaPrev" type="button" aria-label="Geser ke kiri" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+      <div class="qa-track" id="quick" tabindex="0" aria-label="Quick Access"></div>
+      <button class="qa-arrow next" id="qaNext" type="button" aria-label="Geser ke kanan" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+    </div>
   </div></section>
 
   <section class="sec" id="tools"><div class="wrap">
@@ -72,23 +80,16 @@
   </div></section>
 </main>
 
-<dialog id="dlg" aria-labelledby="dt"><div class="dbox">
-  <button class="x" id="dx" aria-label="Tutup">&times;</button>
-  <span class="pill" id="dc"></span><h3 id="dt"></h3><time id="dd"></time><div id="db"></div>
-</div></dialog>
-
-<!-- 3) Footer -->
+<!-- 3) Footer (dari repo headerfooter) -->
 <joomax-footer></joomax-footer>
 
 <!-- 4) Script header & footer (urutan jangan dibalik), lalu isi Home -->
 <script src="https://designjoomax.github.io/headerfooter/joomax-layout.config.js"></script>
 <script src="https://designjoomax.github.io/headerfooter/joomax-layout.js"></script>
-<script src="assets/js/home.config.js"></script>
-<script src="assets/js/home.js"></script>
+<script src="js/home.config.js"></script>
+<script src="js/home.js"></script>
 
- <!-- Music widget (floating) -->
+<!-- Music widget (floating) -->
 <script src="https://cdn.jsdelivr.net/gh/fixsarts/MusicWidgets@main/music-player.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/gh/fixsarts/MusicWidgets@main/music-player.js" defer></script> 
-  
 </body>
 </html>
