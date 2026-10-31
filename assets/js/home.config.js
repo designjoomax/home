@@ -6,8 +6,8 @@
 // ===========================================================================
 window.JOOMAX_HOME = {
   quick: [
-    { title: "Jadwal Kerja", desc: "Lihat jadwal kerja tim.", icon: "calendar", href: "https://docs.google.com/spreadsheets/d/1OEg0_ey3srgomeU1Q1JEdI0h3PW93zb-mxHVxdZiuuY/edit?pli=1&gid=982571310#gid=982571310" 
-      thumb: "https://raw.githubusercontent.com/designjoomax/home/main/assets/thumb/jadwalkerja.jpg"
+    { title: "Jadwal Kerja", desc: "Lihat jadwal kerja tim.", icon: "calendar", href: "https://docs.google.com/spreadsheets/d/1OEg0_ey3srgomeU1Q1JEdI0h3PW93zb-mxHVxdZiuuY/edit?pli=1&gid=982571310#gid=982571310", 
+     thumb: "https://raw.githubusercontent.com/designjoomax/home/main/assets/thumb/jadwalkerja.jpg"
     },
 
     { title: "Jadwal Piket", desc: "Cek giliran piket harian.", icon: "clipboard", href: "https://docs.google.com/spreadsheets/d/1mXOwBjsoVrU3rJr9XWO6LnKoIOMe2PHVvUV5hc0y5Po/edit?gid=472399028#gid=472399028", 
