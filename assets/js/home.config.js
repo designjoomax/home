@@ -25,16 +25,16 @@ window.JOOMAX_HOME = {
       body: ["Dokumentasi kegiatan bulan ini sudah masuk ke galeri.", "Buka halaman Gallery untuk melihat semuanya."] }
   ],
   tools: [
-    { name: "Image to Frame", desc: "Pasang frame Joomax ke banyak foto sekaligus.", href: "https://designjoomax.github.io/imagetoframe/", thumb: "" },
-    { name: "Marketplace Image Generator", desc: "Buat gambar produk untuk marketplace.", href: "https://designjoomax.github.io/generator/", thumb: "" },
-    { name: "Image Resizer", desc: "Ubah ukuran gambar dengan cepat.", href: "https://designjoomax.github.io/tools/", thumb: "" }
+    { name: "Image to Frame", desc: "Pasang frame Joomax ke banyak foto sekaligus.", href: "https://designjoomax.github.io/imagetoframe/", thumb: "https://raw.githubusercontent.com/designjoomax/home/main/assets/thumb/imagetoframe.jpg" },
+    { name: "Marketplace Image Generator", desc: "Buat gambar produk untuk marketplace.", href: "https://designjoomax.github.io/generator/", thumb: "https://raw.githubusercontent.com/designjoomax/home/main/assets/thumb/pengembang.jpg" },
+    { name: "Image Resizer", desc: "Ubah ukuran gambar dengan cepat.", href: "https://designjoomax.github.io/tools/", thumb: "https://raw.githubusercontent.com/designjoomax/home/main/assets/thumb/pengembang.jpg" }
   ],
   gallery: {
     href: "https://designjoomax.github.io/gallery/", // halaman Gallery
     items: [
-      { title: "Gathering akhir tahun", date: "2026-10-12", img: "" },
-      { title: "Pelatihan tim kreatif", date: "2026-10-05", img: "" },
-      { title: "Kunjungan klien", date: "2026-09-27", img: "" },
+      { title: "Liburland", date: "2026-10-12", img: "" },
+      { title: "Ulang Tahun", date: "2026-10-05", img: "" },
+      { title: "Buka Bersama", date: "2026-09-27", img: "" },
       { title: "Hari kemerdekaan", date: "2026-08-17", img: "" },
       { title: "Rapat tahunan", date: "2026-08-02", img: "" }
     ]
