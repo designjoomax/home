@@ -44,7 +44,7 @@
     if (!items.length) { root.hidden = true; return; }
     const n = items.length;
     const slide = (it, i, clone, first) => {
-      const im = `<img src="${esc(it.img)}" alt="${esc(clone ? "" : it.alt || "")}" draggable="false" decoding="async"${first ? ' fetchpriority="high"' : ""}>`;
+      const im = `<img src="${esc(it.img)}" alt="${esc(clone ? "" : it.alt || "")}" draggable="false" decoding="async"${first ? ' fetchpriority="high"' : ""}${it.pos ? ` style="object-position:${esc(it.pos)}"` : ""}>`;
       const inner = it.href ? `<a${lnk(it.href)} draggable="false"${clone ? ' tabindex="-1"' : ""}>${im}</a>` : im;
       return `<div class="bn-slide" role="group" aria-roledescription="slide" aria-label="${i + 1} / ${n}"${clone ? ' aria-hidden="true"' : ""}>${inner}</div>`;
     };
@@ -131,12 +131,37 @@
     `<a class="tool"${lnk(t.href)}><div class="timg">${img(t.thumb, t.name, i)}</div><div class="tb"><h3>${esc(t.name)}</h3><p>${esc(t.desc)}</p><span class="btn">Open Tool</span></div></a>`).join("");
 
   // ------------------------------------------------------------------ Latest Memories
+  // Otomatis mengambil album terbaru dari repo gallery (gallery.auto.source). Kalau gagal dimuat,
+  // dipakai daftar cadangan di gallery.items (config).
   const G = C.gallery || { items: [] };
+  let memItems = (G.items || []).slice();
   const va = $("#viewall"); va.setAttribute("href", G.href || "#"); if (!G.href || G.href === "#") va.dataset.ph = "";
   else if (external(G.href)) { va.target = "_blank"; va.rel = "noopener noreferrer"; }
   const gUrl = (g) => (G.href ? G.href.replace(/#.*$/, "").replace(/\/?$/, "/") + (g.id ? "#" + encodeURIComponent(g.id) : "") : "#");
-  $("#gal").innerHTML = G.items.map((g, i) =>
-    `<a${lnk(gUrl(g))}><figure style="margin:0;height:100%">${img(g.img, g.title, i)}<figcaption>${esc(g.title)}<small>${date(g.date)}</small></figcaption></figure></a>`).join("");
+  const renderMem = () => {
+    $("#gal").innerHTML = memItems.map((g, i) =>
+      `<a${lnk(gUrl(g))}><figure style="margin:0;height:100%">${img(g.img, g.title, i)}<figcaption>${esc(g.title)}<small>${date(g.date)}</small></figcaption></figure></a>`).join("");
+    $("#memories").hidden = memItems.length === 0;
+  };
+  renderMem();
+  if (G.auto && G.auto.source) {
+    const src = G.auto.source, root = new URL("../", src).href;
+    const fileUrl = (a, p) => {
+      const f = typeof p === "string" ? p : (p && p.src) || ""; if (!f) return "";
+      return /^(https?:|data:|\/)/.test(f) || f.includes("/") ? new URL(f, root).href : root + "assets/albums/" + encodeURIComponent(a.id) + "/" + encodeURIComponent(f);
+    };
+    new Promise((ok, no) => {
+      const sc = document.createElement("script"), t = setTimeout(no, 6000);
+      sc.src = src; sc.async = true;
+      sc.onload = () => { clearTimeout(t); window.JOOMAX_GALLERY ? ok(window.JOOMAX_GALLERY) : no(); };
+      sc.onerror = () => { clearTimeout(t); no(); };
+      document.head.append(sc);
+    }).then((GL) => {
+      const list = (GL.albums || []).filter((a) => a.home !== false).sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, +G.auto.count || 5)
+        .map((a) => ({ id: a.id, title: a.title, date: a.date, img: fileUrl(a, a.cover) || fileUrl(a, (a.photos || [])[0]) }));
+      if (list.length) { memItems = list; renderMem(); }
+    }).catch(() => {});
+  }
   document.addEventListener("click", (e) => { if (e.target.closest("a[data-ph]")) e.preventDefault(); });
 
   // ------------------------------------------------------------------ Pencarian
@@ -146,7 +171,7 @@
     C.quick.forEach((x) => add({ title: x.title, type: "Quick Access", href: x.href, text: x.desc }));
     C.tools.forEach((x) => add({ title: x.name, type: "Tool", href: x.href, text: x.desc }));
     ((window.JOOMAX_LAYOUT && window.JOOMAX_LAYOUT.nav) || []).forEach((n) => (n.children || [n]).forEach((x) => x.href && add({ title: x.label, type: n.children ? n.label : "Menu", href: x.href, text: x.desc || "" })));
-    G.items.forEach((x) => add({ title: x.title, type: "Gallery", href: gUrl(x), text: "" }));
+    memItems.forEach((x) => add({ title: x.title, type: "Gallery", href: gUrl(x), text: "" }));
     return out;
   };
   let hits = [], cur = -1;
