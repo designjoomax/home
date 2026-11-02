@@ -58,16 +58,14 @@
         <ul id="results" role="listbox" hidden></ul>
       </div>
 
-        <!-- Flip Clock (tepat di bawah kotak Search) -->
-      <div class="hero-clock" style="max-width:560px;margin:28px auto 0">
-        <div data-fixs-flipclock
-             data-theme="light"
-             data-show="hours,minutes,date"
-             data-hour12="false"
-             data-size="90"
-             data-timezone="Asia/Makassar"
-             data-locale="id-ID"></div>
-      </div>
+        <!-- Flip Clock -->
+<script src="https://cdn.jsdelivr.net/gh/fixsarts/widgets@main/Flip%20Clock/flip-clock.js" defer></script>
+    <div data-fixs-flipclock
+       data-theme="light"
+       data-bg="#ffffff"
+       data-card="#f21c1c"
+       data-hour12="false"
+       data-size="90"></div>
       
     </div>
   </section>
@@ -109,27 +107,7 @@
 <script src="https://cdn.jsdelivr.net/gh/fixsarts/MusicWidgets@main/music-player.js" defer></script>
 
 
-<script src="https://cdn.jsdelivr.net/gh/fixsarts/widgets@main/Flip%20Clock/flip-clock.js"></script>
-<div id="jam"></div>
-
-<script>
-  FixsFlipClock.create("#jam", {
-    "theme": "light",
-    "colors": {
-      "text": "#ffffff"
-    },
-    "show": {
-      "hours": true,
-      "minutes": true,
-      "seconds": true,
-      "date": true
-    },
-    "hour12": true,
-    "size": 130
-  });
-</script>
-  
-
+<!-- Cursor widget-->
 <script
   src="https://fixsarts.github.io/cursor/cursor.js"
   data-color="#ff0000"
