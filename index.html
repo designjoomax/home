@@ -57,6 +57,18 @@
         <input id="q" type="search" placeholder="Search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="results" aria-label="Cari halaman, tools, atau informasi">
         <ul id="results" role="listbox" hidden></ul>
       </div>
+
+        <!-- Flip Clock (tepat di bawah kotak Search) -->
+      <div class="hero-clock" style="max-width:560px;margin:28px auto 0">
+        <div data-fixs-flipclock
+             data-theme="light"
+             data-show="hours,minutes,date"
+             data-hour12="false"
+             data-size="90"
+             data-timezone="Asia/Makassar"
+             data-locale="id-ID"></div>
+      </div>
+      
     </div>
   </section>
 
@@ -89,8 +101,34 @@
 <script src="js/home.config.js"></script>
 <script src="js/home.js"></script>
 
+<!-- Flip Clock widget (letakkan sebelum Music widget) -->
+<script src="https://cdn.jsdelivr.net/gh/fixsarts/widgets@main/Flip%20Clock/flip-clock.js" defer></script>
+  
+  
 <!-- Music widget (floating) -->
 <script src="https://cdn.jsdelivr.net/gh/fixsarts/MusicWidgets@main/music-player.js" defer></script>
+
+
+<script src="https://cdn.jsdelivr.net/gh/fixsarts/widgets@main/Flip%20Clock/flip-clock.js"></script>
+<div id="jam"></div>
+
+<script>
+  FixsFlipClock.create("#jam", {
+    "theme": "light",
+    "colors": {
+      "text": "#ffffff"
+    },
+    "show": {
+      "hours": true,
+      "minutes": true,
+      "seconds": true,
+      "date": true
+    },
+    "hour12": true,
+    "size": 130
+  });
+</script>
+  
 
 <script
   src="https://fixsarts.github.io/cursor/cursor.js"
@@ -114,6 +152,8 @@
   data-ripple-opacity="0.25"
   data-trail-colors="#ff0000,#ff004c"
 ></script>
+
+  
 
 </body>
 </html>
