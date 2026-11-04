@@ -29,6 +29,47 @@
 <!-- 1) Welcome screen (harus paling atas di <head>) -->
 <script src="https://designjoomax.github.io/welcomescreen/welcome.js"></script>
 
+<!-- Pop-Up Fixs.Arts -->
+<script src="https://cdn.jsdelivr.net/gh/fixsarts/widgets@main/Pop%20up/Model1/widget.js"></script>
+<script>
+  FixsArtsWelcome.init({
+    "theme": "dark",
+    "title": "JOOMAX WORKSPACE",
+    "subtitle": "Welcome",
+    "description": "Creative Solutions for Every Vision.",
+    "image": {
+      "src": "https://cdn.jsdelivr.net/gh/fixsarts/widgets@main/Pop%20up/Model1/assets/images/Card%20for%20Linktree.jpg"
+    },
+    "buttons": [
+      {
+        "label": "Mulai",
+        "href": "#mulai",
+        "color": "#5126fd",
+        "textColor": "#ffffff",
+        "variant": "solid",
+        "size": "md",
+        "radius": 12,
+        "close": true
+      },
+      {
+        "label": "Pelajari lebih lanjut",
+        "href": "https://www.instagram.com/fixs.arts/",
+        "color": "#2f7bff",
+        "textColor": "#ffffff",
+        "variant": "outline",
+        "size": "md",
+        "radius": 12,
+        "close": false
+      }
+    ],
+    "audio": {
+      "src": "https://cdn.jsdelivr.net/gh/fixsarts/widgets@main/Pop%20up/Model1/assets/audio/Welcome%20to%20Fixs%20Arts%20Studio.mp3",
+      "controls": false
+    }
+  });
+</script>
+
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
