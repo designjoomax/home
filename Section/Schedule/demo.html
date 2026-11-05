@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joomax Schedule - Demo Konfigurasi</title>
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+<div class="app">
+  <div class="panel" id="panel"></div>
+  <div class="side">
+    <div class="pv"><div id="pv"></div></div>
+    <div class="code">
+      <h3>Kode untuk ditempel di web</h3>
+      <label>Link <b>schedule.js</b> (setelah folder Schedule diupload ke GitHub, pakai link jsDelivr)
+        <input type="text" id="src" value="https://cdn.jsdelivr.net/gh/designjoomax/home@main/Section/Schedule/schedule.js"></label>
+      <textarea id="out" readonly></textarea>
+      <div class="bar"><button class="pri" id="copy">Salin kode</button><button id="reset">Reset ke awal</button></div>
+      <p class="hint">Tempel kode di halaman manapun. Untuk mengubah lagi, edit di demo ini lalu salin ulang.</p>
+    </div>
+  </div>
+</div>
+
+<script src="schedule.js"></script>
+<script src="demo.js"></script>
+</body>
+</html>

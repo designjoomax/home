@@ -1,0 +1,60 @@
+/* Joomax Schedule Section - stylesheet
+   Warna & ukuran dasar dikontrol lewat CSS variable (diisi dari config "theme").
+   Boleh diedit langsung di sini untuk tampilan yang lebih spesifik. */
+:host { display: block; }
+.w {
+  font-family: var(--js-font, 'Poppins', sans-serif);
+  color: var(--js-text, #111);
+  max-width: var(--js-max-width, 840px);
+  margin: 0 auto; padding: 24px 16px; box-sizing: border-box;
+}
+.w * { box-sizing: border-box; }
+button { font-family: inherit; color: inherit; }
+h2 { margin: 0; font-size: 20px; font-weight: 600; }
+
+/* header */
+.head { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.tw { display: flex; align-items: baseline; gap: 12px; }
+.sep { color: #bbb; }
+.date { font-size: 18px; }
+
+/* navigasi minggu */
+.nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.nav button { border: 1px solid var(--js-border); background: var(--js-card-bg); border-radius: 999px; min-width: 34px; height: 34px; cursor: pointer; font-size: 18px; padding: 0 10px; }
+.nav button:hover:not(:disabled) { background: #f4f4f4; }
+.nav button:disabled { opacity: .3; cursor: default; }
+.nav .rs { font-size: 12px; }
+.chip { font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 999px; background: var(--js-highlight); }
+
+/* tab hari (muncul jika tidak ada tabel) */
+.tabs { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 18px; }
+.tab { border: 1px solid var(--js-border); background: var(--js-card-bg); border-radius: 16px; padding: 8px 16px; cursor: pointer; font-size: 14px; font-weight: 500; display: flex; flex-direction: column; align-items: center; min-width: 84px; }
+.tab.on { background: var(--js-highlight); font-weight: 600; }
+small { font-size: 10.5px; color: var(--js-muted); font-weight: 400; }
+
+/* kartu */
+.card { background: var(--js-card-bg); border: 1px solid var(--js-border); border-radius: var(--js-radius); box-shadow: var(--js-shadow); padding: 24px 26px; }
+.wide { margin-bottom: 18px; padding: 28px 36px; }
+.lb { font-size: 15px; }
+.ct { font-size: 24px; font-weight: 600; line-height: 1.2; margin-bottom: 16px; }
+
+/* tabel mingguan */
+.tbl { display: flex; overflow-x: auto; margin-top: 22px; }
+.col { flex: 1 0 112px; text-align: center; padding: 0 4px 8px; border-right: 1px solid #eee; }
+.col:last-child { border: 0; }
+.col.on { background: var(--js-highlight); border-radius: 14px; }
+.dh { display: flex; flex-direction: column; align-items: center; width: 100%; background: none; border: 0; border-bottom: 1px solid #eee; margin-bottom: 12px; padding: 6px 0 8px; cursor: pointer; color: var(--js-muted); font-size: 15px; font-weight: 500; }
+.dh.on { color: var(--js-text); font-weight: 600; }
+.dh.td:after, .tab.td:after { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #e58150; margin-top: 3px; }
+.pl { display: inline-block; font-size: 10.5px; font-weight: 600; padding: 4px 12px; border-radius: 999px; }
+.em { color: #ccc; }
+
+/* kartu piket */
+.duties { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+.pr { text-align: center; font-weight: 600; font-size: 24px; padding: 8px 12px; border-radius: 999px; }
+
+@media (max-width: 600px) {
+  .wide { padding: 22px 16px; }
+  h2 { font-size: 18px; }
+  .date { font-size: 15px; }
+}

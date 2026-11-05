@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Joomax Schedule - Contoh Pemakaian</title>
+</head>
+<body style="margin:0;background:#fff">
+
+  <!-- 1. Tempat section muncul -->
+  <div id="joomax-schedule"></div>
+
+  <!-- 2. Load script (schedule.css otomatis ikut dimuat dari folder yang sama) -->
+  <script src="schedule.js"></script>
+  <!-- Setelah diupload ke GitHub, pakai:
+  <script src="https://cdn.jsdelivr.net/gh/designjoomax/home@main/Section/Schedule/schedule.js"></script> -->
+
+  <!-- 3. Jalankan. Cukup tulis yang mau diubah, sisanya pakai default. -->
+  <script>
+    JoomaxSchedule.init('#joomax-schedule', {
+      title: 'Schedule',
+      showDate: true
+      // Salin config lengkap dari demo.html untuk pengaturan warna, jadwal, dll.
+    });
+  </script>
+
+</body>
+</html>
