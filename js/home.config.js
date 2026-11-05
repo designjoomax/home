@@ -9,15 +9,15 @@ window.JOOMAX_HOME = {
     "dots": true,
     "items": [
       {
-        "img": "assets/banner/banner1-mvykx0uegx.webp",
+        "img": "assets/banner/2026.png",
         "alt": "Banner Joomax"
       },
       {
-        "img": "assets/banner/banner2-mvykx3l44s.webp",
+        "img": "assets/banner/2027.png",
         "alt": "Banner Joomax"
       },
       {
-        "img": "assets/banner/banner2.webp",
+        "img": "assets/banner/banner1.png",
         "alt": "Welcome, 2027"
       }
     ]
