@@ -50,11 +50,13 @@ small { font-size: 10.5px; color: var(--js-muted); font-weight: 400; }
 .em { color: #ccc; }
 
 /* kartu piket */
-.duties { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
-.pr { text-align: center; font-weight: 600; font-size: 24px; padding: 8px 12px; border-radius: 999px; }
+.duties { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 18px; }
+.pr { text-align: center; font-weight: 600; font-size: 24px; padding: 8px 12px; border-radius: 999px; overflow-wrap: anywhere; }
 
 @media (max-width: 600px) {
   .wide { padding: 22px 16px; }
   h2 { font-size: 18px; }
   .date { font-size: 15px; }
+  .card { padding: 20px; }
+  .pr { font-size: 20px; }
 }

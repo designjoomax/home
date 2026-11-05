@@ -16,6 +16,8 @@ Section jadwal **realtime** untuk web Joomax: jadwal pakaian dan piket yang otom
 
 1. Buka `demo.html` (satu folder dengan `schedule.js` dan `schedule.css`).
 2. Atur judul, warna, data, dan daftar jadwal sampai sesuai. Preview langsung berubah.
+   - Nama pakaian dan petugas diedit di **Data tabel** (sumber data harus **Manual**). Tombol *Muat data dari Google Sheet* menyalin isi sheet ke tabel supaya bisa diedit.
+   - Kolom baru otomatis muncul di tabel saat lu mengisi *Nama kolom data* pada jadwal baru.
 3. Klik **Salin kode** di kotak "Kode untuk ditempel", lalu tempel di halaman web mana pun.
 
 ## Pasang di web

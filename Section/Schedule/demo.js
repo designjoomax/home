@@ -2,13 +2,32 @@ const $ = s => document.querySelector(s);
 const DEF = () => JSON.parse(JSON.stringify(JoomaxSchedule.defaults));
 let cfg; try { cfg = JSON.parse(localStorage.getItem('jsDemoCfg')); } catch (e) {}
 if (!cfg || !cfg.sections) cfg = DEF();
+if (!cfg.data.manualRows) cfg.data.manualRows = [];
 
 const get = p => p.split('.').reduce((o, k) => o == null ? o : o[k], cfg);
 const set = (p, v) => { const k = p.split('.'), l = k.pop(); k.reduce((o, x) => o[x], cfg)[l] = v; };
 const hex = c => /^#[0-9a-f]{6}$/i.test(c || '') ? c : '#333333';
 const parseBg = s => { const m = (s || '').match(/#[0-9a-f]{6}/gi) || []; return { g: /gradient/.test(s || ''), c1: m[0] || '#cccccc', c2: m[1] || m[0] || '#cccccc' }; };
-const toCSV = rows => { if (!rows.length) return ''; const h = Object.keys(rows[0]), q = v => /[",\n]/.test(v) ? '"' + String(v).replace(/"/g, '""') + '"' : v;
-  return [h.map(q).join(',')].concat(rows.map(r => h.map(k => q(r[k] || '')).join(','))).join('\n'); };
+const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const allCols = () => { const s = [cfg.data.dayColumn]; (cfg.data.manualRows || []).forEach(r => Object.keys(r).forEach(k => !s.includes(k) && s.push(k)));
+  cfg.sections.forEach(x => x.column && !s.includes(x.column) && s.push(x.column)); return s; };
+const ensureCols = () => { const c = allCols(); (cfg.data.manualRows || []).forEach(r => c.forEach(k => { if (!(k in r)) r[k] = ''; })); };
+function renderGrid() {
+  ensureCols(); const c = allCols(), rows = cfg.data.manualRows || [];
+  $('#grid').innerHTML = '<div class="gscroll"><table class="grid"><thead><tr>' + c.map(x => `<th>${esc(x)}</th>`).join('') + '<th></th></tr></thead><tbody>' +
+    rows.map((r, i) => '<tr>' + c.map(k => `<td><input type="text" data-r="${i}" data-c="${esc(k)}" value="${esc(r[k])}"></td>`).join('') + `<td><button data-delrow="${i}">×</button></td></tr>`).join('') +
+    '</tbody></table></div><div class="add" style="margin-top:8px"><button data-addrow>+ Baris (hari)</button><input type="text" id="newcol" placeholder="Nama kolom baru" style="width:150px;margin:0"><button data-addcol>+ Kolom</button></div>';
+  $('#gridnote').textContent = cfg.data.source === 'sheet'
+    ? 'Sumber data sekarang Google Sheet, jadi preview memakai data dari sheet. Tabel ini baru dipakai jika sumber = Manual (atau jika sheet gagal dimuat).'
+    : 'Sumber data Manual: ubah nama di tabel ini, preview langsung berubah.';
+}
+async function loadSheet() {
+  try {
+    const u = cfg.data.sheetUrl, r = await fetch(u + (u.includes('?') ? '&' : '?') + 't=' + Date.now());
+    if (!r.ok) throw 0; const rows = JoomaxSchedule.parseCSV(await r.text()); if (!rows.length) throw 0;
+    cfg.data.manualRows = rows; renderGrid(); upd(); $('#gridnote').textContent = 'Data dari Google Sheet berhasil dimuat ke tabel.';
+  } catch (e) { $('#gridnote').textContent = 'Gagal memuat sheet. Cek link dan pastikan sudah Publish to web (CSV).'; }
+}
 
 const inp = (p, label, t = 'text', extra = '') => `<label>${label}<input type="${t}" data-p="${p}" data-t="${t}" ${extra} value="${String(get(p) ?? '').replace(/"/g, '&quot;')}"></label>`;
 const chk = (p, label) => `<label class="chk"><input type="checkbox" data-p="${p}" data-t="b" ${get(p) ? 'checked' : ''}>${label}</label>`;
@@ -32,7 +51,7 @@ function secHTML(s, i) {
 }
 
 function renderPanel() {
-  const d = cfg.data, cols = Object.keys((d.manualRows || [])[0] || {});
+  const d = cfg.data;
   $('#panel').innerHTML = `
   <h3>Umum</h3>${inp('title', 'Judul section')}${chk('showDate', 'Tampilkan tanggal')}${inp('dateFormat', 'Format tanggal ({DD} {MMM} {MMMM} {YYYY} {dddd})')}
   ${chk('showNav', 'Tombol minggu sebelumnya / selanjutnya')}${chk('showDayDate', 'Tanggal kecil di bawah nama hari')}
@@ -43,14 +62,18 @@ function renderPanel() {
   ${d.source === 'sheet' ? inp('data.sheetUrl', 'Link CSV Google Sheet') + inp('data.refreshMinutes', 'Refresh tiap (menit)', 'number', 'min="0"') + chk('data.fallbackToManual', 'Pakai data manual jika sheet gagal') : ''}
   ${inp('data.dayColumn', 'Nama kolom hari')}
   <label>Urutan hari (pisah koma)<input type="text" data-p="data.days" data-t="list" value="${d.days.join(', ')}"></label>
-  <label>Data manual (CSV, baris pertama = nama kolom)<textarea id="csv">${toCSV(d.manualRows || []).replace(/</g, '&lt;')}</textarea></label>
-  <datalist id="cols">${cols.map(c => `<option value="${c}">`).join('')}</datalist>
+  <h5>Data tabel (nama pakaian &amp; petugas per hari)</h5><div class="hint" id="gridnote"></div>
+  ${d.source === 'sheet' ? '<button data-loadsheet style="margin:6px 0">Muat data dari Google Sheet ke tabel</button>' : ''}
+  <div id="grid"></div>
+  <datalist id="cols">${allCols().map(c => `<option value="${esc(c)}">`).join('')}</datalist>
   <h3>Warna &amp; Tampilan</h3>
   <div class="row2">${col('theme.text', 'Teks')}${col('theme.muted', 'Teks redup')}${col('theme.cardBg', 'Latar kartu')}${col('theme.cardBorder', 'Garis kartu')}${col('theme.highlight', 'Highlight hari', 1)}</div>
   <div class="row2">${inp('theme.radius', 'Radius sudut')}${inp('theme.maxWidth', 'Lebar maksimal')}</div>${inp('theme.font', 'Font (CSS)')}
   <h3>Daftar jadwal</h3>${cfg.sections.map(secHTML).join('')}
   <div class="add"><button data-add="table">+ Tabel mingguan (mis. Pakaian)</button><button data-add="duty">+ Kartu piket</button></div>`;
   $('[data-p="dayTabs"]').value = String(cfg.dayTabs);
+  $('[data-p="data.source"]').value = d.source;
+  renderGrid();
 }
 
 let tm, inst;
@@ -76,13 +99,21 @@ $('#panel').addEventListener('input', e => {
     const c1 = q('c1').value, c2 = q('c2').value, gr = q('g').checked;
     q('c2').style.display = gr ? '' : 'none';
     o.bg = gr ? `linear-gradient(90deg,${c1},${c2})` : c1; o.color = q('tc').value;
-  } else if (t.id === 'csv') cfg.data.manualRows = JoomaxSchedule.parseCSV(t.value);
+  } else if (t.dataset.r !== undefined) cfg.data.manualRows[+t.dataset.r][t.dataset.c] = t.value;
   upd();
 });
-$('#panel').addEventListener('change', e => { if (e.target.dataset.p === 'data.source') { renderPanel(); } });
+$('#panel').addEventListener('change', e => {
+  const p = e.target.dataset.p;
+  if (p === 'data.source') { set(p, e.target.value); renderPanel(); upd(); }
+  else if (p && (p.endsWith('.column') || p === 'data.dayColumn')) { renderGrid(); }
+});
 $('#panel').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   const D = b.dataset, S = cfg.sections;
+  if (D.loadsheet !== undefined) { loadSheet(); return; }
+  if (D.addrow !== undefined) { const r = {}; allCols().forEach(c => r[c] = ''); cfg.data.manualRows.push(r); renderGrid(); upd(); return; }
+  if (D.delrow !== undefined) { cfg.data.manualRows.splice(+D.delrow, 1); renderGrid(); upd(); return; }
+  if (D.addcol !== undefined) { const n = $('#newcol').value.trim(); if (n && !allCols().includes(n)) { cfg.data.manualRows.forEach(r => r[n] = ''); renderGrid(); upd(); } return; }
   if (D.del !== undefined) S.splice(+D.del, 1);
   else if (D.add === 'table') S.push({ type: 'table', label: 'Jadwal', title: 'Jadwal Baru', column: '', defaultStyle: { bg: '#e5e7eb', color: '#333333' }, rules: [] });
   else if (D.add === 'duty') S.push({ type: 'duty', label: 'Piket', title: 'Piket Baru', column: '', style: { bg: '#51677d', color: '#ffffff' }, people: {} });
