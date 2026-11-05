@@ -132,6 +132,169 @@
     </div>
   </div></section>
 
+  
+<!-- Schedule -->
+<div id="joomax-schedule"></div>
+<script src="https://cdn.jsdelivr.net/gh/designjoomax/home@main/Section/Schedule/schedule.js"></script>
+<script>
+JoomaxSchedule.init('#joomax-schedule', {
+  "title": "Schedule",
+  "showDate": true,
+  "dateFormat": "{DD}, {MMMM} {YYYY}",
+  "showNav": true,
+  "maxWeeksBack": 7,
+  "maxWeeksAhead": 7,
+  "showDayDate": true,
+  "cssUrl": "",
+  "dayTabs": "auto",
+  "labels": {
+    "prevWeek": "Minggu sebelumnya",
+    "nextWeek": "Minggu selanjutnya",
+    "backToToday": "Hari ini",
+    "today": "Hari ini"
+  },
+  "data": {
+    "source": "sheet",
+    "sheetUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUmsrC4CoI2JPKviLCamojF-XzrlSjPotY-JMSBcGomTjeViBxjcpOfUktoKM9Iq_ByiR1GuWF8x-I/pub?output=csv",
+    "refreshMinutes": 15,
+    "fallbackToManual": true,
+    "dayColumn": "Hari",
+    "days": [
+      "Senin",
+      "Selasa",
+      "Rabu",
+      "Kamis",
+      "Jum'at",
+      "Sabtu"
+    ],
+    "manualRows": [
+      {
+        "Hari": "Senin",
+        "Pakaian": "PDH JOOMAX",
+        "Piket Sampah": "Nabil",
+        "Piket Toilet Lt. 2": "Wahidah",
+        "Piket Toilet Lt. 3": "Zihan"
+      },
+      {
+        "Hari": "Selasa",
+        "Pakaian": "Bebas Sopan",
+        "Piket Sampah": "Fikri",
+        "Piket Toilet Lt. 2": "Alifa",
+        "Piket Toilet Lt. 3": "Ayu"
+      },
+      {
+        "Hari": "Rabu",
+        "Pakaian": "Kaos Usams",
+        "Piket Sampah": "Aqli",
+        "Piket Toilet Lt. 2": "Ira",
+        "Piket Toilet Lt. 3": "Febri"
+      },
+      {
+        "Hari": "Kamis",
+        "Pakaian": "PDH JOOMAX",
+        "Piket Sampah": "Helmi",
+        "Piket Toilet Lt. 2": "Dewi",
+        "Piket Toilet Lt. 3": "Arnita"
+      },
+      {
+        "Hari": "Jum'at",
+        "Pakaian": "Batik, Sasirangan",
+        "Piket Sampah": "Fahriza",
+        "Piket Toilet Lt. 2": "Mila",
+        "Piket Toilet Lt. 3": "Zahro"
+      },
+      {
+        "Hari": "Sabtu",
+        "Pakaian": "Bebas Sopan",
+        "Piket Sampah": "Kevyn",
+        "Piket Toilet Lt. 2": "Jamil",
+        "Piket Toilet Lt. 3": "Zhakiah"
+      }
+    ]
+  },
+  "theme": {
+    "font": "'Poppins', sans-serif",
+    "fontUrl": "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap",
+    "text": "#111111",
+    "muted": "#9a9a9a",
+    "cardBg": "#ffffff",
+    "cardBorder": "#efefef",
+    "highlight": "#51677d14",
+    "radius": "28px",
+    "maxWidth": "840px",
+    "shadow": "0 8px 30px rgba(0,0,0,.07)"
+  },
+  "sections": [
+    {
+      "type": "table",
+      "label": "Jadwal",
+      "title": "Pakaian",
+      "column": "Pakaian",
+      "defaultStyle": {
+        "bg": "#e5e7eb",
+        "color": "#333333"
+      },
+      "rules": [
+        {
+          "match": "PDH",
+          "bg": "#51677d",
+          "color": "#ffffff"
+        },
+        {
+          "match": "Bebas Sopan",
+          "bg": "#a9c9a4",
+          "color": "#1f3d1b"
+        },
+        {
+          "match": "Kaos",
+          "bg": "#8a9bb0",
+          "color": "#ffffff"
+        },
+        {
+          "match": "Batik",
+          "bg": "#e58150",
+          "color": "#ffffff"
+        }
+      ]
+    },
+    {
+      "type": "duty",
+      "label": "Piket",
+      "title": "Sampah",
+      "column": "Piket Sampah",
+      "style": {
+        "bg": "#51677d",
+        "color": "#ffffff"
+      },
+      "people": {}
+    },
+    {
+      "type": "duty",
+      "label": "Piket",
+      "title": "Toilet lt.2",
+      "column": "Piket Toilet Lt. 2",
+      "style": {
+        "bg": "#e58150",
+        "color": "#ffffff"
+      },
+      "people": {}
+    },
+    {
+      "type": "duty",
+      "label": "Piket",
+      "title": "Toilet lt.3",
+      "column": "Piket Toilet Lt. 3",
+      "style": {
+        "bg": "linear-gradient(90deg,#ffd9dc,#ffa9ad)",
+        "color": "#ff1744"
+      },
+      "people": {}
+    }
+  ]
+});
+</script>
+
+
   <section class="sec" id="tools"><div class="wrap">
     <h2>Featured Tools</h2>
     <div class="grid g3" id="toolgrid"></div>
