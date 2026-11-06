@@ -57,10 +57,10 @@ window.JOOMAX_HOME = {
       "thumb": "assets/thumb/pengembang.jpg"
     },
     {
-      "name": "Image Resizer",
-      "desc": "Ubah ukuran gambar dengan cepat.",
-      "href": "https://designjoomax.github.io/tools/",
-      "thumb": "assets/thumb/pengembang.jpg"
+      "name": "11zon",
+      "desc": "Compress, Convert, Edit.",
+      "href": "https://www.11zon.com/",
+      "thumb": "assets/thumb/11zon.png"
     }
   ],
   "gallery": {
