@@ -51,8 +51,8 @@ window.JOOMAX_HOME = {
       "thumb": "assets/thumb/imagetoframe.jpg"
     },
     {
-      "name": "Marketplace Image Generator",
-      "desc": "Buat gambar produk untuk marketplace.",
+      "name": "Generator",
+      "desc": "Tahap Pengembang.",
       "href": "https://designjoomax.github.io/generator/",
       "thumb": "assets/thumb/pengembang.jpg"
     },
@@ -61,6 +61,12 @@ window.JOOMAX_HOME = {
       "desc": "Compress, Convert, Edit.",
       "href": "https://www.11zon.com/",
       "thumb": "assets/thumb/11zon.png"
+    },
+    {
+      "name": "CloudConvert",
+      "desc": "Convert Any File",
+      "href": "https://cloudconvert.com/",
+      "thumb": "assets/thumb/cloudconvert.png"
     }
   ],
   "gallery": {
