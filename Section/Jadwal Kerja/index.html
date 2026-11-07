@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jadwal Kerja - Contoh Pemakaian</title>
+</head>
+<body style="margin:0;background:#fff">
+
+  <!-- 1. Tempat section muncul -->
+  <div id="jadwal-kerja"></div>
+
+  <!-- 2. Load script (jadwal-kerja.css otomatis ikut dimuat dari folder yang sama) -->
+  <script src="jadwal-kerja.js"></script>
+  <!-- Setelah diupload ke GitHub, pakai:
+  <script src="https://cdn.jsdelivr.net/gh/designjoomax/home@main/Section/Jadwal%20Kerja/jadwal-kerja.js"></script> -->
+
+  <!-- 3. Jalankan. Cukup tulis yang mau diubah, sisanya pakai default. -->
+  <script>
+    JadwalKerja.init('#jadwal-kerja', {
+      texts: { label: 'Jadwal Kerja' }
+      // Salin config dari demo.html untuk mengatur teks, warna, shift, dan data.
+    });
+  </script>
+
+</body>
+</html>

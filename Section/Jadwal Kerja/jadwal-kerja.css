@@ -1,0 +1,59 @@
+/* Jadwal Kerja Section - stylesheet
+   Warna & ukuran dasar dikontrol lewat CSS variable (diisi dari config "theme"). Boleh diedit langsung di sini. */
+:host { display: block; }
+[hidden] { display: none !important; }
+.w { font-family: var(--jk-font, 'Poppins', sans-serif); color: var(--jk-text, #111); max-width: var(--jk-max-width, 900px); margin: 0 auto; padding: 24px 16px; box-sizing: border-box; }
+.w * { box-sizing: border-box; }
+button { font-family: inherit; color: inherit; }
+h2 { margin: 0; font-size: 34px; font-weight: 600; line-height: 1.15; }
+
+.card { background: var(--jk-card-bg, #fff); border: 1px solid var(--jk-border, #ececec); border-radius: var(--jk-radius, 28px); box-shadow: var(--jk-shadow); padding: 28px 32px; }
+.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.lb { font-size: 15px; }
+hr { border: 0; border-top: 2px solid #eee; margin: 18px 0 8px; }
+
+/* pencarian */
+.search { position: relative; width: 240px; max-width: 100%; margin-top: 8px; }
+.search input { width: 100%; height: 34px; border: 1px solid var(--jk-border, #ececec); border-radius: 999px; padding: 0 14px 0 38px; font: inherit; font-size: 14px; color: inherit; background: #fff; outline: none; }
+.search input:focus { border-color: #c9c9c9; }
+.search svg { position: absolute; left: 13px; top: 9px; width: 16px; height: 16px; stroke: #aaa; }
+.sugg { position: absolute; z-index: 5; top: 40px; left: 0; right: 0; background: #fff; border: 1px solid var(--jk-border, #ececec); border-radius: 16px; box-shadow: 0 12px 32px rgba(0,0,0,.14); max-height: 270px; overflow: auto; padding: 6px; }
+.sg { display: flex; flex-direction: column; align-items: flex-start; width: 100%; border: 0; background: none; padding: 8px 10px; border-radius: 10px; cursor: pointer; text-align: left; font: inherit; font-size: 14px; }
+.sg:hover { background: #f3f4f6; }
+.sg small { color: var(--jk-muted); font-size: 11px; }
+.sg.none { color: var(--jk-muted); cursor: default; }
+
+/* minggu */
+.scroll { overflow-x: auto; }
+.grid { display: grid; grid-template-columns: repeat(7, minmax(78px, 1fr)); min-width: 590px; }
+.grid.up .bar { text-transform: uppercase; }
+.d { grid-row: 1; text-align: center; padding: 8px 4px 10px; border-right: 1px solid #eee; border-bottom: 1px solid #eee; display: flex; flex-direction: column; gap: 2px; }
+.d:last-of-type { border-right: 0; }
+.dn { color: var(--jk-muted); font-size: 14px; font-weight: 500; }
+.dt { font-size: 14px; font-weight: 600; color: #555; }
+.d.out .dn, .d.out .dt { opacity: .4; }
+.d.today .dn, .d.today .dt { color: var(--jk-accent); }
+.bar { grid-row: 2; margin: 16px 4px 0; height: var(--jk-bar-height, 48px); border-radius: var(--jk-bar-radius, 14px); display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-weight: 600; font-size: var(--jk-bar-font, 22px); line-height: 1.1; padding: 0 8px; overflow: hidden; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+.bar small { font-size: 11px; font-weight: 500; opacity: .9; text-transform: none; }
+.bar.s1 { font-size: calc(var(--jk-bar-font, 22px) * .62); }
+.em { grid-row: 2; margin-top: 16px; display: flex; align-items: center; justify-content: center; color: var(--jk-muted); font-size: 13px; }
+.msg { grid-column: 1 / -1; text-align: center; color: var(--jk-muted); padding: 36px 0; }
+
+/* footer */
+.foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
+.who { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding-left: 8px; }
+.who b { font-size: 22px; font-weight: 600; }
+.who span { color: #666; font-size: 14px; }
+.nav { display: flex; align-items: center; gap: 10px; }
+.nav button { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--jk-border, #ececec); background: #fff; cursor: pointer; font-size: 17px; line-height: 1; display: grid; place-items: center; padding: 0; }
+.nav button:hover:not(:disabled) { background: #f4f4f4; }
+.nav button:disabled { opacity: .3; cursor: default; }
+.nav .tb { width: auto; border-radius: 999px; padding: 0 12px; font-size: 12px; font-weight: 500; }
+.range { font-size: 12px; font-weight: 600; background: #f1f1f3; border-radius: 999px; padding: 8px 14px; white-space: nowrap; }
+
+@media (max-width: 600px) {
+  .card { padding: 20px 16px; }
+  h2 { font-size: 26px; }
+  .who b { font-size: 18px; }
+}
