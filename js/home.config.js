@@ -32,7 +32,7 @@ window.JOOMAX_HOME = {
       "title": "Jadwal Kerja",
       "desc": "Klik Untuk Melihat - Spreadsheet",
       "icon": "table",
-      "href": "https://docs.google.com/spreadsheets/d/1OEg0_ey3srgomeU1Q1JEdI0h3PW93zb-mxHVxdZiuuY/edit?pli=1&gid=982571310#gid=982571310",
+      "href": "https://designjoomax.github.io/home/#jadwal-kerja",
       "thumb": "assets/thumb/jadwalkerja.jpg"
     },
     {
