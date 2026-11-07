@@ -33,7 +33,7 @@ window.JOOMAX_HOME = {
       "desc": "Klik Untuk Melihat - Spreadsheet",
       "icon": "table",
       "href": "https://designjoomax.github.io/home/#jadwal-kerja",
-      "thumb": "assets/thumb/jadwalkerja.jpg"
+      "thumb": "assets/thumb/jadwalkerja2.png"
     },
     {
       "title": "Pengajuan Izin/Sakit",
