@@ -42,9 +42,26 @@ hr { border: 0; border-top: 2px solid #eee; margin: 18px 0 8px; }
 
 /* footer */
 .foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
-.who { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding-left: 8px; }
+.who { display: flex; padding-left: 8px; }
+.who.below { flex-direction: column; align-items: flex-start; gap: 1px; }
+.who.beside { flex-direction: row; align-items: center; gap: 10px; flex-wrap: wrap; }
 .who b { font-size: 22px; font-weight: 600; }
-.who span { color: #666; font-size: 14px; }
+.who #role { color: #666; font-size: 14px; }
+.who #role:empty { display: none; }
+.nm { display: flex; align-items: center; gap: 8px; }
+
+/* badge (centang Verified) */
+.vbw { position: relative; display: inline-flex; align-items: center; gap: 8px; }
+.vb { border: 0; background: none; padding: 0; cursor: pointer; display: inline-flex; line-height: 0; border-radius: 50%; }
+.nm.hover .vb, .vb:disabled { cursor: default; }
+.vb:focus-visible { outline: 2px solid #1b8fe6; outline-offset: 2px; }
+.vb img { display: block; object-fit: contain; }
+.tip { position: absolute; left: 50%; bottom: calc(100% + 9px); transform: translate(-50%, 4px); background: var(--jk-tip-bg, #111); color: var(--jk-tip-color, #fff);
+  font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 999px; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity .15s, transform .15s; pointer-events: none; z-index: 3; }
+.tip::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -5px; border: 5px solid transparent; border-top-color: var(--jk-tip-bg, #111); }
+.tip.show, .nm.hover .vb:hover ~ .tip, .nm.hover .vb:focus-visible ~ .tip { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.tip.inline { position: static; transform: none; opacity: 1; visibility: visible; background: #eaf3fd; color: #1b8fe6; font-size: 12px; padding: 3px 10px; }
+.tip.inline::after { display: none; }
 .nav { display: flex; align-items: center; gap: 10px; }
 .nav button { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--jk-border, #ececec); background: #fff; cursor: pointer; font-size: 17px; line-height: 1; display: grid; place-items: center; padding: 0; }
 .nav button:hover:not(:disabled) { background: #f4f4f4; }

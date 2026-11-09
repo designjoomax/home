@@ -10,6 +10,7 @@ Section jadwal kerja **realtime** untuk web Joomax: tampil per karyawan, per min
 | `jadwal-kerja.css` | Tampilan section (boleh diedit) |
 | `index.html` | Contoh pemakaian paling sederhana |
 | `demo.html` + `demo.css` + `demo.js` | **Demo konfigurasi**: atur teks, warna, shift, dan data lewat UI, lalu salin kodenya |
+| `assets/icon/Verified.png` | Ikon badge centang (bisa diganti) |
 | `README.md` | Dokumentasi ini |
 
 ## Cara paling mudah
@@ -67,17 +68,44 @@ Semua opsi opsional; yang tidak ditulis memakai bawaan.
 |---|---|---|
 | `weekStart` | `1` | Minggu mulai: `1` Senin, `0` Minggu |
 | `dateFormat` | `'{DD} {MMM}'` | Tanggal di bawah nama hari. Token: `{DD} {D} {MM} {MMM} {MMMM} {YYYY} {dddd}` |
-| `showSearch` / `showRole` | `true` | Kotak "Cari Nama" / jabatan di samping nama |
+| `showSearch` / `showRole` | `true` | Kotak "Cari Nama" / tampilkan jabatan |
+| `rolePosition` | `'below'` | Posisi jabatan: `'below'` di bawah nama, `'beside'` di samping nama |
 | `showTodayButton` | `true` | Tombol "Hari ini" saat bukan di minggu ini |
 | `highlightToday` | `true` | Tandai tanggal hari ini |
 | `mergeSameShift` | `true` | Shift sama berurutan digabung jadi 1 bar |
 | `uppercase` | `true` | Teks shift huruf besar |
+| `compactLabelChars` | `6` | Bar 1 hari: label lebih panjang dari ini dikecilkan agar muat. Label pendek (mis. OFF) tetap ukuran penuh; isi `99` agar tidak pernah dikecilkan |
 | `showTime` | `false` | Tampilkan jam (`time` pada shift) di dalam bar |
 | `startWeek` | `'today'` | `'today'` buka di minggu ini, `'first'` minggu pertama bulan |
 | `defaultPerson` | `''` | Nama karyawan yang tampil pertama |
 | `rememberPerson` | `true` | Ingat karyawan terakhir yang dipilih (di browser) |
 | `urlParam` | `'nama'` | `halaman?nama=Fikri` langsung menampilkan Fikri |
 | `theme` | | `font`, `text`, `muted`, `cardBg`, `border`, `accent`, `radius`, `shadow`, `maxWidth`, `barRadius`, `barHeight`, `barFont` |
+
+### Badge centang / Verified (`badge`)
+
+Ikon kecil di samping nama. Saat diklik, muncul balon teks (mis. "Verified"). Bawaan: hanya **Fikri Saputra** yang aktif.
+
+```js
+badge: {
+  enabled: true,                       // saklar utama; false = semua badge mati
+  icon: 'assets/icon/Verified.png',    // relatif ke folder jadwal-kerja.js, atau link penuh / data URI
+  label: 'Verified',                   // teks balon
+  size: '20px',
+  trigger: 'click',                    // 'click' | 'hover' | 'always' (selalu tampil) | 'none'
+  autoHideMs: 3000,                    // balon menutup sendiri (0 = tidak)
+  tipBg: '#111111', tipColor: '#ffffff',
+  people: [
+    { name: 'Fikri Saputra', enabled: true },
+    { name: 'Arnita', enabled: false, label: 'Leader', icon: '' }   // contoh: disiapkan tapi dimatikan
+  ]
+}
+```
+
+- Nama dicocokkan dengan nama di sheet (huruf besar/kecil bebas). Yang tidak ada di `people` tidak dapat badge.
+- Tiap orang boleh punya `icon` dan `label` sendiri. `enabled: false` mematikan sementara tanpa menghapus.
+- Ganti ikon: timpa `assets/icon/Verified.png`, atau isi `icon` dengan lokasi lain. Jika file ikon tidak ketemu, otomatis tampil ikon centang bawaan.
+- Klik di luar ikon atau tekan Esc untuk menutup balon.
 
 ### Jenis shift (`shifts`)
 
@@ -126,6 +154,7 @@ Paling gampang: di `demo.html`, ubah sumber data jadi Manual dan edit tabelnya, 
 | Masalah | Solusi |
 |---|---|
 | "Data jadwal belum tersedia" | Link `sheetUrl` salah / tab belum Publish to web. Cek link CSV-nya |
+| Ikon badge tidak muncul | Pastikan `assets/icon/Verified.png` ikut diupload (satu folder dengan `jadwal-kerja.js`), atau isi `badge.icon` dengan link penuh |
 | Shift tampil abu-abu | Simbol belum terdaftar di `shifts` — tambahkan, atau isi `aliases` |
 | Bulan salah | Isi `data.period` dengan bulan & tahun data |
 | Tampilan polos tanpa gaya | `jadwal-kerja.css` tidak satu folder dengan `jadwal-kerja.js`; isi `cssUrl` |
@@ -142,5 +171,8 @@ Section/
     ├── jadwal-kerja.css
     ├── demo.html
     ├── demo.css
-    └── demo.js
+    ├── demo.js
+    └── assets/
+        └── icon/
+            └── Verified.png
 ```

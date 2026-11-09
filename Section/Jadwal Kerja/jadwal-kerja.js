@@ -31,11 +31,26 @@
     weekStart: 1,                            // 1 = Senin, 0 = Minggu
     dateFormat: '{DD} {MMM}',                // tanggal di bawah nama hari. Token: {DD} {D} {MM} {MMM} {MMMM} {YYYY} {dddd}
     showSearch: true,                        // kotak "Cari Nama"
-    showRole: true,                          // jabatan di samping nama
+    showRole: true,                          // tampilkan jabatan
+    rolePosition: 'below',                   // posisi jabatan: 'below' = di bawah nama, 'beside' = di samping nama
+    // Badge centang di samping nama (mis. "Verified"). Klik ikon untuk memunculkan teksnya.
+    badge: {
+      enabled: true,                         // saklar utama: false = semua badge mati
+      icon: 'assets/icon/Verified.png',      // lokasi ikon (relatif ke folder jadwal-kerja.js), link penuh, atau data URI
+      label: 'Verified',                     // teks yang muncul
+      size: '20px',                          // ukuran ikon
+      trigger: 'click',                      // teks muncul saat: 'click' | 'hover' | 'always' (selalu tampil) | 'none'
+      autoHideMs: 3000,                      // teks otomatis tertutup setelah ... ms (0 = tidak otomatis)
+      tipBg: '#111111', tipColor: '#ffffff', // warna balon teks
+      // Siapa yang dapat badge. Nama harus sama dengan di sheet (huruf besar/kecil bebas).
+      // Tiap item boleh punya "icon" / "label" sendiri; "enabled: false" = dimatikan sementara.
+      people: [ { name: 'Fikri Saputra', enabled: true, icon: '', label: '' } ]
+    },
     showTodayButton: true,                   // tombol "Hari ini" saat bukan di minggu ini
     highlightToday: true,                    // tandai tanggal hari ini
     mergeSameShift: true,                    // shift sama berurutan digabung jadi 1 bar panjang
     uppercase: true,                         // teks shift huruf besar
+    compactLabelChars: 6,                    // bar 1 hari: label lebih dari ... huruf dikecilkan agar muat (label pendek seperti OFF tetap ukuran penuh)
     showTime: false,                         // tampilkan jam (isi "time" pada shift) di dalam bar
     startWeek: 'today',                      // 'today' = buka di minggu ini, 'first' = minggu pertama bulan
     defaultPerson: '',                       // nama yang tampil pertama (kosong = urutan pertama)
@@ -155,17 +170,19 @@
     const show = () => { box.style.visibility = ''; };
     if (lk) { lk.addEventListener('load', show); lk.addEventListener('error', show); setTimeout(show, 1500); } else show();
     Object.entries({ font: Th.font, text: Th.text, muted: Th.muted, 'card-bg': Th.cardBg, border: Th.border, accent: Th.accent, radius: Th.radius, shadow: Th.shadow,
-      'max-width': Th.maxWidth, 'bar-radius': Th.barRadius, 'bar-height': Th.barHeight, 'bar-font': Th.barFont }).forEach(([k, v]) => box.style.setProperty('--jk-' + k, v));
+      'max-width': Th.maxWidth, 'bar-radius': Th.barRadius, 'bar-height': Th.barHeight, 'bar-font': Th.barFont,
+      'tip-bg': (C.badge || {}).tipBg, 'tip-color': (C.badge || {}).tipColor }).forEach(([k, v]) => box.style.setProperty('--jk-' + k, v));
 
     box.innerHTML = '<div class="card"><div class="top"><div class="ttl"><div class="lb">' + esc(X.label) + '</div><h2 id="title"></h2></div>' +
       (C.showSearch ? '<div class="search"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>' +
         '<input id="q" type="text" placeholder="' + esc(X.searchPlaceholder) + '" autocomplete="off"><div class="sugg" id="sugg" hidden></div></div>' : '') +
       '</div><hr><div class="scroll"><div id="grid" class="grid' + (C.uppercase ? ' up' : '') + '"></div></div>' +
-      '<div class="foot"><div class="who"><b id="name"></b><span id="role"></span></div><div class="nav"><button class="tb" id="today" data-today hidden>' + esc(X.todayButton) + '</button>' +
+      '<div class="foot"><div class="who ' + (C.rolePosition === 'beside' ? 'beside' : 'below') + '"><div class="nm' + (C.badge && C.badge.trigger === 'hover' ? ' hover' : '') + '"><b id="name"></b>' +
+      '<span class="vbw" id="vbw" hidden><button class="vb" id="vb" type="button"><img id="vimg" alt=""></button><span class="tip" id="tip" role="status"></span></span></div><span id="role"></span></div><div class="nav"><button class="tb" id="today" data-today hidden>' + esc(X.todayButton) + '</button>' +
       '<button id="prev" data-w="-1" aria-label="' + esc(X.prevWeek) + '">&#8249;</button><span class="range" id="range"></span>' +
       '<button id="next" data-w="1" aria-label="' + esc(X.nextWeek) + '">&#8250;</button></div></div></div>';
 
-    let data = null, w0 = null, nW = 1, wi = 0, pi = 0, dead = false, lastKey = new Date().toDateString(), loaded = false;
+    let tipT; let data = null, w0 = null, nW = 1, wi = 0, pi = 0, dead = false, lastKey = new Date().toDateString(), loaded = false;
     const virt = {};
 
     function resolve(code) {
@@ -181,12 +198,36 @@
       return C.startWeek === 'today' && t >= f && t <= l ? Math.round((ws(t) - w0) / WEEK) : 0;
     };
 
+    // ---- badge ----
+    const BASE = SRC.replace(/[^\/?#]*(\?.*)?$/, '');
+    const iconUrl = u => /^(?:[a-z][a-z0-9+.-]*:|\/)/i.test(u) ? u : BASE + u;
+    const FALLBACK = (() => { const p = []; for (let i = 0; i < 32; i++) { const a = Math.PI * 2 * i / 32 - Math.PI / 2, r = i % 2 ? 9.8 : 11.6; p.push((12 + r * Math.cos(a)).toFixed(2) + ',' + (12 + r * Math.sin(a)).toFixed(2)); }
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon fill="#1b8fe6" points="' + p.join(' ') + '"/><path d="M7.4 12.3l3.1 3.1 6.1-6.4" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>'); })();
+    function badgeFor(name) {
+      const B = C.badge || {}; if (!B.enabled) return null;
+      const o = (B.people || []).find(p => p && nk(p.name) === nk(name)); if (!o || o.enabled === false) return null;
+      return { icon: o.icon || B.icon, label: o.label ? o.label : B.label };
+    }
+    function hideTip() { clearTimeout(tipT); const t = $('#tip'); if (t) t.classList.remove('show'); }
+    function renderBadge(P) {
+      const w = $('#vbw'); if (!w) return;
+      hideTip();
+      const b = P && badgeFor(P.name);
+      if (!b) { w.hidden = true; return; }
+      const B = C.badge, img = $('#vimg'), tip = $('#tip'), src = b.icon ? iconUrl(b.icon) : FALLBACK;
+      img.dataset.fb = ''; img.style.height = img.style.width = B.size || '20px';
+      img.onerror = () => { if (img.dataset.fb !== '1') { img.dataset.fb = '1'; img.src = FALLBACK; } };
+      if (img.getAttribute('src') !== src) img.src = src;
+      tip.textContent = b.label || ''; tip.hidden = !b.label || B.trigger === 'none'; tip.classList.toggle('inline', B.trigger === 'always');
+      $('#vb').setAttribute('aria-label', b.label || 'Badge'); w.hidden = false;
+    }
+
     function update() {
       if (dead) return;
       const nameEl = $('#name'), roleEl = $('#role'), grid = $('#grid');
       if (!data || !data.people.length) {
         $('#title').textContent = ''; grid.innerHTML = '<div class="msg">' + esc(loaded ? X.noData : X.loading) + '</div>';
-        nameEl.textContent = ''; roleEl.textContent = ''; $('#range').textContent = ''; $('#prev').disabled = $('#next').disabled = true; $('#today').hidden = true; return;
+        nameEl.textContent = ''; roleEl.textContent = ''; if ($('#vbw')) $('#vbw').hidden = true; $('#range').textContent = ''; $('#prev').disabled = $('#next').disabled = true; $('#today').hidden = true; return;
       }
       wi = Math.max(0, Math.min(nW - 1, wi));
       const P = data.people[pi] || data.people[0], start = addDays(w0, wi * 7), today = sod(new Date());
@@ -203,13 +244,13 @@
         if (!s) { if (X.emptyDay && cells[i].inM) h += '<div class="em" style="grid-column:' + (i + 1) + '">' + esc(X.emptyDay) + '</div>'; i++; continue; }
         let j = i; while (C.mergeSameShift && j + 1 < 7 && cells[j + 1].s === s) j++;
         const span = j - i + 1, a = fmt(addDays(start, i), '{DD} {MMM}', X), b = fmt(addDays(start, j), '{DD} {MMM}', X);
-        h += '<div class="bar' + (span === 1 ? ' s1' : '') + '" style="grid-column:' + (i + 1) + '/span ' + span + ';background:' + esc(s.bg) + ';color:' + esc(s.color) + '" title="' +
+        h += '<div class="bar' + (span === 1 && String(s.label).length > C.compactLabelChars ? ' s1' : '') + '" style="grid-column:' + (i + 1) + '/span ' + span + ';background:' + esc(s.bg) + ';color:' + esc(s.color) + '" title="' +
           esc(s.label + (s.time ? ' (' + s.time + ')' : '') + ' · ' + (a === b ? a : a + ' - ' + b)) + '"><span>' + esc(s.label) + '</span>' +
           (C.showTime && s.time ? '<small>' + esc(s.time) + '</small>' : '') + '</div>';
         i = j + 1;
       }
       grid.innerHTML = h;
-      nameEl.textContent = P.name; roleEl.textContent = C.showRole ? P.role : '';
+      nameEl.textContent = P.name; roleEl.textContent = C.showRole ? P.role : ''; renderBadge(P);
       $('#range').textContent = fmt(start, '{DD} {MMM}', X) + ' - ' + fmt(addDays(start, 6), '{DD} {MMM} {YYYY}', X);
       $('#prev').disabled = wi <= 0; $('#next').disabled = wi >= nW - 1; $('#today').hidden = !(C.showTodayButton && wi !== todayWeek());
     }
@@ -264,6 +305,7 @@
     const listen = (t, fn) => { sh.addEventListener(t, fn); on.push([t, fn]); };
     listen('click', e => {
       const b = e.target.closest('button'); if (!b || b.disabled) return;
+      if (b.id === 'vb') { const t = $('#tip'); if ((C.badge || {}).trigger === 'click' && !t.hidden) { const open = !t.classList.contains('show'); hideTip(); if (open) { t.classList.add('show'); if (C.badge.autoHideMs > 0) tipT = setTimeout(hideTip, C.badge.autoHideMs); } } return; }
       if (b.dataset.w) { wi += +b.dataset.w; update(); } else if (b.dataset.today !== undefined) { wi = todayWeek(); update(); }
     });
     listen('mousedown', e => { const b = e.target.closest('.sg[data-i]'); if (b) { e.preventDefault(); pick(+b.dataset.i); } });
@@ -275,10 +317,13 @@
       if (e.key === 'Enter') { const r = found(qi.value); if (r.length) pick(r[0].i); } else if (e.key === 'Escape') closeSugg();
     });
 
+    const onDoc = e => { const vb = $('#vb'); if (e.type === 'keydown' ? e.key === 'Escape' : (vb && !e.composedPath().includes(vb))) hideTip(); };
+    document.addEventListener('click', onDoc); document.addEventListener('keydown', onDoc);
+
     load();
     const t1 = DT.source === 'sheet' && DT.refreshMinutes > 0 ? setInterval(() => load(true), DT.refreshMinutes * 60000) : 0;
     const t2 = setInterval(() => { const k = new Date().toDateString(); if (k !== lastKey) { lastKey = k; if (data) { wi = todayWeek(); update(); } } }, 30000);
-    const destroy = () => { dead = true; clearInterval(t1); clearInterval(t2); on.forEach(([t, fn]) => sh.removeEventListener(t, fn)); sh.innerHTML = ''; delete host.__jkDestroy; };
+    const destroy = () => { dead = true; clearInterval(t1); clearInterval(t2); clearTimeout(tipT); document.removeEventListener('click', onDoc); document.removeEventListener('keydown', onDoc); on.forEach(([t, fn]) => sh.removeEventListener(t, fn)); sh.innerHTML = ''; delete host.__jkDestroy; };
     host.__jkDestroy = destroy;
     return { destroy, reload: () => load(true) };
   }

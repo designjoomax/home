@@ -1,7 +1,7 @@
 const $ = s => document.querySelector(s);
 const DEF = () => JSON.parse(JSON.stringify(JadwalKerja.defaults));
 let cfg; try { cfg = JSON.parse(localStorage.getItem('jkDemoCfg')); } catch (e) {}
-if (!cfg || !cfg.shifts || !cfg.data || !cfg.data.manual) cfg = DEF();
+if (!cfg || !cfg.shifts || !cfg.data || !cfg.data.manual || !cfg.badge) cfg = DEF();
 
 const get = p => p.split('.').reduce((o, k) => o == null ? o : o[k], cfg);
 const set = (p, v) => { const k = p.split('.'), l = k.pop(); k.reduce((o, x) => o[x], cfg)[l] = v; };
@@ -42,12 +42,25 @@ function renderPanel() {
   <h3>Tampilan</h3>
   ${chk('showSearch', 'Kotak "Cari Nama"')}${chk('showRole', 'Tampilkan jabatan')}${chk('showTodayButton', 'Tombol "Hari ini"')}
   ${chk('highlightToday', 'Tandai tanggal hari ini')}${chk('mergeSameShift', 'Gabungkan shift sama berurutan jadi 1 bar')}${chk('uppercase', 'Teks shift HURUF BESAR')}${chk('showTime', 'Tampilkan jam di dalam bar')}${chk('rememberPerson', 'Ingat karyawan terakhir yang dipilih')}
+  ${sel('rolePosition', 'Posisi jabatan', [['below', 'Di bawah nama'], ['beside', 'Di samping nama']])}
   <div class="row2">${sel('weekStart', 'Minggu mulai hari', [[1, 'Senin'], [0, 'Minggu']], 'n')}${sel('startWeek', 'Buka di', [['today', 'Minggu ini'], ['first', 'Minggu pertama']])}</div>
+  ${inp('compactLabelChars', 'Bar 1 hari: kecilkan teks jika lebih dari ... huruf', 'number', 'min="0"')}
   <div class="row2">${inp('dateFormat', 'Format tanggal')}${inp('defaultPerson', 'Karyawan awal (nama)')}</div>
   <h3>Warna &amp; ukuran</h3>
   <div class="row3">${col('theme.text')}${col('theme.muted')}${col('theme.cardBg')}${col('theme.border')}${col('theme.accent')}</div>
   <div class="row3">${inp('theme.radius', 'radius')}${inp('theme.maxWidth', 'lebar maks')}${inp('theme.barRadius', 'radius bar')}</div>
   <div class="row3">${inp('theme.barHeight', 'tinggi bar')}${inp('theme.barFont', 'font bar')}${inp('theme.font', 'font (CSS)')}</div>
+  <h3>Badge (centang Verified)</h3>
+  ${chk('badge.enabled', 'Aktifkan badge (saklar utama)')}
+  ${inp('badge.icon', 'Lokasi ikon (assets/icon/Verified.png, link penuh, atau data URI)')}
+  <div class="row3">${inp('badge.label', 'Teks')}${inp('badge.size', 'Ukuran ikon')}${inp('badge.autoHideMs', 'Auto tutup (ms)', 'number', 'min="0"')}</div>
+  ${sel('badge.trigger', 'Teks muncul saat', [['click', 'Ikon diklik'], ['hover', 'Kursor di atas ikon'], ['always', 'Selalu tampil'], ['none', 'Tidak tampil']])}
+  <div class="row2">${col('badge.tipBg')}${col('badge.tipColor')}</div>
+  <h5>Karyawan yang mendapat badge</h5>
+  ${cfg.badge.people.map((p, i) => `<div class="rule"><div class="row2">${inp(`badge.people.${i}.name`, 'Nama (persis seperti di sheet)', 'text', 'list="bn"')}${inp(`badge.people.${i}.label`, 'Teks khusus (opsional)')}</div>
+    ${inp(`badge.people.${i}.icon`, 'Ikon khusus (opsional)')}<div class="sh">${chk(`badge.people.${i}.enabled`, 'Aktif')}<button data-delbadge="${i}">Hapus</button></div></div>`).join('')}
+  <datalist id="bn">${MAN().people.map(p => `<option value="${esc(p.name)}">`).join('')}</datalist>
+  <div class="add"><button data-addbadge>+ Karyawan berbadge</button></div>
   <h3>Jenis shift</h3>
   ${cfg.shifts.map((s, i) => { const P = k => `shifts.${i}.${k}`; return `<div class="sec"><div class="sh"><b>${esc(s.label)}</b><button data-delshift="${i}">Hapus</button></div>
     <div class="row2">${inp(P('label'), 'Teks yang tampil')}${inp(P('symbol'), 'Simbol (di sheet / data manual)')}</div>
@@ -136,6 +149,8 @@ $('#panel').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   const D = b.dataset, M = MAN();
   if (D.delshift !== undefined) cfg.shifts.splice(+D.delshift, 1);
+  else if (D.addbadge !== undefined) cfg.badge.people.push({ name: '', enabled: true, icon: '', label: '' });
+  else if (D.delbadge !== undefined) cfg.badge.people.splice(+D.delbadge, 1);
   else if (D.addshift !== undefined) { const free = ['★', '●', '◆', '▲', '■', '♥', '♣', '♠'].find(c => !shiftBy(c)) || '#'; cfg.shifts.push({ key: 'shift' + (cfg.shifts.length + 1), symbol: free, label: 'Shift Baru', aliases: [], time: '', bg: 'linear-gradient(90deg,#34d399 0%,#047857 100%)', color: '#ffffff' }); }
   else if (D.addperson !== undefined) M.people.push({ name: 'Karyawan Baru', role: '', days: '.'.repeat(nDays()) });
   else if (D.delperson !== undefined) M.people.splice(+D.delperson, 1);
