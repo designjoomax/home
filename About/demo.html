@@ -144,6 +144,7 @@ var DEFAULTS={accent:"#e4002b",font:"Poppins",
  hero:{title:"About Joomax",tagline:"Technology made simple. Creativity without limits.",desc:"Joomax adalah ruang digital yang menghadirkan berbagai tools, ide, dan solusi untuk mendukung produktivitas serta kreativitas melalui teknologi.\n\nKami percaya bahwa teknologi seharusnya membuat segalanya lebih mudah, praktis, dan bermanfaat."},
  vision:{title:"Our Vision",text:"Menghadirkan pengalaman digital yang sederhana, inovatif, dan bermanfaat bagi semua."},
  behind:{title:"Behind Joomax",keywords:"Ideas. Design. Technology.",text:"Joomax lahir dari perpaduan Kreativitas, Desain, dan teknologi untuk menciptakan pengalaman digital yang lebih baik."},
+ layout:{enabled:true},
  person:{name:"Fikri Saputra",role:"Developer & Creative Designer",quote:"Turning ideas into reality."}};
 var KEY="joomax-about-demo",root=document.getElementById("jx-about"),cfg;
 function clone(o){return JSON.parse(JSON.stringify(o))}
@@ -183,6 +184,7 @@ var F=[
  ["Our Vision",[["show.vision","Tampilkan section","chk"],["vision.title","Judul","text"],["vision.text","Teks","area"]]],
  ["Behind Joomax",[["show.behind","Tampilkan section","chk"],["behind.title","Judul","text"],["behind.keywords","Keyword (akhiri tiap kata dengan titik)","text"],["behind.text","Teks","area"]]],
  ["Profil",[["show.person","Tampilkan section","chk"],["person.name","Nama","text"],["person.role","Jabatan","text"],["person.quote","Quote","text"]]],
+ ["Header & Footer",[["layout.enabled","Pakai Header & Footer Joomax (di file unduhan)","chk"]]],
  ["Simbol Verified",[["verified.show","Tampilkan simbol","chk"],["verified.label","Tulisan saat diklik","text"],["verified.iconUrl","URL ikon","text"],["verified.size","Ukuran (px)","text"]]]
 ];
 var box=document.getElementById("fields"),inputs=[];
@@ -207,7 +209,9 @@ function fill(){inputs.forEach(function(p){var v=get(cfg,p[1][0]);if(p[1][2]==="
 /* Unduh */
 function download(name,text,type){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:type}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},500)}
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
+var HF_HEAD='<script defer src="https://designjoomax.github.io/headerfooter/joomax-layout.config.js"><\/script>\n<script defer src="https://designjoomax.github.io/headerfooter/joomax-layout.js"><\/script>\n';
 function exportHTML(){
+  var hf=cfg.layout&&cfg.layout.enabled;
   var c=root.cloneNode(true);
   c.querySelectorAll("[data-s][hidden]").forEach(function(e){e.remove()});
   var v=c.querySelector("#jx-v");if(v&&v.hidden)v.remove();
@@ -223,7 +227,7 @@ function exportHTML(){
    +'document.addEventListener("keydown",function(e){if(e.key==="Escape")v.setAttribute("aria-expanded","false")})})();';
   return '<!DOCTYPE html>\n<html lang="id">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(cfg.hero.title)+'</title>\n'
    +'<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family='+fam+':wght@400;500;600;700&display=swap">\n'
-   +'<style>\n'+base+'\n</style>\n</head>\n<body style="margin:0">\n\n'+c.outerHTML+'\n\n<script>\n'+js+'\n<\/script>\n</body>\n</html>\n';
+   +'<style>\n'+base+'\n</style>\n'+(hf?HF_HEAD:'')+'</head>\n<body style="margin:0">\n\n'+(hf?'<joomax-header sticky></joomax-header>\n\n':'')+c.outerHTML+'\n\n'+(hf?'<joomax-footer></joomax-footer>\n\n':'')+'<script>\n'+js+'\n<\/script>\n</body>\n</html>\n';
 }
 document.getElementById("dl").onclick=function(){download("index.html",exportHTML(),"text/html");toast("index.html diunduh")};
 document.getElementById("dj").onclick=function(){download("joomax-about-config.json",JSON.stringify(cfg,null,2),"application/json");toast("Config diunduh")};
