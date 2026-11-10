@@ -67,7 +67,14 @@ window.JOOMAX_HOME = {
       "desc": "Convert Any File",
       "href": "https://cloudconvert.com/",
       "thumb": "assets/thumb/cloudconvert.png"
+    },
+    {
+      "name": "Fixs.Arts",
+      "desc": "Creative Designer",
+      "href": "https://linktr.ee/fixs.arts",
+      "thumb": "assets/thumb/fixsarts.jpg"
     }
+    
   ],
   "gallery": {
     "href": "https://designjoomax.github.io/gallery/",
