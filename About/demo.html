@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joomax About - Demo Konfigurasi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<style id="jx-base">
+/* Semua style di-scope ke .jx-about supaya aman kalau di-inject ke website lain */
+.jx-about{--accent:#e4002b;--ink:#17171c;--muted:#6b6b76;--line:#ececf0;--bg:#fff;--soft:#f6f6f8;
+  font-family:'Poppins',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;
+  -webkit-font-smoothing:antialiased;position:relative}
+.jx-about *{box-sizing:border-box}
+.jx-about .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+.jx-about [hidden]{display:none!important}
+
+/* Hero */
+.jx-about .hero{text-align:center;padding:120px 0 96px}
+.jx-about h1{font-size:clamp(2.6rem,7vw,4.6rem);font-weight:700;letter-spacing:-.035em;line-height:1.05;margin:0 0 18px}
+.jx-about .tagline{font-size:clamp(1.05rem,2.4vw,1.35rem);font-weight:500;color:var(--accent);margin:0 0 28px}
+.jx-about .lead{max-width:600px;margin:0 auto;color:var(--muted);font-size:1.02rem;white-space:pre-line}
+.jx-about .hero>.wrap>*{animation:jxIn .7s cubic-bezier(.2,.7,.2,1) both}
+.jx-about .hero>.wrap>*:nth-child(2){animation-delay:.08s}
+.jx-about .hero>.wrap>*:nth-child(3){animation-delay:.16s}
+@keyframes jxIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Vision */
+.jx-about .vision{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:88px 0}
+.jx-about h2{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:600;letter-spacing:-.02em;margin:0 0 14px}
+.jx-about .vision .wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:start}
+.jx-about .vision p{margin:0;font-size:clamp(1.1rem,2.2vw,1.4rem);font-weight:500;line-height:1.55;white-space:pre-line}
+
+/* Behind */
+.jx-about .behind{padding:96px 0 72px;text-align:center}
+.jx-about .kw{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;font-size:clamp(2rem,6vw,3.6rem);font-weight:700;letter-spacing:-.03em;line-height:1.15;margin:8px 0 26px}
+.jx-about .kw span:nth-child(odd){color:var(--ink)}
+.jx-about .kw span:nth-child(even){color:var(--accent)}
+.jx-about .behind p{max-width:600px;margin:0 auto;color:var(--muted);white-space:pre-line}
+
+/* Person */
+.jx-about .person{padding:0 0 120px}
+.jx-about .card{max-width:560px;margin:0 auto;border:1px solid var(--line);border-radius:22px;padding:28px;display:flex;gap:20px;align-items:center;background:#fff;box-shadow:0 10px 30px -18px rgba(23,23,28,.25)}
+.jx-about .avatar{flex:none;width:68px;height:68px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:600;font-size:1.3rem;overflow:hidden}
+.jx-about .avatar img{width:100%;height:100%;object-fit:cover}
+.jx-about .name{display:flex;align-items:center;gap:8px;font-size:1.3rem;font-weight:600;line-height:1.3;position:relative}
+.jx-about .role{color:var(--muted);font-size:.92rem}
+.jx-about .quote{margin-top:10px;font-weight:500;font-size:.98rem}
+.jx-about .vbtn{all:unset;cursor:pointer;display:inline-grid;place-items:center;border-radius:50%;position:relative}
+.jx-about .vbtn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.jx-about .vbtn img,.jx-about .vbtn svg{width:var(--vsize,22px);height:var(--vsize,22px);display:block}
+.jx-about .vtip{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translate(-50%,6px);background:var(--ink);color:#fff;font-size:.78rem;font-weight:500;padding:5px 11px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:.18s}
+.jx-about .vtip:after{content:"";position:absolute;top:100%;left:50%;margin-left:-5px;border:5px solid transparent;border-top-color:var(--ink)}
+.jx-about .vbtn[aria-expanded=true] .vtip{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:700px){
+  .jx-about .hero{padding:80px 0 64px}
+  .jx-about .vision .wrap{grid-template-columns:1fr;gap:12px}
+  .jx-about .card{flex-direction:column;text-align:center}
+  .jx-about .name{justify-content:center}
+}
+@media(prefers-reduced-motion:reduce){.jx-about *{animation:none!important;transition:none!important}}
+</style>
+<style>
+body{margin:0;font-family:Poppins,sans-serif;background:#e9e9ee}
+.app{display:grid;grid-template-columns:350px 1fr;height:100vh}
+.side{background:#fff;border-right:1px solid #ececf0;display:flex;flex-direction:column;min-height:0}
+.side header{padding:16px 18px;border-bottom:1px solid #ececf0}
+.side header b{display:block;font-size:15px;font-weight:600;color:#17171c}
+.side header span{font-size:12px;color:#6b6b76}
+.fields{flex:1;overflow:auto;padding:6px 18px 18px;font-size:13px;color:#17171c}
+.fields h4{margin:18px 0 4px;font-size:13px;font-weight:600}
+.fields label{display:block;margin:9px 0 3px;color:#6b6b76;font-size:12px}
+.fields input[type=text],.fields textarea{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:8px;padding:8px 10px;font:inherit;color:#17171c}
+.fields input:focus,.fields textarea:focus{outline:2px solid #e4002b33;border-color:#e4002b}
+.fields textarea{min-height:70px;resize:vertical}
+.fields input[type=color]{width:100%;height:36px;border:1px solid #ddd;border-radius:8px;padding:2px}
+.chk{display:flex;gap:8px;align-items:center;margin:8px 0}
+.chk label{margin:0;color:#17171c}
+.acts{padding:14px 18px;border-top:1px solid #ececf0;display:grid;gap:8px}
+.acts button{border:1px solid #ddd;background:#fff;border-radius:10px;padding:9px;font:500 13px Poppins,sans-serif;cursor:pointer;color:#17171c}
+.acts .main{background:#e4002b;border-color:#e4002b;color:#fff;padding:11px;font-size:14px}
+.acts .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stage{overflow:auto;padding:24px;min-width:0}
+.frame{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 20px 50px -20px rgba(0,0,0,.25);max-width:1100px;margin:0 auto}
+.toast{position:fixed;right:20px;bottom:20px;background:#17171c;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;opacity:0;transition:.2s;pointer-events:none}
+.toast.on{opacity:1}
+@media(max-width:860px){.app{grid-template-columns:1fr;grid-template-rows:auto;height:auto}.side{border-right:0;border-bottom:1px solid #ececf0}.fields{max-height:48vh}.stage{padding:12px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <header><b>Demo Konfigurasi</b><span>Ubah isi, lihat hasilnya, lalu unduh index.html</span></header>
+    <div class="fields" id="fields"></div>
+    <div class="acts">
+      <button class="main" id="dl">Unduh index.html</button>
+      <div class="two"><button id="dj">Unduh config (JSON)</button><button id="ij">Impor config</button></div>
+      <button id="rs">Reset ke awal</button>
+      <input type="file" id="jf" accept=".json,application/json" hidden>
+    </div>
+  </aside>
+  <main class="stage"><div class="frame">
+
+<div class="jx-about" id="jx-about">
+  <section class="hero"><div class="wrap">
+    <h1 data-k="hero.title"></h1>
+    <p class="tagline" data-k="hero.tagline"></p>
+    <p class="lead" data-k="hero.desc"></p>
+  </div></section>
+  <section class="vision" data-s="vision"><div class="wrap">
+    <h2 data-k="vision.title"></h2>
+    <p data-k="vision.text"></p>
+  </div></section>
+  <section class="behind" data-s="behind"><div class="wrap">
+    <h2 data-k="behind.title"></h2>
+    <div class="kw" id="jx-kw"></div>
+    <p data-k="behind.text"></p>
+  </div></section>
+  <section class="person" data-s="person"><div class="wrap">
+    <div class="card">
+      <div class="avatar" id="jx-avatar"></div>
+      <div>
+        <div class="name"><span data-k="person.name"></span>
+          <button class="vbtn" id="jx-v" type="button" aria-expanded="false" aria-label="Verified">
+            <span id="jx-vicon"></span><span class="vtip" id="jx-vtip" role="status"></span>
+          </button>
+        </div>
+        <div class="role" data-k="person.role"></div>
+        <div class="quote" data-k="person.quote"></div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+  </div></main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var DEFAULTS={accent:"#e4002b",font:"Poppins",
+ verified:{show:true,label:"Verified",iconUrl:"https://raw.githubusercontent.com/designjoomax/home/main/assets/icon/Verified.png",size:22},
+ avatarUrl:"",show:{vision:true,behind:true,person:true},
+ hero:{title:"About Joomax",tagline:"Technology made simple. Creativity without limits.",desc:"Joomax adalah ruang digital yang menghadirkan berbagai tools, ide, dan solusi untuk mendukung produktivitas serta kreativitas melalui teknologi.\n\nKami percaya bahwa teknologi seharusnya membuat segalanya lebih mudah, praktis, dan bermanfaat."},
+ vision:{title:"Our Vision",text:"Menghadirkan pengalaman digital yang sederhana, inovatif, dan bermanfaat bagi semua."},
+ behind:{title:"Behind Joomax",keywords:"Ideas. Design. Technology.",text:"Joomax lahir dari perpaduan Kreativitas, Desain, dan teknologi untuk menciptakan pengalaman digital yang lebih baik."},
+ person:{name:"Fikri Saputra",role:"Developer & Creative Designer",quote:"Turning ideas into reality."}};
+var KEY="joomax-about-demo",root=document.getElementById("jx-about"),cfg;
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function merge(a,b){for(var k in b){if(b[k]&&typeof b[k]==="object")merge(a[k]=a[k]||{},b[k]);else a[k]=b[k]}return a}
+function get(o,p){return p.split(".").reduce(function(x,k){return x&&x[k]},o)}
+function set(p,v){var a=p.split("."),o=cfg;while(a.length>1)o=o[a.shift()];o[a[0]]=v}
+function toast(t){var e=document.getElementById("toast");e.textContent=t;e.classList.add("on");setTimeout(function(){e.classList.remove("on")},1600)}
+cfg=clone(DEFAULTS);try{var sv=localStorage.getItem(KEY);if(sv)merge(cfg,JSON.parse(sv))}catch(e){}
+
+var CHECK='<svg viewBox="0 0 24 24"><path fill="#1d9bf0" d="M12 1l2.6 2 3.3-.2 1 3.1 2.8 1.8-1 3.1 1 3.1-2.8 1.8-1 3.1-3.3-.2L12 23l-2.6-2-3.3.2-1-3.1L2.3 16.3l1-3.1-1-3.1 2.8-1.8 1-3.1 3.3.2z"/><path fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M7.8 12.3l2.9 2.9 5.5-5.8"/></svg>';
+
+function render(){
+  root.style.setProperty("--accent",cfg.accent);
+  root.style.fontFamily="'"+cfg.font+"',system-ui,sans-serif";
+  root.querySelectorAll("[data-k]").forEach(function(el){el.textContent=get(cfg,el.dataset.k)||""});
+  root.querySelectorAll("[data-s]").forEach(function(el){el.hidden=!cfg.show[el.dataset.s]});
+  var kw=document.getElementById("jx-kw");kw.innerHTML="";
+  (cfg.behind.keywords||"").split(/(?<=\.)\s*/).filter(Boolean).forEach(function(w){var s=document.createElement("span");s.textContent=w;kw.appendChild(s)});
+  var av=document.getElementById("jx-avatar");
+  if(cfg.avatarUrl){av.innerHTML="";var im=new Image();im.alt="";im.src=cfg.avatarUrl;av.appendChild(im)}
+  else av.textContent=(cfg.person.name||"").split(/\s+/).map(function(w){return w[0]}).slice(0,2).join("").toUpperCase();
+  var v=document.getElementById("jx-v"),ic=document.getElementById("jx-vicon");
+  v.hidden=!cfg.verified.show;v.style.setProperty("--vsize",cfg.verified.size+"px");
+  document.getElementById("jx-vtip").textContent=cfg.verified.label;v.setAttribute("aria-label",cfg.verified.label);
+  ic.innerHTML="";
+  if(cfg.verified.iconUrl){var i2=new Image();i2.alt="";i2.src=cfg.verified.iconUrl;i2.onerror=function(){ic.innerHTML=CHECK};ic.appendChild(i2)}else ic.innerHTML=CHECK;
+  try{localStorage.setItem(KEY,JSON.stringify(cfg))}catch(e){}
+}
+var vb=document.getElementById("jx-v");
+vb.addEventListener("click",function(e){e.stopPropagation();vb.setAttribute("aria-expanded",vb.getAttribute("aria-expanded")!=="true")});
+document.addEventListener("click",function(){vb.setAttribute("aria-expanded","false")});
+
+/* Form */
+var F=[
+ ["Umum",[["accent","Warna aksen","color"],["font","Font (nama Google Fonts)","text"],["avatarUrl","URL foto profil (kosong = inisial)","text"]]],
+ ["Hero",[["hero.title","Judul","text"],["hero.tagline","Tagline","text"],["hero.desc","Deskripsi","area"]]],
+ ["Our Vision",[["show.vision","Tampilkan section","chk"],["vision.title","Judul","text"],["vision.text","Teks","area"]]],
+ ["Behind Joomax",[["show.behind","Tampilkan section","chk"],["behind.title","Judul","text"],["behind.keywords","Keyword (akhiri tiap kata dengan titik)","text"],["behind.text","Teks","area"]]],
+ ["Profil",[["show.person","Tampilkan section","chk"],["person.name","Nama","text"],["person.role","Jabatan","text"],["person.quote","Quote","text"]]],
+ ["Simbol Verified",[["verified.show","Tampilkan simbol","chk"],["verified.label","Tulisan saat diklik","text"],["verified.iconUrl","URL ikon","text"],["verified.size","Ukuran (px)","text"]]]
+];
+var box=document.getElementById("fields"),inputs=[];
+function build(){
+  box.innerHTML="";inputs=[];
+  F.forEach(function(g){
+    var h=document.createElement("h4");h.textContent=g[0];box.appendChild(h);
+    g[1].forEach(function(f){
+      var id="f-"+f[0],w=document.createElement("div"),el,val=get(cfg,f[0]);
+      if(f[2]==="chk"){w.className="chk";el=document.createElement("input");el.type="checkbox";el.id=id;
+        var l=document.createElement("label");l.htmlFor=id;l.textContent=f[1];w.append(el,l)}
+      else{var lb=document.createElement("label");lb.htmlFor=id;lb.textContent=f[1];w.appendChild(lb);
+        el=document.createElement(f[2]==="area"?"textarea":"input");if(f[2]!=="area")el.type=f[2];el.id=id;w.appendChild(el)}
+      el.addEventListener("input",function(){
+        var x=f[2]==="chk"?el.checked:el.value;if(f[0]==="verified.size")x=parseInt(x)||22;
+        set(f[0],x);render()});
+      inputs.push([el,f]);box.appendChild(w)})});
+  fill();
+}
+function fill(){inputs.forEach(function(p){var v=get(cfg,p[1][0]);if(p[1][2]==="chk")p[0].checked=!!v;else p[0].value=v})}
+
+/* Unduh */
+function download(name,text,type){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:type}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},500)}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
+function exportHTML(){
+  var c=root.cloneNode(true);
+  c.querySelectorAll("[data-s][hidden]").forEach(function(e){e.remove()});
+  var v=c.querySelector("#jx-v");if(v&&v.hidden)v.remove();
+  c.querySelectorAll("[data-k],[data-s]").forEach(function(e){e.removeAttribute("data-k");e.removeAttribute("data-s")});
+  c.querySelectorAll("[hidden]").forEach(function(e){e.removeAttribute("hidden")});
+  var vv=c.querySelector("#jx-v");if(vv)vv.setAttribute("aria-expanded","false");
+  var base=document.getElementById("jx-base").textContent.trim();
+  var fam=cfg.font.trim().replace(/\s+/g,"+");
+  var js='(function(){var C=\''+CHECK.replace(/'/g,"\\'")+'\';var v=document.getElementById("jx-v");if(!v)return;'
+   +'var i=document.querySelector("#jx-vicon img");if(i)i.onerror=function(){document.getElementById("jx-vicon").innerHTML=C};'
+   +'v.addEventListener("click",function(e){e.stopPropagation();v.setAttribute("aria-expanded",v.getAttribute("aria-expanded")!=="true")});'
+   +'document.addEventListener("click",function(){v.setAttribute("aria-expanded","false")});'
+   +'document.addEventListener("keydown",function(e){if(e.key==="Escape")v.setAttribute("aria-expanded","false")})})();';
+  return '<!DOCTYPE html>\n<html lang="id">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(cfg.hero.title)+'</title>\n'
+   +'<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family='+fam+':wght@400;500;600;700&display=swap">\n'
+   +'<style>\n'+base+'\n</style>\n</head>\n<body style="margin:0">\n\n'+c.outerHTML+'\n\n<script>\n'+js+'\n<\/script>\n</body>\n</html>\n';
+}
+document.getElementById("dl").onclick=function(){download("index.html",exportHTML(),"text/html");toast("index.html diunduh")};
+document.getElementById("dj").onclick=function(){download("joomax-about-config.json",JSON.stringify(cfg,null,2),"application/json");toast("Config diunduh")};
+var jf=document.getElementById("jf");
+document.getElementById("ij").onclick=function(){jf.click()};
+jf.onchange=function(){var f=jf.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{cfg=merge(clone(DEFAULTS),JSON.parse(r.result));fill();render();toast("Config diimpor")}catch(e){toast("File JSON tidak valid")}};r.readAsText(f);jf.value=""};
+document.getElementById("rs").onclick=function(){cfg=clone(DEFAULTS);fill();render();toast("Dikembalikan ke awal")};
+build();render();
+</script>
+</body>
+</html>

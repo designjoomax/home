@@ -1,0 +1,35 @@
+{
+  "accent": "#e4002b",
+  "font": "Poppins",
+  "verified": {
+    "show": true,
+    "label": "Verified",
+    "iconUrl": "https://raw.githubusercontent.com/designjoomax/home/main/assets/icon/Verified.png",
+    "size": 22
+  },
+  "avatarUrl": "https://raw.githubusercontent.com/designjoomax/home/main/About/assets/profile/Fikrispt.jpg",
+  "show": {
+    "vision": true,
+    "behind": true,
+    "person": true
+  },
+  "hero": {
+    "title": "About Joomax",
+    "tagline": "Technology made simple. Creativity without limits.",
+    "desc": "Joomax adalah ruang digital yang menghadirkan berbagai tools, ide, dan solusi untuk mendukung produktivitas serta kreativitas melalui teknologi.\n\nKami percaya bahwa teknologi seharusnya membuat segalanya lebih mudah, praktis, dan bermanfaat."
+  },
+  "vision": {
+    "title": "Our Vision",
+    "text": "Menghadirkan pengalaman digital yang sederhana, inovatif, dan bermanfaat bagi semua."
+  },
+  "behind": {
+    "title": "Behind Joomax",
+    "keywords": "Ideas. Design. Technology.",
+    "text": "Joomax lahir dari perpaduan Kreativitas, Desain, dan teknologi untuk menciptakan pengalaman digital yang lebih baik."
+  },
+  "person": {
+    "name": "Fikri Saputra",
+    "role": "Developer & Creative Designer",
+    "quote": "Turning ideas into reality."
+  }
+}
