@@ -9,18 +9,18 @@ window.JOOMAX_ANNOUNCE = {
     "enabled": true,
     "position": "bottom-center",
     "x": 20,
-    "y": 9,
+    "y": 20,
     "z": 9999,
     "entrance": "fade",
     "closable": true,
-    "remember": true,
+    "remember": "off",
     "delay": 0,
     "autoHide": 0
   },
   "icon": {
     "type": "megaphone",
     "custom": "",
-    "size": 34,
+    "size": 35,
     "divider": true
   },
   "color": {
@@ -41,10 +41,28 @@ window.JOOMAX_ANNOUNCE = {
   },
   "text": {
     "anim": "marquee",
-    "speed": 60,
+    "speed": 73,
     "interval": 4,
     "size": 16,
     "weight": 500,
-    "sep": "•"
+    "sep": "•",
+    "fadeEdges": true
+  },
+  "fx": {
+    "glow": false,
+    "glowColor": "#f5105a",
+    "glowSize": 13,
+    "glowPulse": false,
+    "shine": true,
+    "shineEvery": 8,
+    "border": "none",
+    "borderColor": "#ffffff",
+    "borderWidth": 2,
+    "borderSpeed": 6,
+    "flow": false,
+    "flowSpeed": 8,
+    "bulbs": false,
+    "bulbColor": "#ffffff",
+    "bulbSpeed": 0.6
   }
 };
