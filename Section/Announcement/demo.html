@@ -23,6 +23,10 @@ body{margin:0;font-family:Poppins,sans-serif;background:#e9e9ee;color:#17171c}
 .stage{overflow:auto;padding:24px;min-width:0}
 .page{background:#fff;border-radius:16px;box-shadow:0 20px 50px -20px rgba(0,0,0,.25);max-width:1100px;margin:0 auto;padding:64px 40px 72px;text-align:center}
 .page h1{font-size:clamp(2rem,5vw,3.4rem);margin:0 0 8px;letter-spacing:-.03em}.page p{margin:0 0 44px;color:#e4002b;font-weight:500}
+.bar2{display:flex;gap:8px;max-width:1100px;margin:0 auto 12px;flex-wrap:wrap}.bar2 input{flex:1;min-width:220px;border:1px solid #ddd;border-radius:10px;padding:9px 12px;font:13px Poppins,sans-serif}
+.bar2 button,.bar2 select{border:1px solid #ddd;background:#fff;border-radius:10px;padding:9px 12px;font:500 13px Poppins,sans-serif;cursor:pointer}.bar2 .go{background:#17171c;color:#fff;border-color:#17171c}
+.frame{position:relative;margin:0 auto;max-width:100%;height:calc(100vh - 150px);min-height:420px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 20px 50px -20px rgba(0,0,0,.3);transition:width .25s}
+.frame iframe{width:100%;height:100%;border:0;display:block}.ov{position:absolute;inset:0;pointer-events:none}.note{max-width:1100px;margin:10px auto 0;font-size:12px;color:#6b6b76;line-height:1.5}
 .toast{position:fixed;right:20px;bottom:20px;background:#17171c;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;opacity:0;transition:.2s;pointer-events:none}.toast.on{opacity:1}
 @media(max-width:860px){.app{grid-template-columns:1fr;height:auto}.fields{max-height:50vh}.stage{padding:12px}.page{padding:40px 16px}}
 </style></head><body>
@@ -32,14 +36,19 @@ body{margin:0;font-family:Poppins,sans-serif;background:#e9e9ee;color:#17171c}
 <div class="acts"><button class="main" id="dl">Unduh announcement.config.js</button>
 <div class="two"><button id="cp">Salin kode embed</button><button id="im">Impor config</button></div>
 <button id="rs">Reset ke awal</button><input type="file" id="jf" accept=".js,.json" hidden></div></aside>
-<main class="stage"><div class="page"><h1>Welcome to Joomax</h1><p>Everything You Need, In One Place.</p><div id="joomax-announcement"></div></div></main>
+<main class="stage">
+<div class="bar2"><input id="pu" type="text" placeholder="Tempel link website tujuan, contoh: https://designjoomax.github.io/home/"><button class="go" id="pg">Muat preview</button><button id="pm">Halaman contoh</button>
+<select id="pd"><option value="100%">Desktop</option><option value="820px">Tablet</option><option value="390px">Mobile</option></select><button id="pr">Putar ulang animasi</button></div>
+<div class="frame" id="fr"><iframe id="if" title="Preview"></iframe><div class="ov"><div id="joomax-announcement"></div></div></div>
+<p class="note">Scroll di dalam preview untuk melihat announcement tetap menempel. Beberapa website memblokir preview (layar kosong): itu aturan dari website tujuannya, pakai "Halaman contoh" sebagai gantinya. Delay dan auto-hide hanya aktif di website asli.</p>
+</main>
 </div><div class="toast" id="toast"></div>
 <script>window.JOOMAX_ANNOUNCE_MANUAL=true;</script>
 <script>
 /* Joomax Announcement Widget - announcement.js
    Pasang: <div id="joomax-announcement"></div> + announcement.config.js + announcement.js */
 (function(){
-var D={"sheet": {"url": "", "tab": "", "refresh": 5}, "manual": "Berikut adalah Pemberitahuan Mengenai Website ini...", "icon": {"type": "megaphone", "custom": "", "size": 30, "divider": true}, "color": {"mode": "gradient3", "c1": "#ff6b4a", "c2": "#f5105a", "c3": "#6a1170", "angle": 90, "text": "#ffffff", "icon": "#ffffff"}, "shape": {"width": "full", "custom": 900, "height": 52, "radius": 22, "shadow": false}, "text": {"anim": "marquee", "speed": 70, "interval": 4, "size": 18, "weight": 500, "sep": "•"}};
+var D={"sheet": {"url": "", "tab": "", "refresh": 5}, "manual": "Selamat Datang di Joomax!\nTerima kasih Telah Berkunjung\nExplore. Create. Discover.\nTemukan berbagai Tools dan Inspirasi Digital di Joomax\nDeveloper & Creative Designer — Fikri Saputra", "float": {"enabled": true, "position": "top-center", "x": 20, "y": 70, "z": 9999, "entrance": "slide", "closable": true, "remember": true, "delay": 0, "autoHide": 0}, "icon": {"type": "megaphone", "custom": "", "size": 30, "divider": true}, "color": {"mode": "gradient3", "c1": "#ff6b4a", "c2": "#f5105a", "c3": "#6a1170", "angle": 90, "text": "#ffffff", "icon": "#ffffff"}, "shape": {"width": "1100", "custom": 900, "height": 52, "radius": 22, "shadow": true}, "text": {"anim": "marquee", "speed": 70, "interval": 4, "size": 18, "weight": 500, "sep": "•"}};
 var IC={megaphone:"M18 11v2h4v-2h-4zm-2 6.61c.96.71 2.21 1.65 3.2 2.39.4-.53.8-1.07 1.2-1.6-.99-.74-2.24-1.68-3.2-2.4-.4.54-.8 1.08-1.2 1.61zM20.4 5.6c-.4-.53-.8-1.07-1.2-1.6-.99.74-2.24 1.68-3.2 2.4.4.53.8 1.07 1.2 1.6.96-.72 2.21-1.65 3.2-2.4zM4 9c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2h1v4h2v-4h1l5 3V6L8 9H4zm11.5 3c0-1.33-.58-2.53-1.5-3.35v6.69c.92-.81 1.5-2.01 1.5-3.34z",
 bell:"M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z",
 info:"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z",
@@ -57,20 +66,21 @@ function fromManual(s){return(Array.isArray(s)?s:String(s||"").split("\n")).map(
 function node(it){var e=document.createElement(it.l?"a":"span");e.textContent=it.t;if(it.l){e.href=it.l;e.target="_blank";e.rel="noopener"}return e}
 
 function W(host,cfg){
- var c=mrg(cl(D),cfg||{}),root=host.shadowRoot||host.attachShadow({mode:"open"}),T=[],items=[],run=0,iv,ld,rz,key="";
- root.innerHTML='<style></style><div class="bar"><span class="ico"></span><i class="dv"></i><div class="vp"><div class="tr"></div></div></div>';
- var st=root.querySelector("style"),ico=root.querySelector(".ico"),dv=root.querySelector(".dv"),vp=root.querySelector(".vp"),tr=root.querySelector(".tr");
+ var c=mrg(cl(D),cfg||{}),root=host.shadowRoot||host.attachShadow({mode:"open"}),T=[],items=[],run=0,iv,ld,rz,key="",ft,fh;
+ root.innerHTML='<style></style><div class="bar"><span class="ico"></span><i class="dv"></i><div class="vp"><div class="tr"></div></div><button class="x" type="button" aria-label="Tutup" hidden>&times;</button></div>';
+ var st=root.querySelector("style"),bar=root.querySelector(".bar"),xb=root.querySelector(".x"),ico=root.querySelector(".ico"),dv=root.querySelector(".dv"),vp=root.querySelector(".vp"),tr=root.querySelector(".tr");
  function stat(k,n,why){if(typeof c.onStatus==="function")c.onStatus(k,n,why)}
  function style(){var s=c.shape,k=c.color,t=c.text,i=c.icon,w=s.width==="full"?"100%":s.width==="custom"?(+s.custom||600)+"px":(+s.width)+"px";
   var bg=k.mode==="solid"?k.c1:"linear-gradient("+k.angle+"deg,"+k.c1+","+k.c2+(k.mode==="gradient3"?","+k.c3:"")+")";
   st.textContent="[hidden]{display:none!important}:host{display:block}*{box-sizing:border-box}"
-  +".bar{display:flex;align-items:center;gap:16px;margin:0 auto;width:"+w+";max-width:100%;height:"+s.height+"px;padding:0 "+Math.max(16,Math.round(s.height*.4))+"px;background:"+bg+";color:"+k.text+";border-radius:"+s.radius+"px;overflow:hidden;font-family:inherit;font-size:"+t.size+"px;font-weight:"+t.weight+";line-height:1.3"+(s.shadow?";box-shadow:0 10px 26px -12px rgba(0,0,0,.45)":"")+"}"
+  +".bar{display:flex;align-items:center;gap:16px;margin:0 auto;width:"+(c.float.enabled?"100%":w)+";max-width:100%;height:"+s.height+"px;padding:0 "+Math.max(16,Math.round(s.height*.4))+"px;background:"+bg+";color:"+k.text+";border-radius:"+s.radius+"px;overflow:hidden;font-family:inherit;font-size:"+t.size+"px;font-weight:"+t.weight+";line-height:1.3"+(s.shadow?";box-shadow:0 10px 26px -12px rgba(0,0,0,.45)":"")+"}"
   +".ico{flex:none;display:flex;align-items:center;color:"+k.icon+"}.ico svg{width:"+i.size+"px;height:"+i.size+"px;fill:currentColor}.ico img{width:"+i.size+"px;height:"+i.size+"px;object-fit:contain}"
   +".dv{flex:none;width:1px;height:55%;background:currentColor;color:"+k.icon+";opacity:.4}"
   +".vp{flex:1;min-width:0;height:100%;display:flex;align-items:center;overflow:hidden}.tr{white-space:nowrap;max-width:100%}"
   +".mq{display:flex;max-width:none;will-change:transform;animation:m linear infinite}.bar:hover .mq{animation-play-state:paused}"
   +".g{display:inline-flex;flex:none;align-items:center}.sp{padding:0 1em;opacity:.7}@keyframes m{to{transform:translateX(calc(-1*var(--g)))}}"
   +".cy{overflow:hidden;text-overflow:ellipsis}.ty:after{content:'';border-right:2px solid;margin-left:2px;animation:b 1s steps(1) infinite}@keyframes b{50%{opacity:0}}"
+  +".x{all:unset;flex:none;cursor:pointer;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;font-size:22px;line-height:1;opacity:.85;color:"+k.icon+"}.x:hover{background:rgba(255,255,255,.22)}"
   +"a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}@media(prefers-reduced-motion:reduce){.mq{animation:none}}"}
  function icon(){var i=c.icon,t=i.type;ico.hidden=t==="none";dv.hidden=t==="none"||!i.divider;ico.innerHTML="";ico.style.fontSize="";if(t==="none")return;
   if(t==="custom"){var v=(i.custom||"").trim();if(/^(https?:|\/|\.|data:)/.test(v)){var im=new Image();im.alt="";im.src=v;ico.appendChild(im)}else{ico.textContent=v;ico.style.fontSize=i.size+"px"}}
@@ -99,11 +109,26 @@ function W(host,cfg){
    try{localStorage.setItem("jx-ann:"+u,JSON.stringify(it))}catch(e){}items=it;stat("sheet",it.length);render()
   }).catch(function(){var ca;try{ca=JSON.parse(localStorage.getItem("jx-ann:"+u))}catch(e){}if(ca&&ca.length){items=ca;stat("cache",ca.length);render()}else manual("fail")})}
  function sched(){clearInterval(iv);if((c.sheet.url||"").trim()&&+c.sheet.refresh>0)iv=setInterval(load,c.sheet.refresh*60000)}
- function update(n){c=mrg(cl(D),n||{});style();icon();var k=JSON.stringify([c.sheet,c.manual]);
+ function place(){var f=c.float,s=c.shape,H=host.style;H.cssText="";if(!f.enabled)return;
+  var X=+f.x||0,ox=X+"px",oy=(+f.y||0)+"px",p=String(f.position||"top-center").split("-"),v=p[0],h=p[1],tx="0",ty="0";
+  H.position=c.preview?"absolute":"fixed";H.zIndex=f.z||9999;H.pointerEvents="auto";
+  if(s.width==="full"){H.left=ox;H.right=ox}
+  else{H.width=(s.width==="custom"?(+s.custom||600):+s.width)+"px";H.maxWidth="calc(100% - "+2*X+"px)";if(h==="left")H.left=ox;else if(h==="right")H.right=ox;else{H.left="50%";tx="-50%"}}
+  if(v==="top")H.top=oy;else if(v==="bottom")H.bottom=oy;else{H.top="50%";ty="-50%"}
+  if(tx!=="0"||ty!=="0")H.transform="translate("+tx+","+ty+")"}
+ function vis(){host.style.display="";host.style.visibility="";var f=c.float;if(f.enabled&&f.closable&&f.remember&&!c.preview){try{if(sessionStorage.getItem("jx-ann-x"))host.style.display="none"}catch(e){}}}
+ function enter(){var f=c.float,e=f.entrance,p=String(f.position).split("-"),k,d;if(!f.enabled||e==="none")return;
+  if(e==="fade")k=[{opacity:0},{opacity:1}];else if(e==="zoom")k=[{opacity:0,transform:"scale(.85)"},{opacity:1,transform:"none"}];
+  else{d=p[0]==="top"?"translateY(-160%)":p[0]==="bottom"?"translateY(160%)":p[1]==="left"?"translateX(-160%)":"translateX(160%)";k=[{transform:d,opacity:0},{transform:"none",opacity:1}]}
+  bar.animate(k,{duration:550,easing:"cubic-bezier(.2,.8,.2,1)"})}
+ function intro(live){clearTimeout(ft);clearTimeout(fh);var f=c.float;vis();if(!f.enabled)return;var d=live&&!c.preview?(+f.delay||0)*1000:0;if(d)host.style.visibility="hidden";
+  ft=setTimeout(function(){host.style.visibility="";enter();if(live&&!c.preview&&+f.autoHide>0)fh=setTimeout(function(){host.style.display="none"},f.autoHide*1000)},d)}
+ xb.addEventListener("click",function(){host.style.display="none";if(c.float.remember&&!c.preview){try{sessionStorage.setItem("jx-ann-x","1")}catch(e){}}});
+ function update(n){c=mrg(cl(D),n||{});style();icon();place();vis();xb.hidden=!(c.float.enabled&&c.float.closable);var k=JSON.stringify([c.sheet,c.manual]);
   if(k!==key){key=k;clearTimeout(ld);ld=setTimeout(load,350);sched()}else render()}
  if(window.ResizeObserver)new ResizeObserver(function(){if(c.text.anim==="marquee"){clearTimeout(rz);rz=setTimeout(render,250)}}).observe(vp);
  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(c.text.anim==="marquee")render()});
- update(c);return{update:update,reload:load}
+ update(c);intro(true);return{update:update,reload:load,replay:function(){place();intro(false)}}
 }
 window.JoomaxAnnounce={mount:W,defaults:D};
 var sc=document.currentScript;
@@ -114,7 +139,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 
 </script>
 <script>
-var D=JoomaxAnnounce.defaults,KEY="joomax-ann-demo",cfg,inst;
+var D=JoomaxAnnounce.defaults,KEY="joomax-ann-demo2",cfg,inst;
 function cl(o){return JSON.parse(JSON.stringify(o))}
 function mrg(a,b){for(var k in b){var v=b[k];if(v&&typeof v==="object"&&!Array.isArray(v))mrg(a[k]=a[k]||{},v);else a[k]=v}return a}
 function get(o,p){return p.split(".").reduce(function(x,k){return x&&x[k]},o)}
@@ -124,10 +149,11 @@ cfg=cl(D);try{var sv=localStorage.getItem(KEY);if(sv)mrg(cfg,JSON.parse(sv))}cat
 var MSG={sheet:function(n){return"Sumber: Spreadsheet ("+n+" pengumuman)"},cache:function(n){return"Spreadsheet gagal dibuka, pakai data tersimpan ("+n+")"},
  manual:function(n,w){return(w==="fail"?"Spreadsheet gagal dibaca, pakai teks manual":w==="empty"?"Spreadsheet kosong, pakai teks manual":"Sumber: teks manual")+" ("+n+")"}};
 function onStatus(k,n,w){document.getElementById("sts").textContent=MSG[k](n,w)}
-function push(){inst.update(Object.assign({},cfg,{onStatus:onStatus}));try{localStorage.setItem(KEY,JSON.stringify(cfg))}catch(e){}}
-inst=JoomaxAnnounce.mount(document.getElementById("joomax-announcement"),Object.assign({},cfg,{onStatus:onStatus}));
+function push(){inst.update(Object.assign({},cfg,{onStatus:onStatus,preview:true}));try{localStorage.setItem(KEY,JSON.stringify(cfg))}catch(e){}}
+inst=JoomaxAnnounce.mount(document.getElementById("joomax-announcement"),Object.assign({},cfg,{onStatus:onStatus,preview:true}));
 var S=[["Sumber Pengumuman",[["sheet.url","Link Google Spreadsheet","text"],["sheet.tab","Nama tab (opsional)","text"],["sheet.refresh","Muat ulang tiap (menit, 0 = mati)","num",0,1440],["manual","Teks manual (cadangan)","area"],
  ["","Prioritas: spreadsheet. Kalau link kosong atau gagal dibaca, teks manual yang tampil. Satu pengumuman per baris, format: teks | link (link opsional). Spreadsheet harus dibagikan \"Anyone with the link\" (Viewer). Kolom A = teks, B = link, C = aktif (TRUE/FALSE). Baris pertama boleh judul: text, link, aktif.","hint"]]],
+["Melayang & Posisi",[["float.enabled","Melayang (tetap menempel saat scroll)","chk"],["float.position","Posisi","sel",[["top-left","Kiri atas"],["top-center","Tengah atas"],["top-right","Kanan atas"],["middle-left","Kiri tengah"],["middle-right","Kanan tengah"],["bottom-left","Kiri bawah"],["bottom-center","Tengah bawah"],["bottom-right","Kanan bawah"]]],["float.x","Jarak dari sisi kiri/kanan (px)","range",0,200],["float.y","Jarak dari sisi atas/bawah (px)","range",0,300],["float.z","Layer (z-index)","num",1,2147483647],["float.entrance","Animasi muncul","sel",[["slide","Geser dari tepi"],["fade","Fade"],["zoom","Zoom"],["none","Tanpa animasi"]]],["float.closable","Tombol tutup (x)","chk"],["float.remember","Ingat kalau sudah ditutup (selama tab dibuka)","chk"],["float.delay","Muncul setelah (detik)","range",0,15],["float.autoHide","Hilang otomatis setelah (detik, 0 = tidak)","range",0,120],["","Kalau posisi di atas, beri jarak sekitar 70px supaya tidak menutupi header yang ikut menempel. Chat bubble ada di kanan bawah, jadi hindari posisi itu.","hint"]]],
 ["Ikon",[["icon.type","Ikon","sel",[["megaphone","Megaphone"],["bell","Lonceng"],["info","Info"],["star","Bintang"],["custom","Custom (emoji / URL gambar)"],["none","Tanpa ikon"]]],["icon.custom","Isi custom: emoji atau URL gambar","text"],["icon.size","Ukuran ikon (px)","range",14,64],["icon.divider","Garis pemisah ikon","chk"]]],
 ["Warna",[["color.mode","Mode warna","sel",[["solid","Satu warna"],["gradient","Gradasi 2 warna"],["gradient3","Gradasi 3 warna"]]],["color.c1","Warna 1","color"],["color.c2","Warna 2","color"],["color.c3","Warna 3","color"],["color.angle","Arah gradasi (derajat)","range",0,360],["color.text","Warna teks","color"],["color.icon","Warna ikon","color"]]],
 ["Bentuk",[["shape.width","Lebar","sel",[["full","Full lebar"],["1100","Lebar (1100px)"],["760","Sedang (760px)"],["480","Kecil (480px)"],["custom","Custom"]]],["shape.custom","Lebar custom (px)","num",200,2400],["shape.height","Tinggi (px)","range",32,120],["shape.radius","Radius sudut (px)","range",0,60],["shape.shadow","Bayangan","chk"]]],
@@ -150,10 +176,18 @@ function fill(){ins.forEach(function(p){var v=get(cfg,p[1][0]),t=p[1][2];if(t===
 function dl(n,t,m){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:m}));a.download=n;document.body.appendChild(a);a.click();a.remove()}
 function cfgJs(){return"window.JOOMAX_ANNOUNCE = "+JSON.stringify(cfg,null,2)+";\n"}
 document.getElementById("dl").onclick=function(){dl("announcement.config.js",cfgJs(),"text/javascript");toast("announcement.config.js diunduh")};
-document.getElementById("cp").onclick=function(){var s='<div id="joomax-announcement"></div>\n<script src="https://designjoomax.github.io/announcement/announcement.config.js"><\/script>\n<script src="https://designjoomax.github.io/announcement/announcement.js"><\/script>';
+document.getElementById("cp").onclick=function(){var s='<div id="joomax-announcement"></div>\n<script src="https://designjoomax.github.io/home/Section/Announcement/announcement.config.js"><\/script>\n<script src="https://designjoomax.github.io/home/Section/Announcement/announcement.js"><\/script>';
  (navigator.clipboard?navigator.clipboard.writeText(s):Promise.reject()).then(function(){toast("Kode embed tersalin")},function(){prompt("Salin kode:",s)})};
 var jf=document.getElementById("jf");document.getElementById("im").onclick=function(){jf.click()};
 jf.onchange=function(){var f=jf.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var t=r.result,j=JSON.parse(t.slice(t.indexOf("{"),t.lastIndexOf("}")+1));cfg=mrg(cl(D),j);fill();push();toast("Config diimpor")}catch(e){toast("File tidak valid")}};r.readAsText(f);jf.value=""};
 document.getElementById("rs").onclick=function(){cfg=cl(D);fill();push();toast("Dikembalikan ke awal")};
-build();push();
+var pu=document.getElementById("pu"),ifr=document.getElementById("if"),PK="joomax-ann-prev";
+var MOCK='<style>body{margin:0;font-family:Poppins,Arial,sans-serif;color:#17171c}header{position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;padding:16px 24px;font-weight:700}main{max-width:760px;margin:0 auto;padding:60px 24px}h1{font-size:46px;margin:0 0 12px}p{color:#666;line-height:1.8;margin:0 0 28px}</style><header>Joomax (halaman contoh)</header><main><h1>Welcome to Joomax</h1>'+new Array(12).join("<p>Konten contoh supaya halaman bisa di-scroll. Lihat bagaimana announcement tetap menempel di layar ketika halaman digulir ke bawah.</p>")+'</main>';
+function go(){var u=pu.value.trim();if(!u){ifr.removeAttribute("src");ifr.srcdoc=MOCK;return}if(!/^https?:\/\//i.test(u))u="https://"+u;pu.value=u;ifr.removeAttribute("srcdoc");ifr.src=u;try{localStorage.setItem(PK,u)}catch(e){}}
+pu.value="https://designjoomax.github.io/home/";try{pu.value=localStorage.getItem(PK)||pu.value}catch(e){}
+document.getElementById("pg").onclick=go;pu.onkeydown=function(e){if(e.key==="Enter")go()};
+document.getElementById("pm").onclick=function(){pu.value="";go()};
+document.getElementById("pd").onchange=function(e){document.getElementById("fr").style.width=e.target.value;setTimeout(push,260)};
+document.getElementById("pr").onclick=function(){inst.replay()};
+build();push();go();
 </script></body></html>
