@@ -383,9 +383,51 @@ JoomaxSchedule.init('#joomax-schedule', {
   -->
 
 
- <!-- Support --> 
-<script src="https://cdn.jsdelivr.net/gh/fixsarts/widgets@main/Support/js/support-config.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/fixsarts/widgets@main/Support/js/support-widget.js"></script>
+<!-- Support Widget -->
+<script>
+window.SUPPORT_CONFIG = {
+  "orientation": "portrait",
+  "position": {
+    "mode": "floating",
+    "corner": "bottom-left",
+    "offsetX": 16,
+    "offsetY": 62
+  },
+  "text": {
+    "subtitle": "Suka dengan Website ini?",
+    "description": "Dukung Pengembangan dan Kreativitasnya.",
+    "instructions": "Silahkan Scan QRIS untuk mendukung Creator, Thanks!",
+    "thanks": "Terima kasih! Dukunganmu sangat berarti untuk Pengembangan Website ini"
+  },
+  "launcherButton": {
+    "label": "Support Sekarang"
+  },
+  "popupButton": {
+    "label": "Saya sudah Support"
+  },
+  "closeButton": {
+    "show": true,
+    "remember": "never",
+    "alignIcon": false,
+    "size": 30,
+    "iconSize": 15,
+    "offsetX": 16,
+    "offsetY": 16,
+    "background": "#e5edff",
+    "color": "#3d3f4d"
+  },
+  "icon": {
+    "name": "gift"
+  },
+  "size": {
+    "scale": 70,
+    "width": 240,
+    "padding": 15
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/gh/fixsarts/widgets@v1.0.2/Support/js/support-widget.js"></script>
+  
 
  <!-- Chat widget (floating) --> 
 <script src="https://fixsarts.github.io/widgets/Chat/Model1/dist/chat.js"></script>
