@@ -42,6 +42,8 @@ Jadwal Kerja/
 <script>
   JadwalKerja.init('#jadwal-kerja', window.JADWAL_KERJA_CONFIG || {});
 </script>
+<script src="https://fixsarts.github.io/checkout/fa-checkout.js" data-fa-base="/home/Section/Jadwal%20Kerja" defer></script>
+
 ```
 
 - Pakai link **jsDelivr**. Link `github.com` / `raw.githubusercontent.com` tidak bisa dipakai sebagai script.
