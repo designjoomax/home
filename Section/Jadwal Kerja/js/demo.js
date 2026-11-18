@@ -38,10 +38,41 @@ const st = (p, o2) => { const o = get(p), b = parseBg(o.bg), opt = o2 && o2.opt,
   <span data-k="gw" style="${b.g ? '' : 'display:none'}"><input type="color" data-k="c2" value="${b.c2}"><label class="chk"><input type="checkbox" data-k="m" ${b.m ? 'checked' : ''}>Tengah</label><input type="color" data-k="c3" value="${b.c3}" style="${b.m ? '' : 'display:none'}"></span>
   ${noText ? '' : `<label>Teks<input type="color" data-k="tc" value="${hex(o.color)}"></label>`}</div>`; };
 
+/* ---------- file gambar hasil upload: dicatat sebagai PATH (assets/icon/x.png), isi file disimpan terpisah ---------- */
+let ASSETS = {}; try { ASSETS = JSON.parse(store('jkDemoAssets') || '{}') || {}; } catch (e) { ASSETS = {}; }
+const saveAssets = () => { try { localStorage.setItem('jkDemoAssets', JSON.stringify(ASSETS)); } catch (e) {} };
+const isData = u => /^data:/i.test(u || '');
+const extOf = m => m === 'image/jpeg' ? 'jpg' : m === 'image/svg+xml' ? 'svg' : m === 'image/webp' ? 'webp' : 'png';
+const mimeOf = u => (String(u).match(/^data:([^;,]+)/i) || [])[1] || 'image/png';
+const cleanName = n => String(n || 'gambar').replace(/\.[^.]*$/, '').replace(/[^\w\- ]+/g, '').trim().replace(/\s+/g, '-') || 'gambar';
+const uniquePath = (dir, base, ext) => `${dir}${base}.${ext}`;   // nama sama = menimpa file yang sama
+function addAsset(path, url) { ASSETS[path] = { url, mime: mimeOf(url), taken: true }; saveAssets(); }
+const srcOf = u => (ASSETS[u] && ASSETS[u].url) || u;                       // untuk tampilan (preview)
+const pvCfg = () => { const w = x => typeof x === 'string' ? srcOf(x) : Array.isArray(x) ? x.map(w) : x && typeof x === 'object' ? Object.keys(x).reduce((o, k) => (o[k] = w(x[k]), o), {}) : x; return w(cfg); };
+/* data URI lama (hasil upload versi sebelumnya) diubah jadi file di assets/ saat unduh */
+function externalize(c) {
+  const used = {}, byData = {};
+  const give = (dir, base, u) => { if (byData[u]) return byData[u]; const ext = extOf(mimeOf(u)); let p = `${dir}${base}.${ext}`, n = 2; while (used[p]) p = `${dir}${base}-${n++}.${ext}`; used[p] = u; byData[u] = p; return p; };
+  (c.verify && c.verify.plans || []).forEach(pl => { if (isData(pl.thumbImage)) pl.thumbImage = give('assets/thumb/', cleanName(pl.name || pl.id), pl.thumbImage); if (isData(pl.icon)) pl.icon = give('assets/icon/', cleanName(pl.name || pl.id) + '-icon', pl.icon);
+    (pl.features || []).forEach(f => { if (f && isData(f.icon)) f.icon = give('assets/icon/', cleanName(f.text), f.icon); }); });
+  const B = c.badge || {};
+  (B.types || []).forEach(t => { if (isData(t.icon)) t.icon = give('assets/icon/', cleanName(t.id), t.icon); });
+  if (B.unverified && isData(B.unverified.icon)) B.unverified.icon = give('assets/icon/', 'non-verified', B.unverified.icon);
+  (B.people || []).forEach(pp => (pp.labels || []).forEach(l => { if (l && typeof l === 'object' && isData(l.icon)) l.icon = give('assets/icon/', cleanName(l.id), l.icon); }));
+  const files = {}; Object.keys(used).forEach(p => files[p] = used[p]); return files;
+}
+const dataBytes = u => { const b = atob(u.split(',')[1] || ''), a = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; };
+/* kumpulkan semua file gambar yang dipakai config (path yang diupload + data URI lama) */
+function collectAssets(c) {
+  const files = externalize(c), seen = JSON.stringify(c);
+  Object.keys(ASSETS).forEach(p => { if (ASSETS[p].url && seen.indexOf(JSON.stringify(p).slice(1, -1)) >= 0) files[p] = ASSETS[p].url; });
+  return files;
+}
+
 /* ikon: ketik lokasi / link / emoji, atau upload file dari komputer */
 const isPath = u => /[\/.]/.test(u) || /^data:/i.test(u);
-const thumb = u => !u ? '' : isPath(u) ? `<img class="icp" src="${esc(u)}" alt="">` : `<span class="icp emo">${esc(u)}</span>`;
-const iconField = (p, label, big) => { const v = get(p) || ''; return `<div class="fld"><span class="fl">${label}</span><div class="icf"><input type="text" data-p="${p}" data-t="text" list="icons" placeholder="assets/icon/..., https://..., atau emoji" value="${esc(v)}"><button type="button" class="mini" data-upload="${big ? 'big:' : ''}${p}">Upload</button><span class="th">${thumb(v)}</span></div>${v.startsWith('data:') ? `<a class="dl" download="icon.png" href="${esc(v)}">Unduh file hasil upload (simpan ke assets/icon/ agar kode lebih ringkas)</a>` : ''}</div>`; };
+const thumb = u => !u ? '' : isPath(u) ? `<img class="icp" src="${esc(srcOf(u))}" alt="">` : `<span class="icp emo">${esc(u)}</span>`;
+const iconField = (p, label, big) => { const v = get(p) || ''; return `<div class="fld"><span class="fl">${label}</span><div class="icf"><input type="text" data-p="${p}" data-t="text" list="icons" placeholder="assets/icon/..., https://..., atau emoji" value="${esc(v)}"><button type="button" class="mini" data-upload="${big ? 'big:' : ''}${p}">Upload</button><span class="th">${thumb(v)}</span></div>${isData(v) ? `<a class="dl" download="gambar.${extOf(mimeOf(v))}" href="${esc(v)}">Gambar ini masih berupa data panjang. Klik Unduh pengaturan (.zip) dan otomatis jadi file di assets/.</a>` : ASSETS[v] ? `<a class="dl" download="${esc(v.split('/').pop())}" href="${esc(ASSETS[v].url)}">Tercatat sebagai ${esc(v)}. Unduh .zip agar filenya ikut masuk assets/.</a>` : ''}</div>`; };
 function readIcon(file, cb, max = 128, mime = 'image/png') {
   const fr = new FileReader();
   fr.onload = () => { if (file.type === 'image/svg+xml') return cb(fr.result);
@@ -246,7 +277,7 @@ function upd() {
   store('jkDemoCfg4', JSON.stringify(cfg)); fillPJ();
   $('#out').value = buildConfigFile();
   clearTimeout(tm);
-  tm = setTimeout(() => { const ex = inst && inst.isExpanded(); inst && inst.destroy(); $('#pv').innerHTML = ''; const d = document.createElement('div'); $('#pv').appendChild(d); inst = JadwalKerja.init(d, cfg); inst.setEditMode(editOn); if (ex) inst.setExpanded(true); }, 250);
+  tm = setTimeout(() => { const ex = inst && inst.isExpanded(); inst && inst.destroy(); $('#pv').innerHTML = ''; const d = document.createElement('div'); $('#pv').appendChild(d); inst = JadwalKerja.init(d, pvCfg()); inst.setEditMode(editOn); if (ex) inst.setExpanded(true); }, 250);
 }
 function syncEdit() { $('#edit').checked = editOn; $('#hint').textContent = editOn ? 'Mode edit aktif: klik teks, bar shift, atau label di preview untuk membuka pengaturannya. Matikan untuk mencoba popup & tombol seperti pengunjung.' : 'Mode edit mati: preview berfungsi seperti di web asli (coba klik ikon label atau Get Verified).'; inst && inst.setEditMode(editOn); }
 
@@ -378,10 +409,13 @@ $('#tabs').addEventListener('click', e => { const b = e.target.closest('[data-ta
 $('#file').addEventListener('change', e => {
   const f = e.target.files[0]; e.target.value = ''; if (!f) return;
   const big = uploadTarget.startsWith('big:'), tgt = big ? uploadTarget.slice(4) : uploadTarget;
+  const mime = f.type === 'image/jpeg' ? 'image/jpeg' : 'image/png';
   readIcon(f, url => {
-    if (tgt.startsWith('lp:')) { const [i, j] = tgt.slice(3).split('.').map(Number); setLabelField(i, j, 'icon', url); } else set(tgt, url);
-    renderPanel(); upd(); toast('Gambar berhasil diupload. Simpan juga file-nya ke assets/ dan isi lokasinya jika mau kode lebih ringkas.');
-  }, big ? 720 : 128, big ? 'image/jpeg' : 'image/png');
+    const path = uniquePath(big ? 'assets/thumb/' : 'assets/icon/', cleanName(f.name), extOf(mimeOf(url)));
+    addAsset(path, url);
+    if (tgt.startsWith('lp:')) { const [i, j] = tgt.slice(3).split('.').map(Number); setLabelField(i, j, 'icon', path); } else set(tgt, path);
+    renderPanel(); upd(); toast('Tercatat sebagai ' + path + '. Klik "Unduh keduanya (.zip)" supaya file gambarnya ikut masuk folder assets/.');
+  }, big ? 720 : 128, mime);
 });
 
 /* ---------- pemilih ikon benefit ---------- */
@@ -446,7 +480,7 @@ $('#panel').addEventListener('keydown', e => {
 });
 
 /* ---------- simpan hasil: unduh pengaturan (.js) / products.json / zip ---------- */
-const configJs = () => { const c = JSON.parse(JSON.stringify(cfg)); if (c.data.source === 'sheet' && !c.data.fallbackToManual) delete c.data.manual; return JSON.stringify(diff(JadwalKerja.defaults, c) || {}, null, 2); };
+const configJs = () => { const c = JSON.parse(JSON.stringify(cfg)); externalize(c); if (c.data.source === 'sheet' && !c.data.fallbackToManual) delete c.data.manual; return JSON.stringify(diff(JadwalKerja.defaults, c) || {}, null, 2); };
 const CFG_FILE = 'jadwal-kerja.config.js';
 function buildConfigFile() {
   return `/* Pengaturan Jadwal Kerja. Dibuat oleh demo.html (tombol "Unduh pengaturan (.js)").
@@ -466,7 +500,7 @@ function makeZip(files) {                            // zip tanpa kompresi (cuku
   const dt = u16((now.getHours() << 11) | (now.getMinutes() << 5) | (now.getSeconds() >> 1)), dd = u16(((now.getFullYear() - 1980) << 9) | ((now.getMonth() + 1) << 5) | now.getDate());
   const parts = [], cen = []; let off = 0;
   files.forEach(f => {
-    const nm = enc.encode(f.name), d = enc.encode(f.text), crc = crc32(d);
+    const nm = enc.encode(f.name), d = f.bytes || enc.encode(f.text), crc = crc32(d);
     const lh = new Uint8Array([0x50, 0x4b, 3, 4, ...u16(20), ...u16(0x0800), ...u16(0), ...dt, ...dd, ...u32(crc), ...u32(d.length), ...u32(d.length), ...u16(nm.length), ...u16(0), ...nm]);
     cen.push(new Uint8Array([0x50, 0x4b, 1, 2, ...u16(20), ...u16(20), ...u16(0x0800), ...u16(0), ...dt, ...dd, ...u32(crc), ...u32(d.length), ...u32(d.length), ...u16(nm.length), ...u16(0), ...u16(0), ...u16(0), ...u16(0), ...u32(0), ...u32(off), ...nm]));
     parts.push(lh, d); off += lh.length + d.length;
@@ -478,8 +512,9 @@ function download(kind) {
   const FOLDER = 'Jadwal Kerja/', warn = $('#fawarn') && $('#fawarn').textContent;
   if (kind === 'config') dlFile(CFG_FILE, buildConfigFile(), 'text/javascript');
   else if (kind === 'json') dlFile('products.json', productsText(), 'application/json');
-  else dlFile('Jadwal_Kerja_update.zip', makeZip([{ name: FOLDER + 'js/' + CFG_FILE, text: buildConfigFile() }, { name: FOLDER + 'data/products.json', text: productsText() }]));
-  toast(kind === 'config' ? CFG_FILE + ' diunduh. Timpa file lama di folder Jadwal Kerja/js/.' : kind === 'json' ? 'products.json diunduh. Timpa file lama di Jadwal Kerja/data/.' : 'Zip diunduh. Ekstrak ke folder induk Jadwal Kerja dan timpa file lama.');
+  else { const c = JSON.parse(JSON.stringify(cfg)), ex = collectAssets(c), imgs = Object.keys(ex).map(p => ({ name: FOLDER + p, bytes: dataBytes(ex[p]) }));
+    dlFile('Jadwal_Kerja_update.zip', makeZip([{ name: FOLDER + 'js/' + CFG_FILE, text: buildConfigFile() }, { name: FOLDER + 'data/products.json', text: productsText() }].concat(imgs))); }
+  toast(kind === 'config' ? CFG_FILE + ' diunduh. Timpa file lama di folder Jadwal Kerja/js/. Kalau ada gambar baru, pakai tombol .zip supaya assets/ ikut.' : kind === 'json' ? 'products.json diunduh. Timpa file lama di Jadwal Kerja/data/.' : 'Zip diunduh (termasuk file gambar di assets/). Ekstrak ke folder induk Jadwal Kerja dan timpa file lama.');
   if (warn && kind !== 'config') setTimeout(() => toast('Periksa tab Paket: ' + warn), 2800);
 }
 document.addEventListener('click', e => { const b = e.target.closest('[data-dl]'); if (b) download(b.dataset.dl); });
