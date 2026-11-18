@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jadwal Kerja - Contoh Pemakaian</title>
+</head>
+<body style="margin:0;background:#fff">
+
+  <!-- 1. Tempat section muncul -->
+  <div id="jadwal-kerja"></div>
+
+  <!-- 2. Load script (css/jadwal-kerja.css dan assets/ ikut dimuat otomatis) -->
+  <script src="js/jadwal-kerja.js"></script>
+  <!-- Setelah diupload ke GitHub, pakai:
+  <script src="https://cdn.jsdelivr.net/gh/designjoomax/home@main/Section/Jadwal%20Kerja/js/jadwal-kerja.js"></script> -->
+
+  <!-- 3. Pengaturan: file ini dibuat oleh demo.html (tombol "Unduh pengaturan (.js)"). Cukup timpa file-nya, index.html tidak perlu diubah. -->
+  <script src="js/jadwal-kerja.config.js"></script>
+  <!-- Setelah diupload ke GitHub, pakai:
+  <script src="https://cdn.jsdelivr.net/gh/designjoomax/home@main/Section/Jadwal%20Kerja/js/jadwal-kerja.config.js"></script> -->
+
+  <!-- 4. Jalankan. -->
+  <script>
+    JadwalKerja.init('#jadwal-kerja', window.JADWAL_KERJA_CONFIG || {});
+  </script>
+
+  <!-- Fixs.Arts Checkout: tombol paket di popup Get Verified diarahkan ke checkout.
+       Katalog dibaca dari <data-fa-base>/data/products.json, yaitu Jadwal Kerja/data/products.json. Sesuaikan data-fa-base kalau lokasi folder berubah. Butuh fa-checkout versi yang mendukung path bertingkat. -->
+  <script src="https://fixsarts.github.io/checkout/fa-checkout.js" data-fa-base="/home/Section/Jadwal%20Kerja" defer></script>
+
+</body>
+</html>
