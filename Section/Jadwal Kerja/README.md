@@ -35,10 +35,12 @@ Jadwal Kerja/
 ## Pasang di web
 
 ```html
+<!-- Jadwal Kerja -->
 <div id="jadwal-kerja"></div>
 <script src="https://cdn.jsdelivr.net/gh/designjoomax/home@main/Section/Jadwal%20Kerja/js/jadwal-kerja.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/designjoomax/home@main/Section/Jadwal%20Kerja/js/jadwal-kerja.config.js"></script>
 <script>
-  JadwalKerja.init('#jadwal-kerja', {});
+  JadwalKerja.init('#jadwal-kerja', window.JADWAL_KERJA_CONFIG || {});
 </script>
 ```
 
