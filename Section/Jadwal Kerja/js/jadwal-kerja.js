@@ -283,11 +283,11 @@
     const co = V.checkout || {}, fa = p => co.enabled !== false && (p.product || co.product) ? { product: p.product || co.product, pkg: p.package || p.id } : null;
     const featHTML = (p, f) => { const o = typeof f === 'string' ? { text: f } : f || {};
       return '<li><span class="fi">' + featIcon(o.icon || p.featureIcon || V.featureIcon || 'check') + '</span><span class="ft">' + esc(o.text) + (o.note ? '<small>' + esc(o.note) + '</small>' : '') + '</span></li>'; };
+    const tplThumb = p => '<div class="thumb t-' + (THUMBS.includes(p.thumb) ? p.thumb : 'plan') + '"><i class="c1"></i><i class="c2"></i><span class="emb">' + iconTag(p.icon || vIcon, 'ok', '30px') + '</span></div>';
     const thumbHTML = p => {
       if (V.showThumb === false) return '';
-      if (p.thumbImage) return '<div class="thumb img" style="background-image:url(\'' + esc(iconUrl(p.thumbImage).replace(/'/g, '%27')) + '\')"></div>';
-      if (!THUMBS.includes(p.thumb)) return '';
-      return '<div class="thumb t-' + p.thumb + '"><i class="c1"></i><i class="c2"></i><span class="emb">' + iconTag(p.icon || vIcon, 'ok', '30px') + '</span></div>';
+      if (p.thumbImage) return '<img class="thumb-img" data-pid="' + esc(p.id) + '" alt="" decoding="async" src="' + esc(iconUrl(p.thumbImage)) + '">';   // gambar sendiri: ukuran mengikuti proporsi aslinya
+      return THUMBS.includes(p.thumb) ? tplThumb(p) : '';
     };
     const planHTML = p => '<div class="plan' + (p.popular ? ' pop' : '') + '" style="--pc:' + esc(p.color || '#1b8fe6') + '">' + (p.popular ? '<span class="ptag">' + esc(V.popularText) + '</span>' : '') + thumbHTML(p) +
       '<div class="pbody"><div class="pn">' + esc(p.name) + '</div>' + (p.desc ? '<p class="pd">' + esc(p.desc) + '</p>' : '') +
@@ -299,6 +299,7 @@
     ov.innerHTML = '<div class="dlg" role="dialog" aria-modal="true" aria-label="' + esc(V.title) + '"><button class="x" data-close aria-label="' + esc(V.closeText) + '">&times;</button>' +
       '<div class="dh"><h3>' + esc(V.title) + '</h3><p>' + esc(rep(V.subtitle)) + '</p></div><div class="plans' + (V.uppercaseName !== false ? ' up' : '') + '">' + V.plans.map(planHTML).join('') + '</div></div>';
     box.appendChild(ov); fixImgs(ov);
+    ov.querySelectorAll('img.thumb-img').forEach(img => img.addEventListener('error', () => { const p = V.plans.find(x => x.id === img.dataset.pid); if (p) img.outerHTML = tplThumb(p); }, { once: true }));   // gambar gagal dimuat: pakai thumb template
     const onKey = e => { if (e.key === 'Escape') close(); };
     const close = () => { document.removeEventListener('keydown', onKey); ov.remove(); if (onClose) onClose(); };
     document.addEventListener('keydown', onKey);

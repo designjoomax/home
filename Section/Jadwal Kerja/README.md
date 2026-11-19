@@ -205,6 +205,7 @@ verify: {
 
 - **Ikon benefit** (`features[].icon`): nama ikon bawaan (`check` `check-circle` `dot` `arrow` `badge` `star` `sparkle` `shield` `crown` `bolt` `heart` `gem` `palette` `calendar` `layout` `wave` `user` `eye` `gift` `tag` `lock`), emoji, atau link gambar. Di `demo.html`, klik tombol ikon di samping benefit untuk memilih dari kisi ikon.
 - **Thumb**: pilih template modern, atau upload gambar sendiri di `demo.html` (otomatis dikecilkan jadi maks. 720px). Untuk kode yang ringkas, simpan gambar ke `assets/` lalu isi `thumbImage` dengan lokasinya.
+  Gambar sendiri tampil dengan **proporsi aslinya**: lebar mengikuti kartu dan tinggi menyesuaikan, jadi tidak terpotong di HP. Pakai rasio yang sama untuk semua paket supaya kartu sejajar, dan ekspor 2× (mis. 652×224 untuk rasio 326×112) agar tetap tajam di layar HP. Jika gambar gagal dimuat, otomatis diganti thumb template. Batas tinggi untuk gambar yang sangat tinggi diatur lewat CSS `--jk-thumb-max` (bawaan 280px).
 - `normalPrice` kosong di salah satu paket tetap menyisakan baris kosong supaya harga promo antar-kartu sejajar. Matikan semua lewat `showNormalPrice: false`.
 
 #### Fixs.Arts Checkout

@@ -102,7 +102,8 @@ hr { border: 0; border-top: 2px solid #eee; margin: 18px 0 8px; }
 
 /* thumb di atas kartu */
 .thumb { position: relative; height: 112px; flex: none; display: grid; place-items: center; overflow: hidden; border-radius: 20px 20px 0 0; background: var(--pc); }
-.thumb.img { background-size: cover; background-position: center; }
+/* gambar thumb sendiri: lebar penuh kartu, tinggi mengikuti proporsi gambar (tidak dipotong di HP). max-height hanya pengaman untuk gambar yang sangat tinggi. */
+.thumb-img { display: block; flex: none; width: 100%; height: auto; max-height: var(--jk-thumb-max, 280px); object-fit: cover; object-position: center; border-radius: 20px 20px 0 0; background: var(--pc); }
 .thumb i { position: absolute; border-radius: 50%; background: rgba(255,255,255,.16); }
 .thumb .c1 { width: 150px; height: 150px; right: -40px; top: -64px; }
 .thumb .c2 { width: 92px; height: 92px; left: -26px; bottom: -42px; }
