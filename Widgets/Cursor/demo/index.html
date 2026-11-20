@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>fixs.arts Cursor: Mouse dan Sentuhan</title>
+<link rel="stylesheet" href="style.css">
+<!-- Demo memakai library yang sama persis dengan yang dipasang di website lain.
+     data-toggle menampilkan tombol on/off melayang, data-touch mengaktifkan efek sentuhan. -->
+<script src="../cursor.js" data-preset="rocket" data-toggle="true" data-remember="true"></script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top"><span class="logo"></span>fixs.arts <b>Cursor</b><small>v1.3</small></a>
+    <div class="nav-r">
+      <button class="switch" id="master" type="button" role="switch" aria-checked="true"><span class="knob"></span><span class="sl">Efek <b id="master-t">On</b></span></button>
+      <button class="icon" id="theme" type="button" aria-label="Ganti tema terang atau gelap"></button>
+      <a class="icon" href="https://github.com/fixsarts/cursor" aria-label="GitHub" target="_blank" rel="noopener">GH</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <section class="hero">
+    <span class="badge" id="mode">Mouse</span>
+    <h1>Cursor yang hidup di mouse <em>dan jari.</em></h1>
+    <p>Satu script tag. Efek trail, percikan, dan klik ikut bereaksi saat lu geser atau tap di smartphone, bukan cuma di desktop. Semuanya bisa dinyalakan atau dimatikan kapan saja.</p>
+    <div class="row"><button class="btn primary" type="button" data-copy>Salin script</button><a class="btn" href="#studio">Atur gaya</a></div>
+  </section>
+
+  <section class="stage" id="stage" aria-label="Area uji efek"><span>Gerakkan mouse atau geser jari di sini</span><button class="btn ghost" id="rand" type="button">Acak gaya</button></section>
+  <div class="chips" id="presets" role="group" aria-label="Preset"></div>
+
+  <div class="studio" id="studio">
+    <section class="card panel">
+      <div class="tabs" id="tabs" role="tablist"></div>
+      <div id="pages"></div>
+      <div class="row"><button class="btn" id="reset" type="button">Reset</button></div>
+    </section>
+
+    <aside class="card install">
+      <div class="ih"><h2>Kode pemasangan</h2>
+        <div class="seg" id="fmt"><button type="button" data-f="html" aria-pressed="true">HTML</button><button type="button" data-f="js" aria-pressed="false">JavaScript</button></div>
+      </div>
+      <pre id="code" aria-live="polite"></pre>
+      <button class="btn primary wide" type="button" data-copy>Salin script</button>
+      <p class="muted">Tempel sebelum <code>&lt;/body&gt;</code>. Kode hanya memuat opsi yang berbeda dari bawaan.</p>
+      <h3>Uji input</h3>
+      <label class="f"><span>Nama</span><input type="text" placeholder="Ketik di sini"></label>
+      <label class="f"><span>Pesan</span><textarea rows="2" placeholder="Pesan"></textarea></label>
+      <div class="row"><button class="btn" type="button">Tombol</button><a class="btn" href="#top">Link</a><button class="btn" type="button" disabled>Nonaktif</button></div>
+    </aside>
+  </div>
+  <footer>MIT License. Dibuat oleh fixs.arts.</footer>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<script src="demo.js"></script>
+</body>
+</html>
