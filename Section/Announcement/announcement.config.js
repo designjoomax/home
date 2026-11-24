@@ -4,14 +4,14 @@ window.JOOMAX_ANNOUNCE = {
     "tab": "",
     "refresh": 5
   },
-  "manual": "Selamat Datang di Joomax!\nTerima kasih Telah Berkunjung\nExplore. Create. Discover.\nTemukan berbagai Tools dan Inspirasi Digital di Joomax\nDeveloper & Creative Designer — Fikri Saputra",
+  "manual": "Selamat Datang di Joomax!\nTerima kasih Telah Berkunjung\nExplore. Create. Discover.\nTemukan berbagai Tools dan Inspirasi ",
   "float": {
     "enabled": true,
-    "position": "bottom-center",
+    "position": "top-center",
     "x": 20,
-    "y": 20,
+    "y": 70,
     "z": 9999,
-    "entrance": "fade",
+    "entrance": "slide",
     "closable": true,
     "remember": "off",
     "delay": 0,
@@ -20,14 +20,14 @@ window.JOOMAX_ANNOUNCE = {
   "icon": {
     "type": "megaphone",
     "custom": "",
-    "size": 35,
+    "size": 30,
     "divider": true
   },
   "color": {
     "mode": "gradient3",
     "c1": "#ff6b4a",
     "c2": "#f5105a",
-    "c3": "#6f1111",
+    "c3": "#6a1170",
     "angle": 90,
     "text": "#ffffff",
     "icon": "#ffffff"
@@ -36,14 +36,14 @@ window.JOOMAX_ANNOUNCE = {
     "width": "760",
     "custom": 900,
     "height": 40,
-    "radius": 40,
-    "shadow": true
+    "radius": 22,
+    "shadow": false
   },
   "text": {
     "anim": "marquee",
-    "speed": 73,
+    "speed": 50,
     "interval": 4,
-    "size": 16,
+    "size": 18,
     "weight": 500,
     "sep": "•",
     "fadeEdges": true
@@ -51,18 +51,18 @@ window.JOOMAX_ANNOUNCE = {
   "fx": {
     "glow": false,
     "glowColor": "#f5105a",
-    "glowSize": 13,
-    "glowPulse": false,
+    "glowSize": 18,
+    "glowPulse": true,
     "shine": true,
-    "shineEvery": 8,
+    "shineEvery": 5,
     "border": "none",
     "borderColor": "#ffffff",
     "borderWidth": 2,
-    "borderSpeed": 6,
+    "borderSpeed": 4,
     "flow": false,
     "flowSpeed": 8,
     "bulbs": false,
-    "bulbColor": "#ffffff",
-    "bulbSpeed": 0.6
+    "bulbColor": "#ffe08a",
+    "bulbSpeed": 1
   }
 };
