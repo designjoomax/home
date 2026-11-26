@@ -2,6 +2,22 @@
    Simpan di folder js/ (js/jadwal-kerja.config.js) dan timpa file lama setiap ada perubahan.
    Hanya berisi pengaturan yang berbeda dari bawaan. Untuk mengedit lagi: demo.html > Buka config. */
 window.JADWAL_KERJA_CONFIG = {
+  "badge": {
+    "people": [
+      {
+        "name": "Fikri Saputra",
+        "enabled": true,
+        "labels": [
+          "verified",
+          {
+            "id": "verified",
+            "label": "Developer",
+            "icon": "assets/icon/code.png"
+          }
+        ]
+      }
+    ]
+  },
   "verify": {
     "plans": [
       {
@@ -12,7 +28,7 @@ window.JADWAL_KERJA_CONFIG = {
         "period": "/ 1 Bulan",
         "desc": "Pilihan tepat untuk memulai.",
         "thumb": "ocean",
-        "thumbImage": "",
+        "thumbImage": "assets/thumb/Basic.png",
         "color": "#1b8fe6",
         "icon": "",
         "popular": false,
@@ -37,10 +53,10 @@ window.JADWAL_KERJA_CONFIG = {
         "period": "/ 3 Bulan",
         "desc": "Tampil lebih standout dan berbeda.",
         "thumb": "sunset",
-        "thumbImage": "",
+        "thumbImage": "assets/thumb/Premium.png",
         "color": "#e8470c",
         "icon": "",
-        "popular": true,
+        "popular": false,
         "button": "Pilih Premium",
         "url": "",
         "features": [
@@ -67,7 +83,7 @@ window.JADWAL_KERJA_CONFIG = {
         "period": "/ 6 Bulan",
         "desc": "Eksklusivitas maksimal untuk profil kamu.",
         "thumb": "royal",
-        "thumbImage": "",
+        "thumbImage": "assets/thumb/Platinum.png",
         "color": "#6d4aff",
         "icon": "",
         "popular": false,
