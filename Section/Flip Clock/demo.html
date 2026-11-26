@@ -109,6 +109,43 @@
   .olist .obtn{display:flex;gap:4px}
   .olist .obtn button{width:28px;padding:2px 0;font-size:10px;line-height:1.6}
   .badge{display:inline-block;font-size:10.5px;letter-spacing:.06em;padding:1px 7px;border-radius:99px;background:var(--ink);color:var(--bg);vertical-align:middle;margin-left:6px}
+
+  /* ---- panel pengaturan: minimalis & modern ---- */
+  .controls{padding:6px;gap:2px;border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px -12px rgba(0,0,0,.12)}
+  .controls details.f{padding:0;border:0;border-radius:12px;gap:0;display:block}
+  .controls details.f[open]{background:color-mix(in srgb,var(--bg) 55%,transparent)}
+  .controls summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;cursor:pointer;border-radius:12px;user-select:none;transition:background .15s}
+  .controls summary::-webkit-details-marker{display:none}
+  .controls summary:hover{background:var(--bg)}
+  .controls summary h3{margin:0;font-size:13.5px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ink);display:flex;align-items:center;gap:8px}
+  .controls summary::after{content:"";width:7px;height:7px;border-right:1.5px solid var(--mute);border-bottom:1.5px solid var(--mute);transform:rotate(45deg) translateY(-2px);transition:transform .2s;flex:none}
+  .controls details[open]>summary::after{transform:rotate(-135deg) translateY(-2px)}
+  .controls .fb{display:grid;gap:12px;padding:4px 14px 16px}
+  .controls label{font-size:12.5px;color:var(--mute)}
+  .controls label span{color:var(--ink);font-weight:500}
+  .controls .badge{font-size:9.5px;padding:1px 6px;letter-spacing:.05em;background:transparent;color:var(--mute);border:1px solid var(--line)}
+  .controls .cap{font-size:12px;line-height:1.45;opacity:.9}
+  .controls select,.controls input[type=text]{border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:13px;background:var(--panel);appearance:none;-webkit-appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--mute) 50%),linear-gradient(135deg,var(--mute) 50%,transparent 50%);background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:28px}
+  .controls input[type=text]{background-image:none;padding-right:11px}
+  .controls button{border-radius:10px;font-weight:500;font-size:12.5px;background:var(--panel)}
+  .controls button:hover{background:var(--bg)}
+  .controls button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .controls .chips button,.controls .pos button{padding:8px 4px}
+  .controls #resetAll{background:transparent;border-style:dashed;color:var(--mute)}
+  .controls input[type=range]{height:4px;border-radius:99px;margin:6px 0 10px}
+  .controls .checks{grid-template-columns:1fr;gap:2px}
+  .controls .checks label,.controls label.sw{display:flex;align-items:center;justify-content:space-between;flex-direction:row-reverse;gap:10px;padding:7px 0;color:var(--ink);font-size:13px;font-weight:400}
+  .controls label.sw{font-weight:500}
+  .controls input[type=checkbox]{appearance:none;-webkit-appearance:none;flex:none;width:30px;height:18px;margin:0;border-radius:99px;background:var(--line);position:relative;cursor:pointer;transition:background .2s}
+  .controls input[type=checkbox]::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:transform .2s}
+  .controls input[type=checkbox]:checked{background:var(--ink)}
+  .controls input[type=checkbox]:checked::after{transform:translateX(12px);background:var(--bg)}
+  .controls input[type=color]{width:30px;height:24px;border-radius:8px}
+  .controls .colors{gap:6px 14px}
+  .controls .colors label{color:var(--ink)}
+  .controls .olist li{border-radius:10px;background:var(--panel)}
+  .controls .pbody{gap:12px}
 </style>
 </head>
 <body>
@@ -244,7 +281,7 @@
 
     <div class="controls">
       <div class="f">
-        <h3>1. Penempatan</h3>
+        <h3>Penempatan</h3>
         <div class="chips">
           <button type="button" data-preset="hero">Hero</button>
           <button type="button" data-preset="navbar">Navbar</button>
@@ -269,7 +306,7 @@
       </div>
 
       <div class="f">
-        <h3>2. Tema &amp; warna</h3>
+        <h3>Tema &amp; warna</h3>
         <select id="theme"><option value="dark">Hitam</option><option value="light">Putih</option></select>
         <div class="colors">
           <label>Latar <input type="color" data-color="background"></label>
@@ -284,7 +321,7 @@
       </div>
 
       <div class="f">
-        <h3>3. Tampilkan</h3>
+        <h3>Tampilkan</h3>
         <div class="checks">
           <label><input type="checkbox" data-show="hours"> Jam</label>
           <label><input type="checkbox" data-show="minutes"> Menit</label>
@@ -296,7 +333,7 @@
       </div>
 
       <div class="f">
-        <h3>4. Format tanggal</h3>
+        <h3>Format tanggal</h3>
         <div class="chips" style="grid-template-columns:1fr 1fr">
           <button type="button" data-dfmt="1"></button>
           <button type="button" data-dfmt="2"></button>
@@ -318,7 +355,7 @@
       </div>
 
       <div class="f">
-        <h3>5. Format jam &amp; efek</h3>
+        <h3>Format jam &amp; efek</h3>
         <div class="checks">
           <label><input type="checkbox" id="hour12"> 12 jam</label>
           <label><input type="checkbox" id="leadingZero"> Angka 0 depan</label>
@@ -328,7 +365,7 @@
       </div>
 
       <div class="f">
-        <h3>6. Tata letak &amp; jarak</h3>
+        <h3>Tata letak &amp; jarak</h3>
         <div class="checks">
           <label><input type="checkbox" id="padding"> Padding</label>
           <label><input type="checkbox" id="transparent"> Transparan</label>
@@ -347,7 +384,7 @@
       </div>
 
       <div class="f">
-        <h3>7. Bentuk shape &amp; efek tambahan</h3>
+        <h3>Bentuk shape &amp; efek tambahan</h3>
         <label for="padX">Jarak isi ke tepi shape, kiri-kanan: <span id="padXV"></span></label>
         <input type="range" id="padX" min="0" max="160" value="16">
         <label for="padY">Jarak isi ke tepi shape, atas-bawah: <span id="padYV"></span></label>
@@ -365,7 +402,7 @@
       </div>
 
       <div class="f">
-        <h3>8. Waktu &amp; bahasa</h3>
+        <h3>Waktu &amp; bahasa</h3>
         <select id="tz">
           <option value="">Otomatis (perangkat, atau ikut wilayah jika jadwal sholat aktif)</option>
           <option value="Asia/Jakarta">WIB — Jakarta</option>
@@ -380,7 +417,7 @@
       </div>
 
       <div class="f">
-        <h3>9. Jadwal sholat <span class="badge">BARU</span></h3>
+        <h3>Jadwal sholat <span class="badge">BARU</span></h3>
         <label class="sw"><input type="checkbox" id="pEnabled"> Aktifkan jadwal sholat</label>
         <p class="cap" style="margin:0">Opsional. Nonaktif = jam tampil seperti biasa, tanpa jadwal.</p>
         <div class="pbody off" id="pBody">
@@ -405,13 +442,28 @@
             <label><input type="checkbox" id="pCountdown"> Hitung mundur</label>
             <label><input type="checkbox" id="pLocation"> Nama wilayah</label>
             <label><input type="checkbox" id="pHighlight"> Tandai berikutnya</label>
+            <label><input type="checkbox" id="pClickable"> Waktu bisa diklik</label>
           </div>
-          <p class="cap" style="margin:0">Dihitung langsung di browser (acuan Kemenag RI: Subuh 20°, Isya 18°, Ashar Syafi'i, ihtiyat +2 menit), tanpa API dan tanpa internet. Jam mengikuti zona waktu wilayah, kecuali kamu pilih zona waktu sendiri di bagian 8.</p>
+          <p class="cap" style="margin:0">Klik kotak waktu (Ashar, Maghrib, Isya, ...) untuk memilihnya sebagai tujuan hitung mundur. Klik lagi untuk kembali otomatis. Pilihan otomatis lepas saat waktunya masuk.</p>
+          <label class="sw" style="margin-top:6px"><input type="checkbox" id="pFriday"> Catatan Jum'at <span class="badge">BARU</span></label>
+          <div class="pbody off" id="pFriBody">
+            <label for="pFriText">Teks catatan (<code>{menit}</code> = angka di bawah)</label>
+            <input type="text" id="pFriText" style="width:100%;font:inherit;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)">
+            <label for="pFriPos">Posisi</label>
+            <select id="pFriPos"><option value="">Ikut susunan komponen (Susunan komponen)</option><option value="below">Di bawah hitung mundur</option><option value="above">Di atas hitung mundur</option></select>
+            <label for="pFriWhen">Kapan tampil (hanya hari Jum'at)</label>
+            <select id="pFriWhen"><option value="dhuhr">Saat hitung mundur menuju Dzuhur</option><option value="always">Sepanjang hari Jum'at</option></select>
+            <label for="pFriMin">Menyala saat sisa waktu: <span id="pFriMinV"></span></label>
+            <input type="range" id="pFriMin" min="1" max="60" value="10">
+            <label for="pFriPrev">Pratinjau di Playground</label>
+            <select id="pFriPrev"><option value="on">Simulasi hari Jum'at</option><option value="live">Simulasi menyala</option><option value="">Ikut hari asli</option></select>
+          </div>
+          <p class="cap" style="margin:0">Dihitung langsung di browser (acuan Kemenag RI: Subuh 20°, Isya 18°, Ashar Syafi'i, ihtiyat +2 menit), tanpa API dan tanpa internet. Jam mengikuti zona waktu wilayah, kecuali kamu pilih zona waktu sendiri di Waktu & bahasa.</p>
         </div>
       </div>
 
       <div class="f">
-        <h3>10. Lebar, margin &amp; HP <span class="badge">BARU</span></h3>
+        <h3>Lebar, margin &amp; HP <span class="badge">BARU</span></h3>
         <label for="maxW">Lebar maksimum: <span id="maxWV"></span></label>
         <input type="range" id="maxW" min="0" max="1200" step="10" value="0">
         <label for="mX">Margin kiri-kanan: <span id="mXV"></span></label>
@@ -439,7 +491,7 @@
       </div>
 
       <div class="f">
-        <h3>11. Susunan komponen <span class="badge">BETA</span></h3>
+        <h3>Susunan komponen <span class="badge">BETA</span></h3>
         <p class="cap" style="margin:0">Seret (drag &amp; drop) untuk mengubah urutan dari atas ke bawah, atau pakai tombol &#9650;&#9660;. Komponen yang sedang nonaktif diredupkan dan dilewati.</p>
         <ul class="olist" id="orderList"></ul>
         <button id="orderReset" type="button">Urutan default</button>
@@ -491,7 +543,7 @@
       <tr><td><code>mobile.breakpoint</code></td><td><code>data-mobile-breakpoint</code></td><td>Aturan HP aktif jika lebar container &le; nilai ini (default <code>520</code>)</td></tr>
       <tr><td><code>mobile.size</code></td><td><code>data-mobile-size</code></td><td>Ukuran kartu di HP (px)</td></tr>
       <tr><td><code>mobile.marginX</code> <code>mobile.marginY</code> <code>mobile.maxWidth</code></td><td><code>data-mobile-margin-x</code> <code>-margin-y</code> <code>-max-width</code></td><td>Margin &amp; lebar maksimum khusus HP. Kosong = sama seperti desktop</td></tr>
-      <tr><td><code>order</code></td><td><code>data-order="clock,date,prayer,countdown,location,credit"</code></td><td>Urutan komponen dari atas ke bawah: <code>clock</code> <code>date</code> <code>location</code> <code>prayer</code> <code>countdown</code> <code>credit</code>. Yang tidak disebut ditaruh di belakang. Atur lewat drag &amp; drop di Playground</td></tr>
+      <tr><td><code>order</code></td><td><code>data-order="clock,date,prayer,countdown,location,credit"</code></td><td>Urutan komponen dari atas ke bawah: <code>clock</code> <code>date</code> <code>location</code> <code>prayer</code> <code>countdown</code> <code>friday</code> <code>credit</code>. Yang tidak disebut ditaruh di belakang. Atur lewat drag &amp; drop di Playground</td></tr>
       <tr><td><code>prayer.enabled</code></td><td><code>data-prayer</code></td><td>Aktifkan jadwal sholat (default mati). Tulis <code>data-prayer="false"</code> untuk mematikan</td></tr>
       <tr><td><code>prayer.region</code></td><td><code>data-prayer-region</code></td><td>Id / nama wilayah, contoh <code>kota-bandung</code>, <code>Jakarta Selatan</code>, <code>banjarmasin-timur</code> (default). Daftar lengkap: <code>FixsFlipClock.regions()</code></td></tr>
       <tr><td><code>prayer.lat</code> <code>prayer.lon</code></td><td><code>data-prayer-lat</code> <code>data-prayer-lon</code></td><td>Koordinat sendiri (mengalahkan <code>region</code>). Isi bersama <code>timezone</code>; nama tampilan lewat <code>prayer.name</code> / <code>data-prayer-name</code></td></tr>
@@ -506,6 +558,13 @@
       <tr><td><code>prayer.ihtiyat</code> <code>fajrAngle</code> <code>ishaAngle</code> <code>asrFactor</code></td><td><code>data-prayer-ihtiyat</code> <code>-fajr-angle</code> <code>-isha-angle</code> <code>-asr-factor</code></td><td>Parameter hitung. Default Kemenag: 2 menit, 20°, 18°, 1 (Syafi'i; 2 = Hanafi)</td></tr>
       <tr><td><code>prayer.adjust</code></td><td><code>data-prayer-adjust="fajr:1,isha:-1"</code></td><td>Koreksi manual (menit) per waktu</td></tr>
       <tr><td><code>prayer.gap</code></td><td><code>data-prayer-gap</code></td><td>Tambahan jarak ke jadwal (px pada ukuran <code>size</code>), kosong = otomatis</td></tr>
+      <tr><td><code>prayer.clickable</code></td><td><code>data-prayer-clickable</code></td><td>Kotak waktu bisa diklik (default <code>true</code>): jadi tujuan hitung mundur. Klik lagi untuk kembali otomatis</td></tr>
+      <tr><td><code>prayer.onSelect</code></td><td>-</td><td>Fungsi <code>(nama, key, 'HH:MM', dipilih)</code> saat kotak waktu diklik (hanya via JS)</td></tr>
+      <tr><td><code>prayer.friday.enabled</code></td><td><code>data-prayer-friday</code></td><td>Catatan Jum'at on / off (default mati). Hanya tampil di hari Jum'at</td></tr>
+      <tr><td><code>prayer.friday.text</code></td><td><code>data-prayer-friday-text</code></td><td>Teks catatan, bebas diganti. <code>{menit}</code> diganti angka <code>minutes</code></td></tr>
+      <tr><td><code>prayer.friday.position</code></td><td><code>data-prayer-friday-position</code></td><td><code>below</code> (di bawah hitung mundur) / <code>above</code> (di atasnya). Kosong = ikut <code>order</code> (<code>friday</code>)</td></tr>
+      <tr><td><code>prayer.friday.when</code></td><td><code>data-prayer-friday-when</code></td><td><code>dhuhr</code> (saat menuju Dzuhur) atau <code>always</code> (sepanjang hari Jum'at)</td></tr>
+      <tr><td><code>prayer.friday.minutes</code></td><td><code>data-prayer-friday-minutes</code></td><td>Catatan menyala saat sisa waktu menuju Dzuhur &lt;= angka ini (default 10)</td></tr>
       <tr><td><code>prayer.onPrayer</code></td><td>-</td><td>Fungsi <code>(nama, key, 'HH:MM')</code> yang dipanggil tepat saat waktu sholat masuk (hanya via JS)</td></tr>
     </table>
     <p class="cap" style="margin:12px 0 0">Via JS: <code>const jam = FixsFlipClock.create('#jam', {...})</code>, ubah saat berjalan dengan <code>jam.update({...})</code>, hapus dengan <code>jam.destroy()</code>.</p>
@@ -538,9 +597,10 @@
     show: { hours: true, minutes: true, seconds: true, date: true, ampm: true },
     maxWidth: null, marginX: 0, marginY: 0,
     mobile: { breakpoint: 520, size: null, marginX: null, marginY: null, maxWidth: null },
-    order: ['clock', 'date', 'location', 'prayer', 'countdown', 'credit'],
+    order: ['clock', 'date', 'location', 'prayer', 'countdown', 'friday', 'credit'],
     prayer: {
-      enabled: false, region: 'banjarmasin-timur', layout: 'row', countdown: true, location: true, highlight: true, lang: 'id',
+      enabled: false, region: 'banjarmasin-timur', layout: 'row', countdown: true, location: true, highlight: true, lang: 'id', clickable: true,
+      friday: { enabled: false, text: "Break Jum'at 10 Menit Sebelum Adzan - Selesai", position: null, when: 'dhuhr', minutes: 10, preview: true },
       show: { imsak: true, fajr: true, sunrise: false, dhuha: false, dhuhr: true, asr: true, maghrib: true, isha: true }
     }
   };
@@ -650,13 +710,14 @@
   }
 
   /* susunan komponen: daftar yang bisa di-drag */
-  var ONAME = { clock: 'Jam', date: 'Tanggal', location: 'Nama wilayah', prayer: 'Jadwal sholat', countdown: 'Hitung mundur', credit: 'Credit' };
+  var ONAME = { clock: 'Jam', date: 'Tanggal', location: 'Nama wilayah', prayer: 'Jadwal sholat', countdown: 'Hitung mundur', friday: "Catatan Jum'at", credit: 'Credit' };
   function isOn(k) {
     var s = state, p = s.prayer;
     if (k === 'clock') return true;
     if (k === 'date') return !!s.show.date;
     if (k === 'credit') return !!s.credit;
     if (!p.enabled) return false;
+    if (k === 'friday') return !!p.friday.enabled;
     return k === 'prayer' ? true : (k === 'location' ? !!p.location : !!p.countdown);
   }
   function moveOrder(from, to) {
@@ -714,6 +775,15 @@
     $('#pCountdown').checked = p.countdown;
     $('#pLocation').checked = p.location;
     $('#pHighlight').checked = p.highlight;
+    $('#pClickable').checked = p.clickable;
+    var f = p.friday;
+    $('#pFriday').checked = f.enabled;
+    $('#pFriBody').classList.toggle('off', !f.enabled);
+    $('#pFriText').value = f.text;
+    $('#pFriPos').value = f.position || '';
+    $('#pFriWhen').value = f.when;
+    $('#pFriMin').value = f.minutes; $('#pFriMinV').textContent = f.minutes + ' menit';
+    $('#pFriPrev').value = f.preview === 'live' ? 'live' : (f.preview ? 'on' : '');
   }
 
   /* padding shape: otomatis = perkiraan proporsi bawaan widget */
@@ -813,6 +883,15 @@
       if (!p.countdown) a.push(['prayer-countdown', 'false']);
       if (!p.location) a.push(['prayer-location', 'false']);
       if (!p.highlight) a.push(['prayer-highlight', 'false']);
+      if (!p.clickable) a.push(['prayer-clickable', 'false']);
+      if (p.friday.enabled) {
+        var f = p.friday;
+        a.push(['prayer-friday', 'true']);
+        if (f.text !== BASE.prayer.friday.text) a.push(['prayer-friday-text', f.text]);
+        if (f.position) a.push(['prayer-friday-position', f.position]);
+        if (f.when !== 'dhuhr') a.push(['prayer-friday-when', f.when]);
+        if (+f.minutes !== 10) a.push(['prayer-friday-minutes', f.minutes]);
+      }
     }
     return a;
   }
@@ -865,6 +944,14 @@
         if (!p.countdown) o.prayer.countdown = false;
         if (!p.location) o.prayer.location = false;
         if (!p.highlight) o.prayer.highlight = false;
+        if (!p.clickable) o.prayer.clickable = false;
+        if (p.friday.enabled) {
+          var f = p.friday;
+          o.prayer.friday = { enabled: true, text: f.text };
+          if (f.position) o.prayer.friday.position = f.position;
+          if (f.when !== 'dhuhr') o.prayer.friday.when = f.when;
+          if (+f.minutes !== 10) o.prayer.friday.minutes = +f.minutes;
+        }
       }
       out ='<script src="' + CDN + '"><\/script>\n<div id="jam"></div>\n\n<script>\n  FixsFlipClock.create("#jam", ' +
         JSON.stringify(o, null, 2).replace(/\n/g, '\n  ') + ');\n<\/script>';
@@ -984,6 +1071,13 @@
   [['#pCountdown', 'countdown'], ['#pLocation', 'location'], ['#pHighlight', 'highlight']].forEach(function (x) {
     $(x[0]).onchange = function () { state.prayer[x[1]] = this.checked; apply(); };
   });
+  $('#pClickable').onchange = function () { state.prayer.clickable = this.checked; apply(); };
+  $('#pFriday').onchange = function () { state.prayer.friday.enabled = this.checked; syncPrayer(); renderOrder(); apply(); };
+  $('#pFriText').oninput = function () { state.prayer.friday.text = this.value; apply(); };
+  $('#pFriPos').onchange = function () { state.prayer.friday.position = this.value || null; apply(); };
+  $('#pFriWhen').onchange = function () { state.prayer.friday.when = this.value; apply(); };
+  $('#pFriMin').oninput = function () { state.prayer.friday.minutes = +this.value; $('#pFriMinV').textContent = this.value + ' menit'; apply(); };
+  $('#pFriPrev').onchange = function () { state.prayer.friday.preview = this.value === 'live' ? 'live' : (this.value === 'on'); apply(); };
   $('#tz').onchange = function () { state.timezone = this.value || null; apply(); };
   $('#locale').onchange = function () { state.locale = this.value; apply(); };
 
@@ -997,6 +1091,20 @@
   };
 
   syncControls(); syncMarks(); code(); applyPreviewW();
+})();
+</script>
+<script>
+/* rapikan panel pengaturan jadi accordion (hanya "Penempatan" yang terbuka di awal) */
+(function(){
+  var list=document.querySelectorAll('.controls > .f');
+  Array.prototype.forEach.call(list,function(f,i){
+    var h=f.querySelector(':scope > h3'); if(!h) return;
+    var d=document.createElement('details'); d.className='f'; if(i===0) d.open=true;
+    var sm=document.createElement('summary'); sm.appendChild(h);
+    var body=document.createElement('div'); body.className='fb';
+    while(f.firstChild) body.appendChild(f.firstChild);
+    d.appendChild(sm); d.appendChild(body); f.parentNode.replaceChild(d,f);
+  });
 })();
 </script>
 </body>

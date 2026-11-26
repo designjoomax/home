@@ -88,12 +88,20 @@ Unduh `flip-clock.js`, simpan di proyek kamu, lalu:
 | `prayer.highlight` | `data-prayer-highlight` | `true` | Tandai waktu berikutnya, redupkan yang sudah lewat |
 | `prayer.lang` | `data-prayer-lang` | `id` | `id` atau `en` (nama waktu) |
 | `prayer.onPrayer` | - | - | Callback `(nama, key, 'HH:MM')` saat waktu sholat masuk |
+| `prayer.clickable` | `data-prayer-clickable` | `true` | Kotak waktu (Ashar, Maghrib, Isya, ...) bisa diklik untuk dijadikan tujuan hitung mundur. Klik lagi = kembali otomatis |
+| `prayer.onSelect` | - | - | Callback `(nama, key, 'HH:MM', dipilih)` saat kotak waktu diklik |
+| `prayer.friday.enabled` | `data-prayer-friday` | `false` | Catatan Jum'at on / off. Hanya tampil di hari Jum'at (zona waktu wilayah) |
+| `prayer.friday.text` | `data-prayer-friday-text` | `Break Jum'at 10 Menit Sebelum Adzan - Selesai` | Teks bebas. `{menit}` diganti angka `minutes` |
+| `prayer.friday.position` | `data-prayer-friday-position` | - | `below` / `above` hitung mundur. Kosong = ikut `order` |
+| `prayer.friday.when` | `data-prayer-friday-when` | `dhuhr` | `dhuhr` = tampil saat hitung mundur menuju Dzuhur, `always` = sepanjang hari Jum'at |
+| `prayer.friday.minutes` | `data-prayer-friday-minutes` | `10` | Catatan menyala (titik berdenyut) saat sisa waktu menuju Dzuhur <= angka ini |
+| `prayer.friday.preview` | - | `false` | Uji tampilan di hari biasa: `true` atau `'live'` |
 | `maxWidth` | `data-max-width` | `null` | Lebar maksimum widget (px). Kosong = penuh mengikuti container. Cocok untuk section, contoh `720` |
 | `marginX` `marginY` | `data-margin-x` `data-margin-y` | `0` | Margin luar widget dari tepi container (px) |
 | `mobile.breakpoint` | `data-mobile-breakpoint` | `520` | Aturan HP aktif jika lebar container <= nilai ini |
 | `mobile.size` | `data-mobile-size` | `null` | Ukuran kartu di HP (px). Kosong = sama dengan `size` |
 | `mobile.marginX` `mobile.marginY` `mobile.maxWidth` | `data-mobile-margin-x` `-margin-y` `-max-width` | `null` | Margin & lebar maksimum khusus HP. Kosong = sama dengan desktop |
-| `order` | `data-order` | `clock,date,location,prayer,countdown,credit` | Urutan komponen dari atas ke bawah |
+| `order` | `data-order` | `clock,date,location,prayer,countdown,friday,credit` | Urutan komponen dari atas ke bawah |
 | `loadFont` | - | `true` | Muat Oswald & Roboto dari Google Fonts. Set `false` untuk pakai font sendiri |
 | `fontFamily` | - | Oswald | Font angka |
 
@@ -125,6 +133,31 @@ jam.update({ prayer: { enabled: true } });    // nyalakan lagi
 - **Notifikasi saat waktu masuk**: `prayer.onPrayer = (nama, key, jam) => { ... }`.
 - Layout `grid` menyesuaikan lebar container. Pada mode melayang (`data-position`) lebar mengikuti isi, jadi grid tampil satu baris.
 
+### Pilih waktu dengan klik
+
+Klik kotak waktu mana pun (Ashar, Maghrib, Isya, dst.) dan hitung mundur langsung berpindah ke waktu itu ("Menuju Ashar"). Kotak terpilih diberi tanda titik kecil. Klik lagi untuk kembali otomatis. Pilihan lepas sendiri saat waktunya masuk. Bisa dimatikan dengan `data-prayer-clickable="false"`.
+
+```js
+FixsFlipClock.create('#jam', { prayer: { enabled: true, onSelect: (nama, key, jam, dipilih) => console.log(nama, jam, dipilih) } });
+```
+
+### Catatan Jum'at
+
+Teks kecil (pill) di bawah hitung mundur yang hanya muncul di hari Jum'at. Default mati.
+
+```html
+<div data-fixs-flipclock data-prayer data-prayer-region="kota-palembang"
+     data-prayer-friday
+     data-prayer-friday-text="Break Jum'at {menit} Menit Sebelum Adzan - Selesai"
+     data-prayer-friday-position="below"></div>
+```
+
+- **Teks**: bebas diganti lewat `data-prayer-friday-text` / `friday.text`.
+- **Posisi**: `data-prayer-friday-position="above"` (di atas tulisan "Menuju ...") atau `below`. Untuk posisi lebih bebas lagi (misal di atas jadwal atau di bawah credit), biarkan `position` kosong dan atur lewat `data-order`, contoh `data-order="clock,date,friday,prayer,countdown,location,credit"`.
+- **Kapan tampil**: default hanya saat hitung mundur menuju Dzuhur. `data-prayer-friday-when="always"` = sepanjang hari Jum'at.
+- **Menyala**: sisa 10 menit terakhir (atur lewat `minutes`) catatan berubah lebih tegas dan titiknya berdenyut.
+- **Uji di hari biasa**: `friday: { preview: true }` atau `preview: 'live'` (HTML: `data-prayer-friday-preview="true"`). Hapus setelah selesai uji. Di Playground, pratinjau Jum'at sudah aktif otomatis dan tidak ikut ke kode hasil.
+
 ## Penempatan di section, margin & tampilan HP
 
 Secara default widget memenuhi lebar container-nya. Di section yang lebar (full width), atur lebar maksimum dan margin supaya tidak terlalu penuh:
@@ -142,7 +175,7 @@ Secara default widget memenuhi lebar container-nya. Di section yang lebar (full 
 
 ## Susunan komponen
 
-Urutan komponen diatur lewat `order` (atau `data-order`). Komponen: `clock`, `date`, `location` (nama wilayah), `prayer` (jadwal), `countdown` (hitung mundur), `credit`. Komponen yang tidak aktif dilewati, dan yang tidak disebut ditaruh di belakang.
+Urutan komponen diatur lewat `order` (atau `data-order`). Komponen: `clock`, `date`, `location` (nama wilayah), `prayer` (jadwal), `countdown` (hitung mundur), `friday` (catatan Jum'at), `credit`. Komponen yang tidak aktif dilewati, dan yang tidak disebut ditaruh di belakang.
 
 ```html
 <!-- nama wilayah dipindah ke bawah "Menuju ..." -->
@@ -215,6 +248,13 @@ Semua contoh ini bisa dicoba dan diatur langsung di `demo.html`.
 - Setelah update file, lakukan hard refresh (Ctrl+Shift+R). Link CDN `@main` bisa tersimpan di cache hingga beberapa jam; gunakan tag versi (`@v1.0.1`) agar pasti.
 
 ## Changelog
+
+**v1.4.0**
+- Baru: kotak jadwal sholat bisa diklik untuk memilih tujuan hitung mundur (`prayer.clickable`, `prayer.onSelect`), lengkap dengan akses keyboard (Tab, Enter, Spasi).
+- Baru: **catatan Jum'at** (`prayer.friday`) dengan on/off, teks bebas, posisi atas/bawah hitung mundur atau bebas lewat `order` (`friday`), mode menyala saat mendekati Dzuhur.
+- Tampilan: kotak waktu punya efek hover/tekan, waktu terpilih diberi glow halus dan penanda titik.
+- Demo: kontrol klik dan catatan Jum'at di Playground (pratinjau Jum'at aktif otomatis supaya terlihat di hari biasa), kode HTML/JS ikut menyertakan opsi baru.
+- Demo: panel pengaturan dirapikan jadi accordion minimalis dengan toggle switch.
 
 **v1.3.0**
 - Baru: `maxWidth`, `marginX`, `marginY` untuk penempatan di section (lebar terbatas + margin).

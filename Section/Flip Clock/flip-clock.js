@@ -1,5 +1,5 @@
 /*!
- * Fixs Flip Clock v1.3.0
+ * Fixs Flip Clock v1.4.0
  * Widget jam flip tanpa dependensi, bisa dipasang di website mana pun.
  * ©fixsarts.studio
  *
@@ -93,7 +93,7 @@
       marginY: null,        //   margin atas-bawah di HP
       maxWidth: null        //   lebar maksimum di HP
     },
-    order: ['clock', 'date', 'location', 'prayer', 'countdown', 'credit'],   // urutan komponen (bisa diubah / drag & drop di demo)
+    order: ['clock', 'date', 'location', 'prayer', 'countdown', 'friday', 'credit'],   // urutan komponen (bisa diubah / drag & drop di demo)
     prayer: {               // JADWAL SHOLAT (dihitung di browser, tanpa API)
       enabled: false,       //   true = tampilkan jadwal sholat di bawah tanggal
       region: 'banjarmasin-timur',  // id / nama wilayah, contoh: 'kota-bandung', 'Kota Makassar', 'Jakarta Selatan'
@@ -114,7 +114,17 @@
       asrFactor: 1,         //   1 = Syafi'i (Kemenag), 2 = Hanafi
       adjust: {},           //   koreksi manual (menit) per waktu, contoh { fajr: 1, isha: -1 }
       gap: null,            //   tambahan jarak jam/tanggal ke jadwal (px pada ukuran `size`), null = otomatis
-      onPrayer: null        //   fungsi(nama, key, 'HH:MM') dipanggil tepat saat waktu masuk
+      onPrayer: null,       //   fungsi(nama, key, 'HH:MM') dipanggil tepat saat waktu masuk
+      clickable: true,      //   klik kotak waktu (Ashar, Maghrib, Isya, ...) untuk memilihnya sebagai tujuan hitung mundur; klik lagi = kembali otomatis
+      onSelect: null,       //   fungsi(nama, key, 'HH:MM', dipilih) dipanggil saat kotak waktu diklik
+      friday: {             //   CATATAN JUM'AT: tampil hanya di hari Jum'at (mengikuti zona waktu wilayah)
+        enabled: false,     //     on / off
+        text: "Break Jum'at 10 Menit Sebelum Adzan - Selesai",   // teks bebas; {menit} diganti angka `minutes`
+        position: null,     //     null = ikut `order` | 'below' (di bawah hitung mundur) | 'above' (di atas hitung mundur)
+        when: 'dhuhr',      //     'dhuhr' = tampil saat hitung mundur menuju Dzuhur | 'always' = sepanjang hari Jum'at
+        minutes: 10,        //     catatan menyala (berdenyut) saat sisa waktu menuju Dzuhur <= angka ini
+        preview: false      //     uji tampilan di hari biasa: true = tampil seolah Jum'at | 'live' = tampil dalam kondisi menyala
+      }
     },
     loadFont: true,         // muat font Oswald & Roboto dari Google Fonts
     fontFamily: "'Oswald','Bebas Neue','Arial Narrow',Impact,sans-serif"
@@ -448,18 +458,42 @@
     '.pl{display:flex;gap:calc(var(--h)*.05);justify-content:var(--ai,center)}',
     '.pg{align-self:stretch}',
     '.pg .pl{display:grid;grid-template-columns:repeat(auto-fit,minmax(calc(var(--h)*.62),calc(var(--h)*1.15)));width:100%}',
-    '.pi{display:flex;flex-direction:column;align-items:center;gap:calc(var(--h)*.02);',
+    '.pi{position:relative;display:flex;flex-direction:column;align-items:center;gap:calc(var(--h)*.02);',
     '  min-width:calc(var(--h)*.62);padding:calc(var(--h)*.07) calc(var(--h)*.08);',
-    '  border-radius:calc(var(--r)*.7);background:rgba(128,128,128,.14);transition:opacity .4s,background .4s}',
+    '  border-radius:calc(var(--r)*.7);background:rgba(128,128,128,.14);',
+    '  transition:opacity .4s,background .25s,transform .18s,box-shadow .25s}',
+    '.pi.clk{cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}',
+    '.pi.clk:hover{background:rgba(128,128,128,.28);transform:translateY(calc(var(--h)*-.015))}',
+    '.pi.clk:active{transform:scale(.96)}',
+    '.pi.clk:focus-visible{box-shadow:0 0 0 max(2px,calc(var(--h)*.02)) var(--text)}',
+    '.pi.past.clk:hover{opacity:.9}',
     '.pi i{font-style:normal;font-size:calc(var(--h)*.075);letter-spacing:.12em;text-transform:uppercase;color:var(--label)}',
     '.pi b{font-family:var(--font);font-weight:500;font-size:calc(var(--h)*.2);line-height:1.1;',
     '  color:var(--text);font-variant-numeric:tabular-nums}',
     '.pi.past{opacity:.5}',
-    '.pi.on{background:var(--card);box-shadow:inset 0 0 0 max(1px,calc(var(--h)*.012)) var(--text)}',
+    '.pi.on,.pi.on.clk:hover{background:var(--card)}',
+    '.pi.on{box-shadow:inset 0 0 0 max(1px,calc(var(--h)*.012)) var(--text),0 calc(var(--h)*.05) calc(var(--h)*.14) calc(var(--h)*-.04) rgba(0,0,0,.45)}',
     '.pi.on i{color:var(--text)}',
+    '.pi.sel::after{content:\"\";position:absolute;top:calc(var(--h)*.045);right:calc(var(--h)*.05);',
+    '  width:calc(var(--h)*.036);height:calc(var(--h)*.036);border-radius:50%;background:var(--text)}',
     '.pcd{font-size:calc(var(--h)*.13);color:var(--date);letter-spacing:.03em;text-align:var(--ta,center);white-space:nowrap}',
     '.pcd b{font-family:var(--font);font-weight:500;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:.06em}',
-    '@media (prefers-reduced-motion:reduce){.card.flipping .flip-top,.card.flipping .flip-bottom{animation-duration:.01s}}'
+    /* catatan Jum'at */
+    '.fri{display:inline-flex;align-items:center;justify-content:center;gap:calc(var(--h)*.065);align-self:var(--ai,center);',
+    '  max-width:100%;padding:calc(var(--h)*.05) calc(var(--h)*.13);border-radius:999px;',
+    '  font-family:\"Roboto\",\"Helvetica Neue\",Arial,sans-serif;font-size:calc(var(--h)*.115);letter-spacing:.03em;',
+    '  line-height:1.3;text-align:center;color:var(--text);background:rgba(128,128,128,.14);',
+    '  box-shadow:inset 0 0 0 max(1px,calc(var(--h)*.008)) rgba(128,128,128,.38);',
+    '  transition:background .3s,box-shadow .3s;animation:fsc-pop .35s ease both}',
+    '.fri[hidden]{display:none}',
+    '.fri .dot{flex:none;width:calc(var(--h)*.05);height:calc(var(--h)*.05);border-radius:50%;background:var(--label)}',
+    '.fri .ft{text-wrap:balance}',
+    '.fri.live{background:var(--card);box-shadow:inset 0 0 0 max(1px,calc(var(--h)*.012)) var(--text)}',
+    '.fri.live .dot{background:var(--text);animation:fsc-pulse 1.4s ease-in-out infinite}',
+    '@keyframes fsc-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.65)}}',
+    '@keyframes fsc-pop{from{opacity:0;transform:translateY(calc(var(--h)*-.04))}to{opacity:1;transform:none}}',
+    '@media (prefers-reduced-motion:reduce){.card.flipping .flip-top,.card.flipping .flip-bottom{animation-duration:.01s}',
+    '  .fri,.fri.live .dot{animation:none}.pi,.pi.clk:hover{transition:none;transform:none}}'
   ].join('\n');
 
   /* ------------------------------------------------------------------ */
@@ -643,12 +677,12 @@
     if (this.creditEl) this.creditEl.textContent = '\u00A9fixsarts.studio';
 
     // pasang semua komponen sesuai `order` (komponen yang tidak aktif dilewati)
-    var parts = { clock: wrap, date: this.dateEl, location: this.pLocEl, prayer: this.prayerEl, countdown: this.pCd, credit: this.creditEl };
+    var parts = { clock: wrap, date: this.dateEl, location: this.pLocEl, prayer: this.prayerEl, countdown: this.pCd, friday: this.fridayEl, credit: this.creditEl };
     var prevGroup = false, placed = 0;
-    normOrder(o.order).forEach(function (k) {
+    friOrder(normOrder(o.order), o.prayer).forEach(function (k) {
       var n = parts[k];
       if (!n) return;
-      var grp = k === 'location' || k === 'prayer' || k === 'countdown';   // kelompok sholat dirapatkan satu sama lain
+      var grp = k === 'location' || k === 'prayer' || k === 'countdown' || k === 'friday';   // kelompok sholat dirapatkan satu sama lain
       if (grp && prevGroup) n.classList.add('tg');
       else if (grp && placed) n.classList.add('tf');
       prevGroup = grp;
@@ -660,6 +694,7 @@
     this._pKey = null;
     this._pLast = null;
     this._pPrev = null;
+    if (!this._pin) this._pin = null;     // pilihan klik tetap bertahan saat update()
     this._render(false);   // isi angka & tanggal dulu supaya lebar tanggal ikut terukur
     this._ready = true;
     this._fit();
@@ -669,9 +704,9 @@
   /* ------------------------------------------------------------------ */
   /*  Jadwal sholat: tampilan, hitung mundur, callback                   */
   /* ------------------------------------------------------------------ */
-  var ORDER_DEFAULT = ['clock', 'date', 'location', 'prayer', 'countdown', 'credit'];
+  var ORDER_DEFAULT = ['clock', 'date', 'location', 'prayer', 'countdown', 'friday', 'credit'];
   var ORDER_ALIAS = { jam: 'clock', time: 'clock', tanggal: 'date', wilayah: 'location', lokasi: 'location', jadwal: 'prayer',
-                      sholat: 'prayer', hitungmundur: 'countdown', kredit: 'credit' };
+                      sholat: 'prayer', hitungmundur: 'countdown', jumat: 'friday', jumaat: 'friday', break: 'friday', kredit: 'credit' };
 
   /** Rapikan urutan komponen: nama alias dikenali, yang tidak disebut ditaruh di belakang (urutan default). */
   function normOrder(list) {
@@ -682,6 +717,16 @@
       if (ORDER_DEFAULT.indexOf(k) > -1 && out.indexOf(k) < 0) out.push(k);
     });
     ORDER_DEFAULT.forEach(function (k) { if (out.indexOf(k) < 0) out.push(k); });
+    return out;
+  }
+
+  /** `prayer.friday.position` ('above' | 'below') menaruh catatan Jum'at tepat di atas / di bawah hitung mundur. */
+  function friOrder(ord, p) {
+    var f = p && p.friday, pos = f && String(f.position || '').toLowerCase();
+    if (pos !== 'above' && pos !== 'below') return ord;
+    var out = ord.filter(function (k) { return k !== 'friday'; });
+    var i = out.indexOf(p.countdown ? 'countdown' : 'prayer');
+    out.splice(pos === 'above' ? i : i + 1, 0, 'friday');
     return out;
   }
 
@@ -697,7 +742,7 @@
 
   FlipClock.prototype._buildPrayer = function (clock) {
     var o = this.opts, p = o.prayer, self = this;
-    this.prayerEl = null; this.pLocEl = null; this.pItems = {}; this.pCd = null; this._pKeys = [];
+    this.prayerEl = null; this.pLocEl = null; this.pItems = {}; this.pCd = null; this._pKeys = []; this.fridayEl = null;
     if (!p.enabled || !this.loc) return;
     var keys = this._pKeys = prayerKeys(p.show || {});
     if (!keys.length) return;
@@ -716,7 +761,26 @@
       var box = el('div', 'pi', list);
       el('i', null, box).textContent = names[k];
       self.pItems[k] = { box: box, time: el('b', null, box) };
+      if (p.clickable) {
+        box.classList.add('clk');
+        box.setAttribute('role', 'button');
+        box.setAttribute('tabindex', '0');
+        box.setAttribute('aria-pressed', 'false');
+        box.addEventListener('click', function () { self._pick(k); });
+        box.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); self._pick(k); }
+        });
+      }
     });
+
+    var fr = p.friday;
+    if (fr && fr.enabled) {
+      var fe = this.fridayEl = el('div', 'fri');
+      fe.hidden = true;
+      el('span', 'dot', fe);
+      this.fridayTxt = el('span', 'ft', fe);
+      this._friText = null;
+    }
 
     if (p.countdown) {
       var cd = this.pCd = el('div', 'pcd');
@@ -756,7 +820,17 @@
       }
     }
 
-    var sig = next ? next + (tomorrow ? '+1' : '') : '';
+    // tujuan hitung mundur: waktu yang dipilih lewat klik (kalau ada), selain itu waktu berikutnya
+    var target = next, tleft = left, ttom = tomorrow, pin = this._pin;
+    if (pin && keys.indexOf(pin.key) > -1) {
+      var dn = pin.n - Math.round(Date.UTC(c.y, c.m - 1, c.d) / 86400000), pt = dn === 0 ? this._pToday[pin.key] : (dn === 1 ? this._pNext[pin.key] : null);
+      if (pt != null && (dn === 1 || pt * 60 > c.sod)) {
+        target = pin.key; ttom = dn === 1;
+        tleft = dn === 1 ? 86400 - c.sod + pt * 60 : pt * 60 - c.sod;
+      } else this._pin = pin = null;               // waktu pilihan sudah masuk -> kembali otomatis
+    } else if (pin) this._pin = pin = null;
+
+    var sig = (next ? next + (tomorrow ? '+1' : '') : '') + '|' + (target ? target + (ttom ? '+1' : '') : '') + '|' + (pin ? 's' : '');
     if (sig !== this._pLast) {
       var prev = this._pPrev;
       // waktu sholat baru saja masuk -> panggil onPrayer (diabaikan jika sudah lewat >5 detik, mis. tab baru aktif lagi)
@@ -768,17 +842,54 @@
       this._pLast = sig;
       var reached = true;
       keys.forEach(function (key) {
-        var it = self.pItems[key].box, isNext = key === next;
+        var it = self.pItems[key].box, isNext = key === next, isTarget = key === target;
         if (isNext) reached = false;
-        it.classList.toggle('on', !!p.highlight && isNext);
-        it.classList.toggle('past', !!p.highlight && !isNext && (tomorrow || reached));
+        it.classList.toggle('on', !!p.highlight && isTarget);
+        it.classList.toggle('past', !!p.highlight && !isNext && !isTarget && (tomorrow || reached));
+        it.classList.toggle('sel', !!pin && isTarget);
+        if (p.clickable) {
+          it.setAttribute('aria-pressed', pin && isTarget ? 'true' : 'false');
+          it.title = pin && isTarget ? (p.lang === 'en' ? 'Click again for automatic' : 'Klik lagi untuk kembali otomatis') : '';
+        }
       });
-      if (this.pCd && next) this.pCdLbl.nodeValue = (p.lang === 'en' ? 'Next: ' : 'Menuju ') + this._pNames[next] + ' ';
+      if (this.pCd && target) this.pCdLbl.nodeValue = (p.lang === 'en' ? 'Next: ' : 'Menuju ') + this._pNames[target] + ' ';
     }
 
-    if (this.pCd && next) {
-      this.pCdTime.textContent = pad(Math.floor(left / 3600)) + ':' + pad(Math.floor(left % 3600 / 60)) + ':' + pad(left % 60);
+    if (this.pCd && target) {
+      this.pCdTime.textContent = pad(Math.floor(tleft / 3600)) + ':' + pad(Math.floor(tleft % 3600 / 60)) + ':' + pad(tleft % 60);
     }
+    this._renderFriday(c, target, tleft, ttom);
+  };
+
+  /** Pilih / lepas waktu sholat sebagai tujuan hitung mundur (dipanggil saat kotak diklik). */
+  FlipClock.prototype._pick = function (key) {
+    if (!this._pToday || !this.loc) return;
+    var p = this.opts.prayer, c = civilIn(this.loc.tz, new Date()), todayN = Math.round(Date.UTC(c.y, c.m - 1, c.d) / 86400000);
+    var t = this._pToday[key], same = this._pin && this._pin.key === key;
+    if (same || t == null) this._pin = null;
+    else this._pin = { key: key, n: t * 60 > c.sod ? todayN : todayN + 1 };
+    this._pLast = null;
+    this._renderPrayer();
+    if (typeof p.onSelect === 'function') {
+      try { p.onSelect(this._pNames[key], key, hhmm(t), !!this._pin); } catch (e) { if (typeof console !== 'undefined' && console.error) console.error(e); }
+    }
+  };
+
+  /** Catatan Jum'at: tampil hanya hari Jum'at (zona waktu wilayah); menyala saat sisa waktu menuju Dzuhur <= `minutes`. */
+  FlipClock.prototype._renderFriday = function (c, target, tleft, ttom) {
+    var fe = this.fridayEl;
+    if (!fe) return;
+    var f = this.opts.prayer.friday, mins = isFinite(parseFloat(f.minutes)) ? parseFloat(f.minutes) : 10;
+    var pv = f.preview === 'live' ? 2 : (f.preview ? 1 : 0);
+    var isFri = pv > 0 || new Date(Date.UTC(c.y, c.m - 1, c.d)).getUTCDay() === 5;
+    var toDhuhr = target === 'dhuhr' && !ttom;
+    var show = isFri && (pv > 0 || f.when === 'always' || toDhuhr);
+    var live = pv === 2 || (isFri && toDhuhr && tleft <= mins * 60);
+    var txt = String(f.text == null ? '' : f.text).replace(/\{(menit|minutes)\}/g, String(mins));
+    if (txt !== this._friText) { this._friText = txt; this.fridayTxt.textContent = txt; }
+    show = show && !!txt;
+    if (fe.hidden === show) fe.hidden = !show;
+    fe.classList.toggle('live', show && live);
   };
 
   /**
@@ -1010,7 +1121,7 @@
     if (d.mobileMaxWidth) mb.maxWidth = parseFloat(d.mobileMaxWidth);
     if (Object.keys(mb).length) o.mobile = mb;
 
-    // urutan komponen: data-order="clock,date,prayer,countdown,location,credit"
+    // urutan komponen: data-order="clock,date,prayer,countdown,friday,location,credit"
     if (d.order) o.order = d.order.split(/[\s,]+/).filter(Boolean);
 
     // jadwal sholat: data-prayer (aktifkan) + data-prayer-region / -lat / -lon / -show / -layout / ...
@@ -1036,6 +1147,17 @@
       if (d.prayerIshaAngle !== undefined) pr.ishaAngle = parseFloat(d.prayerIshaAngle);
       if (d.prayerAsrFactor !== undefined) pr.asrFactor = parseFloat(d.prayerAsrFactor);
       if (d.prayerGap !== undefined) pr.gap = parseFloat(d.prayerGap);
+      if (d.prayerClickable !== undefined) pr.clickable = bool(d.prayerClickable);
+      // catatan Jum'at: data-prayer-friday, -friday-text, -friday-position (above|below), -friday-when (dhuhr|always), -friday-minutes
+      if (d.prayerFriday !== undefined || d.prayerFridayText !== undefined) {
+        var fr = { enabled: d.prayerFriday === undefined ? true : bool(d.prayerFriday) };
+        if (d.prayerFridayText !== undefined) fr.text = d.prayerFridayText;
+        if (d.prayerFridayPosition) fr.position = d.prayerFridayPosition;
+        if (d.prayerFridayWhen) fr.when = d.prayerFridayWhen;
+        if (d.prayerFridayMinutes !== undefined) fr.minutes = parseFloat(d.prayerFridayMinutes);
+        if (d.prayerFridayPreview) fr.preview = d.prayerFridayPreview === 'live' ? 'live' : bool(d.prayerFridayPreview);   // uji di hari biasa
+        pr.friday = fr;
+      }
       if (d.prayerAdjust) {                                   // contoh: "fajr:1,isha:-1"
         var adj = {};
         d.prayerAdjust.split(',').forEach(function (x) {
