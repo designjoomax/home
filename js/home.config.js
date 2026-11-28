@@ -18,7 +18,8 @@ window.JOOMAX_HOME = {
       },
       {
         "img": "assets/banner/banner1.png",
-        "alt": "Welcome, 2027"
+        "alt": "Welcome, 2027",
+        "href": "https://tr.ee/fixstudio"
       }
     ]
   },
@@ -31,9 +32,16 @@ window.JOOMAX_HOME = {
     {
       "title": "Jadwal Kerja",
       "desc": "Klik Untuk Melihat - Spreadsheet",
-      "icon": "table",
+      "icon": "calendar",
       "href": "https://designjoomax.github.io/home/#jadwal-kerja",
       "thumb": "assets/thumb/jadwalkerja2.png"
+    },
+    {
+      "title": "Jadwal Live",
+      "desc": "Klik Untuk Melihat",
+      "icon": "table",
+      "href": "#",
+      "thumb": "assets/thumb/Screenshot-2026-11-28-183420.webp"
     },
     {
       "title": "Pengajuan Izin/Sakit",
@@ -79,12 +87,17 @@ window.JOOMAX_HOME = {
       "desc": "Convert Any File",
       "href": "https://cloudconvert.com/",
       "thumb": "assets/thumb/cloudconvert.png"
-    },
+    }
+  ],
+  "_hidden_tools": [
     {
-      "name": "Tahap Pengembang",
-      "desc": "Tahap Pengembang.",
-      "href": "https://designjoomax.github.io/generator/",
-      "thumb": "assets/thumb/pengembang.jpg"
+      "at": 6,
+      "item": {
+        "name": "Tahap Pengembang",
+        "desc": "Tahap Pengembang.",
+        "href": "https://designjoomax.github.io/generator/",
+        "thumb": "assets/thumb/pengembang.jpg"
+      }
     }
   ],
   "gallery": {
@@ -94,6 +107,12 @@ window.JOOMAX_HOME = {
       "count": 5
     },
     "items": [
+      {
+        "id": "struktur",
+        "title": "Information",
+        "date": "2027-01-01",
+        "img": "https://designjoomax.github.io/gallery/assets/albums/struktur/Struktur-JOOMAX.webp"
+      },
       {
         "id": "rapat-tahunan",
         "title": "Bulan Puasa",
@@ -105,12 +124,6 @@ window.JOOMAX_HOME = {
         "title": "Buka Puasa",
         "date": "2026-03-06",
         "img": "https://designjoomax.github.io/gallery/assets/albums/buka-puasa/foto-bukber-mvynyjv03m.webp"
-      },
-      {
-        "id": "ulang-tahun",
-        "title": "ID Card",
-        "date": "2025-12-16",
-        "img": "https://designjoomax.github.io/gallery/assets/albums/ulang-tahun/print-joomax-id-card-page1-mvynb2q9q5.webp"
       },
       {
         "id": "liburland",
