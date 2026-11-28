@@ -45,16 +45,28 @@ window.JOOMAX_HOME = {
   ],
   "tools": [
     {
+      "name": "Fixs.Arts",
+      "desc": "Creative Designer Studio",
+      "href": "https://tr.ee/fixstudio",
+      "thumb": "assets/thumb/fixsarts.jpg"
+    },
+    {
+      "name": "Fixs Flow",
+      "desc": "Diagram, mind map, wireframe, dan catatan",
+      "href": "https://tr.ee/fixsflow",
+      "thumb": "assets/thumb/Screenshot-2026-11-27-143405.webp"
+    },
+    {
+      "name": "Fixs QR",
+      "desc": "Generate Barcode dan QR",
+      "href": "https://tr.ee/fixsqr",
+      "thumb": "assets/thumb/Screenshot-2026-11-27-143421.webp"
+    },
+    {
       "name": "Image to Frame",
       "desc": "Pasang frame Joomax ke banyak foto sekaligus.",
       "href": "https://designjoomax.github.io/imagetoframe/",
       "thumb": "assets/thumb/imagetoframe.jpg"
-    },
-    {
-      "name": "Generator",
-      "desc": "Tahap Pengembang.",
-      "href": "https://designjoomax.github.io/generator/",
-      "thumb": "assets/thumb/pengembang.jpg"
     },
     {
       "name": "11zon",
@@ -69,12 +81,11 @@ window.JOOMAX_HOME = {
       "thumb": "assets/thumb/cloudconvert.png"
     },
     {
-      "name": "Fixs.Arts",
-      "desc": "Creative Designer",
-      "href": "https://linktr.ee/fixs.arts",
-      "thumb": "assets/thumb/fixsarts.jpg"
+      "name": "Tahap Pengembang",
+      "desc": "Tahap Pengembang.",
+      "href": "https://designjoomax.github.io/generator/",
+      "thumb": "assets/thumb/pengembang.jpg"
     }
-    
   ],
   "gallery": {
     "href": "https://designjoomax.github.io/gallery/",
@@ -90,10 +101,10 @@ window.JOOMAX_HOME = {
         "img": "https://designjoomax.github.io/gallery/assets/albums/rapat-tahunan/img-0478-mvymnuy8l9.webp"
       },
       {
-        "id": "buka-bersama",
-        "title": "Buka Bersama",
-        "date": "2026-09-27",
-        "img": ""
+        "id": "buka-puasa",
+        "title": "Buka Puasa",
+        "date": "2026-03-06",
+        "img": "https://designjoomax.github.io/gallery/assets/albums/buka-puasa/foto-bukber-mvynyjv03m.webp"
       },
       {
         "id": "ulang-tahun",
@@ -105,7 +116,7 @@ window.JOOMAX_HOME = {
         "id": "liburland",
         "title": "Liburland",
         "date": "2025-01-12",
-        "img": "https://designjoomax.github.io/gallery/assets/albums/liburland/3-mvym049qf6.webp"
+        "img": "https://designjoomax.github.io/gallery/assets/albums/liburland/14r-450-x-300-mm-mvynut02l1.webp"
       }
     ]
   }
